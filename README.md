@@ -8,4 +8,4 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 |**Sesión** | **Fecha**     |**Contenido** |
 |:---------:|:-------------:|-----------|
 
-![licencia|10](https://github.com/aquinteroz/Programacion/blob/main/Images/mit_license_icon.svg)
+<img src="/Images/mit_license_icon.svg" alt="MIT License Icon" style="width: 50px;"/> Los archivos de este repositorio se comparten mediante la licencia [MIT](LICENSE.MD)
