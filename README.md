@@ -8,4 +8,4 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 |**Sesión** | **Fecha**     |**Contenido** |
 |:---------:|:-------------:|-----------|
 
-![Esta es una imagen de ejemplo](https://github.com/aquinteroz/Programacion/blob/main/Images/mit_license_icon.png)
+![Esta es una imagen de ejemplo|100](https://github.com/aquinteroz/Programacion/blob/main/Images/mit_license_icon.png)
