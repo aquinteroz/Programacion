@@ -7,7 +7,7 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 |**Semana**| **Fecha**|**Contenido**|
 |:-----:|:-------------:|:------------------|
-|01	| 23-ene a 27-ene	|Introducción a lenguaje [Python](http://www.python.org), entorno [Colab](http://colab.research.google.com) y repositorio en [GitHub](https://github.com/aquinteroz/Programacion)|
+|01	| 23-ene a 27-ene	|Introducción a lenguaje [Python](http://www.python.org) y entorno [Colab](http://colab.research.google.com)|
 |02	| 30-ene a 3-feb	| Variables, operadores y expresiones|	
 |03	| 6-feb a 10-feb	| Control de flujo condicional|
 |04	| 13-feb a 17-feb	| Control de flujo repetitivo|
