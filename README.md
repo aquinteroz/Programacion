@@ -7,24 +7,26 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 Los números entre paréntesis se refieren a las secciones del libro de Deitel \& Deitel.
 
-|**Semana**| **Fecha**|**Tema a abordar**|
-| 1      | 22-ene  | Python para CS/DS -- Editor/IDE de Python (1.7, 1.8, 1.10, 1.14) |
-| 2      | 29-ene  | Programación en Python (Ch. 2)                         |
-| 3      | 5-feb   | Estructuras de control y desarrollo de programas (Ch. 3) |
-| 4      | 12-feb  | Funciones (Ch. 4)                                     |
-| 5      | 19-feb  | Listas y tuplas (Ch. 5)                               |
-| 6      | 26-feb  | Diccionarios y conjuntos (Ch. 6)                       |
-| 7      | 4-mar   | Programación orientada a arreglos (Ch. 7)             |
-| 8      | 11-mar  | Manejo de cadenas de texto (Ch. 8)                    |
-| 9      | 18-mar  | Archivos y excepciones (Ch. 9)                        |
-| 10     | 1-abr   | Programación orientada a Objetos I (10.1 -- 10.6)     |
-| 11     | 8-abr   | Programación orientada a Objetos II (10.7 -- 10.11)   |
-| 12     | 15-abr  | Programación orientada a Objetos III (10.12 -- 10.16) |
-| 13     | 22-abr  | Recursividad I (11.1 - 11.9)                          |
-| 14     | 29-abr  | Recursividad II (11.10 - 11.15)                       |
-| 15     | 6-may   | Clasificación (15.1 - 15.3)                           |
-| 16     | 20-may  | Regresión y agrupamiento (15.4 - 15.7)                |
-
+|**Semana**|**Tema a abordar**|
+| :--- | :--- |
+| Sesión | Tema a abordar                                        |
+|--------|--------------------------------------------------------|
+| 1      | Python para CS/DS -- Editor/IDE de Python (1.7, 1.8, 1.10, 1.14) |
+| 2      | Programación en Python (Ch. 2)                         |
+| 3      | Estructuras de control y desarrollo de programas (Ch. 3) |
+| 4      | Funciones (Ch. 4)                                     |
+| 5      | Listas y tuplas (Ch. 5)                               |
+| 6      | Diccionarios y conjuntos (Ch. 6)                       |
+| 7      | Programación orientada a arreglos (Ch. 7)             |
+| 8      | Manejo de cadenas de texto (Ch. 8)                    |
+| 9      | Archivos y excepciones (Ch. 9)                        |
+| 10     | Programación orientada a Objetos I (10.1 -- 10.6)     |
+| 11     | Programación orientada a Objetos II (10.7 -- 10.11)   |
+| 12     | Programación orientada a Objetos III (10.12 -- 10.16) |
+| 13     | Recursividad I (11.1 - 11.9)                          |
+| 14     | Recursividad II (11.10 - 11.15)                       |
+| 15     | Clasificación (15.1 - 15.3)                           |
+| 16     | Regresión y agrupamiento (15.4 - 15.7)                |
 
 Para mayor detalle, revise el archivo de programación <a href="Material/Planeación_Clase_A_Clase.xlsx"> clase a clase </a>
 
