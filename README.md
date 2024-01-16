@@ -26,7 +26,7 @@ Los números entre paréntesis se refieren a las secciones del libro de Deitel \
 | 15     | Clasificación (15.1 - 15.3)                           |
 | 16     | Regresión y agrupamiento (15.4 - 15.7)                |
 
-Para mayor detalle, revise el archivo de programación <a href="Material/Planeación_Clase_A_Clase.xlsx"> clase a clase </a>
+Para mayor detalle, revise el archivo de programación <a href="PRG 2024-1 Syllabus.pdf"> syllabus </a> del curso.
 
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
