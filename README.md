@@ -26,4 +26,13 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 Para mayor detalle, revise el archivo de programación <a href="Material/Planeación_Clase_A_Clase.xlsx"> clase a clase </a>
 
-<img src="/Images/by_nc_sa.svg" style="float:left;width: 50px;"/> El material de este curso se comparte bajo una licencia Creative Commons [Atribución-NoComercial-CompartirIgual 4.0 Internacional](LICENSE.MD) (CC BY-NC-SA 4.0)
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+Esta obra está bajo una
+[Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
