@@ -8,7 +8,7 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 Los números entre paréntesis se refieren a las secciones del libro de Deitel \& Deitel.
 
 |**Semana**|**Tema a abordar**|
-| :--- | :--- |
+| :---: | :--- |
 | 1      | Python para CS/DS -- Editor/IDE de Python (1.7, 1.8, 1.10, 1.14) |
 | 2      | Programación en Python (Ch. 2)                         |
 | 3      | Estructuras de control y desarrollo de programas (Ch. 3) |
