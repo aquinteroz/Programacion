@@ -8,8 +8,8 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 Los números entre paréntesis se refieren a las secciones del libro de Deitel \& Deitel.
 
 |**Semana**|**Tema a abordar**|
-| :--- | :--- |
-| 1      | Python para CS/DS -- Editor/IDE de Python (1.7, 1.8, 1.10, 1.14) |
+| :---: | :--- |
+| 1      | Python para CS/DS - Editor/IDE de Python (1.7, 1.8, 1.10, 1.14) |
 | 2      | Programación en Python (Ch. 2)                         |
 | 3      | Estructuras de control y desarrollo de programas (Ch. 3) |
 | 4      | Funciones (Ch. 4)                                     |
@@ -18,9 +18,9 @@ Los números entre paréntesis se refieren a las secciones del libro de Deitel \
 | 7      | Programación orientada a arreglos (Ch. 7)             |
 | 8      | Manejo de cadenas de texto (Ch. 8)                    |
 | 9      | Archivos y excepciones (Ch. 9)                        |
-| 10     | Programación orientada a Objetos I (10.1 -- 10.6)     |
-| 11     | Programación orientada a Objetos II (10.7 -- 10.11)   |
-| 12     | Programación orientada a Objetos III (10.12 -- 10.16) |
+| 10     | Programación orientada a Objetos I (10.1 - 10.6)     |
+| 11     | Programación orientada a Objetos II (10.7 - 10.11)   |
+| 12     | Programación orientada a Objetos III (10.12 - 10.16) |
 | 13     | Recursividad I (11.1 - 11.9)                          |
 | 14     | Recursividad II (11.10 - 11.15)                       |
 | 15     | Clasificación (15.1 - 15.3)                           |
