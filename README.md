@@ -5,24 +5,26 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 ## Programa clase a clase
 
-|**Semana**| **Fecha**|**Contenido**|
-|:-----:|:-------------:|:------------------|
-|01	| 23-ene a 27-ene	|Introducción a lenguaje [Python](http://www.python.org) y entorno [Colab](http://colab.research.google.com)|
-|02	| 30-ene a 3-feb	| Variables, operadores y expresiones|	
-|03	| 6-feb a 10-feb	| Control de flujo condicional|
-|04	| 13-feb a 17-feb	| Control de flujo repetitivo|
-|05	| 20-feb a 24-feb	| Funciones y módulos|
-|06	| 27-feb a 3-mar	| Listas y Tuplas|
-|07	| 6-mar a 10-mar	| Cadenas de caracteres (strings)|
-|08	| 13-mar a 17-mar	| Diccionarios y conjuntos|
-|09	| 27-mar - 31-mar	| Manejo de archivos y excepciones|
-|10	| 10-abr - 14-abr	| Manejo de bases de datos|
-|11	| 17-abr - 21-abr	| Visualización de datos: [Matplotlib](https://matplotlib.org/) y [Seaborn](https://seaborn.pydata.org/)|
-|12	| 24-abr - 28-abr	| Manipulación de datos: [Numpy](https://numpy.org/)|
-|13	| 1-may - 5-may		| Análisis de datos: [Pandas](https://pandas.pydata.org/) (1)|	
-|14	| 8-may - 12-may	| Análisis de datos: Pandas (2)|
-|15	| 15-may - 19-may	| Programación orientada a objetos|
-|16	| 22-may - 26-may	| Herencia|
+Los números entre paréntesis se refieren a las secciones del libro de Deitel \& Deitel.
+
+|**Semana**| **Fecha**|**Tema a abordar**|
+| 1      | 22-ene  | Python para CS/DS -- Editor/IDE de Python (1.7, 1.8, 1.10, 1.14) |
+| 2      | 29-ene  | Programación en Python (Ch. 2)                         |
+| 3      | 5-feb   | Estructuras de control y desarrollo de programas (Ch. 3) |
+| 4      | 12-feb  | Funciones (Ch. 4)                                     |
+| 5      | 19-feb  | Listas y tuplas (Ch. 5)                               |
+| 6      | 26-feb  | Diccionarios y conjuntos (Ch. 6)                       |
+| 7      | 4-mar   | Programación orientada a arreglos (Ch. 7)             |
+| 8      | 11-mar  | Manejo de cadenas de texto (Ch. 8)                    |
+| 9      | 18-mar  | Archivos y excepciones (Ch. 9)                        |
+| 10     | 1-abr   | Programación orientada a Objetos I (10.1 -- 10.6)     |
+| 11     | 8-abr   | Programación orientada a Objetos II (10.7 -- 10.11)   |
+| 12     | 15-abr  | Programación orientada a Objetos III (10.12 -- 10.16) |
+| 13     | 22-abr  | Recursividad I (11.1 - 11.9)                          |
+| 14     | 29-abr  | Recursividad II (11.10 - 11.15)                       |
+| 15     | 6-may   | Clasificación (15.1 - 15.3)                           |
+| 16     | 20-may  | Regresión y agrupamiento (15.4 - 15.7)                |
+
 
 Para mayor detalle, revise el archivo de programación <a href="Material/Planeación_Clase_A_Clase.xlsx"> clase a clase </a>
 
