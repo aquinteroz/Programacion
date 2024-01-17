@@ -5,7 +5,7 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 ## Programa clase a clase
 
-Los números entre paréntesis se refieren a las secciones del libro de <a href="https://eiaedu-my.sharepoint.com/:b:/g/personal/andres_quintero27_eia_edu_co/EVddAUjh4A5Clv5DWuy1cZwBD0msX1xilpBZbB3b7YQVUA?e=KbifHn" target="_blank">Deitel & Deitel</a>.
+Los números entre paréntesis se refieren a las secciones del libro de <a href="https://bit.ly/DeitelIntro">Deitel & Deitel</a>.
 |**Semana**|**Tema a abordar**|
 | :---: | :--- |
 | 1      | Introducción a Python (Ch. 1) |
