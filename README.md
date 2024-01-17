@@ -5,8 +5,7 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 ## Programa clase a clase
 
-Los números entre paréntesis se refieren a las secciones del libro de [Deitel \& Deitel](https://eiaedu-my.sharepoint.com/:b:/g/personal/andres_quintero27_eia_edu_co/EVddAUjh4A5Clv5DWuy1cZwBuJvk8QnlYZt4g3y0jSLVcw?e=Zg9Goa).
-
+Los números entre paréntesis se refieren a las secciones del libro de <a href="https://eiaedu-my.sharepoint.com/:b:/g/personal/andres_quintero27_eia_edu_co/EVddAUjh4A5Clv5DWuy1cZwBD0msX1xilpBZbB3b7YQVUA?e=KbifHn" target="_blank">Deitel & Deitel</a>.
 |**Semana**|**Tema a abordar**|
 | :---: | :--- |
 | 1      | Introducción a Python (Ch. 1) |
