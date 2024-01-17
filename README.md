@@ -5,7 +5,7 @@ En este curso empleamos el lenguaje [Python](https://www.python.org/) usando [Ju
 
 ## Programa clase a clase
 
-Los números entre paréntesis se refieren a las secciones del libro de [Deitel \& Deitel](https://download.library.lol/main/3108000/72b26e5581f9f72de5f6d4815f71a7f6/Paul%20Deitel%20-%20Intro%20to%20Python%20for%20Computer%20Science%20and%20Data%20Science_%20Learning%20to%20Program%20with%20AI%2C%20Big%20Data%20and%20The%20Cloud%2C%20Global%20Edition-Pearson%20%282021%29.pdf).
+Los números entre paréntesis se refieren a las secciones del libro de [Deitel \& Deitel]([https://download.library.lol/main/3108000/72b26e5581f9f72de5f6d4815f71a7f6/Paul%20Deitel%20-%20Intro%20to%20Python%20for%20Computer%20Science%20and%20Data%20Science_%20Learning%20to%20Program%20with%20AI%2C%20Big%20Data%20and%20The%20Cloud%2C%20Global%20Edition-Pearson%20%282021%29.pdf](https://eiaedu-my.sharepoint.com/:b:/g/personal/andres_quintero27_eia_edu_co/EVddAUjh4A5Clv5DWuy1cZwBuJvk8QnlYZt4g3y0jSLVcw?e=Zg9Goa)).
 
 |**Semana**|**Tema a abordar**|
 | :---: | :--- |
