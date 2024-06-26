@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.2.450">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+    <title>Introducción a Python</title>
+    <style>
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        div.hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        ul.task-list {
+            list-style: none;
+        }
+
+        ul.task-list li input[type="checkbox"] {
+            width: 0.8em;
+            margin: 0 0.8em 0.2em -1em;
+            /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+            vertical-align: middle;
+        }
+
+        /* CSS for syntax highlighting */
+        pre>code.sourceCode {
+            white-space: pre;
+            position: relative;
+        }
+
+        pre>code.sourceCode>span {
+            display: inline-block;
+            line-height: 1.15;
+        }
+
+        pre>code.sourceCode>span:empty {
+            height: 1.1em;
+        }
+
+        .sourceCode {
+            overflow: visible;
+        }
+
+        code.sourceCode>span {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        div.sourceCode {
+            margin: 1em 0;
+        }
+
+        pre.sourceCode {
+            margin: 0;
+        }
+
+        @media screen {
+            div.sourceCode {
+                overflow: auto;
+            }
+        }
+
+        @media print {
+            pre>code.sourceCode {
+                white-space: pre-wrap;
+            }
+
+            pre>code.sourceCode>span {
+                text-indent: -5em;
+                padding-left: 5em;
+            }
+        }
+
+        pre.numberSource code {
+            counter-reset: source-line 0;
+        }
+
+        pre.numberSource code>span {
+            position: relative;
+            left: -4em;
+            counter-increment: source-line;
+        }
+
+        pre.numberSource code>span>a:first-child::before {
+            content: counter(source-line);
+            position: relative;
+            left: -1em;
+            text-align: right;
+            vertical-align: baseline;
+            border: none;
+            display: inline-block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 0 4px;
+            width: 4em;
+        }
+
+        pre.numberSource {
+            margin-left: 3em;
+            padding-left: 4px;
+        }
+
+        div.sourceCode {}
+
+        @media screen {
+            pre>code.sourceCode>span>a:first-child::before {
+                text-decoration: underline;
+            }
+        }
+    </style>
+
+
+    <script src="assets/quarto-nav/quarto-nav.js"></script>
+    <script src="assets/quarto-nav/headroom.min.js"></script>
+    <script src="assets/clipboard/clipboard.min.js"></script>
+    <script src="assets/quarto-search/autocomplete.umd.js"></script>
+    <script src="assets/quarto-search/fuse.min.js"></script>
+    <script src="assets/quarto-search/quarto-search.js"></script>
+    <meta name="quarto:offset" content="./">
+    <link href="./Variable_expressions_statements.html" rel="next">
+    <link href="./index.html" rel="prev">
+    <script src="assets/quarto-html/quarto.js"></script>
+    <script src="assets/quarto-html/popper.min.js"></script>
+    <script src="assets/quarto-html/tippy.umd.min.js"></script>
+    <script src="assets/quarto-html/anchor.min.js"></script>
+    <link href="assets/quarto-html/tippy.css" rel="stylesheet">
+    <link href="assets/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet"
+        id="quarto-text-highlighting-styles">
+    <script src="assets/bootstrap/bootstrap.min.js"></script>
+    <link href="assets/bootstrap/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+    <script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"
+        integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script type="application/javascript">define('jquery', [], function () { return window.jQuery; })</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+    <!-- content -->
+    <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+        <!-- sidebar -->
+        <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+            <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+                <img src="./LogoNuevo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+                <div class="sidebar-title mb-0 py-0">
+                    <a href="./index.html">Programación PRE2013A45</a>
+                </div>
+            </div>
+            <div class="sidebar-menu-container">
+                <ul class="list-unstyled mt-1">
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+                                <span class="menu-text">Python</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./01_Intro_Python.html" class="sidebar-item-text sidebar-link active">
+                                        <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Python</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./02_Estructuras_control.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Control</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./03_Funciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span
+                                                class="chapter-title">Funciones</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./04_Estructura_datos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Datos Avanzadas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./05_Archivos_excepciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span
+                                                class="chapter-title">Manejo de Archivos y Excepciones</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+                                <span class="menu-text">Análisis de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./06_Numpy.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Numpy</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./07_Pandas.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span
+                                                class="chapter-title">Manipulación de Datos con Pandas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./08_EDA.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span
+                                                class="chapter-title">Análisis Exploratorio de Datos
+                                                (EDA)</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./09_Matplotlib.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Matplotlib</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./10_Seaborn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Seaborn</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+                                <span class="menu-text">Ciencia de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./11_Intro_DS.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span
+                                                class="chapter-title">Introducción a la Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./12_Estadistica.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span
+                                                class="chapter-title">Fundamentos de Estadística para Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./13_Preparacion_modelos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span
+                                                class="chapter-title">Preparación de Datos para
+                                                Modelado</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./14_Scikit_learn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span
+                                                class="chapter-title">Introducción al Machine Learning con
+                                                Scikit-Learn</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./15_Clasificacion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Clasificación</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./16_Regresion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Regresión</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+            data-bs-target=".quarto-sidebar-collapse-item"></div>
+        <!-- margin-sidebar -->
+        <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+            <nav id="TOC" role="doc-toc" class="toc-active">
+                <h2 id="toc-title">Tabla de contenidos</h2>
+                <ul>
+                    <li><a href="#objetivo" id="toc-objetivo" class="nav-link active"
+                            data-scroll-target="#objetivo">Objetivo</a></li>
+                    <li><a href="#instalacion" id="toc-instalacion" class="nav-link active"
+                                data-scroll-target="#instalacion">Instalación y configuración del entorno</a></li>
+                    <li><a href="#jupyter-notebook" id="toc-jupyter" class="nav-link"
+                            data-scroll-target="#jupyter-notebook"><span class="header-section-number">1.1</span> Jupyter notebook</a>
+                        <ul class="collapse">
+                            <li><a href="#introduction" id="toc-introduction" class="nav-link"
+                                    data-scroll-target="#introduction"><span class="header-section-number">1.1.1</span>
+                                    Introducción</a>
+                            </li>
+                            <li><a href="#writing-and-executing-code" id="toc-writing-and-executing-code" class="nav-link" data-scroll-target="#writing-and-executing-code"><span
+                                        class="header-section-number">1.1.2</span>
+                                        Escribir y ejecutar código</a></li>
+                            <li><a href="#saving-and-loading-notebooks" id="toc-saving-and-loading-notebooks" class="nav-link" data-scroll-target="#saving-and-loading-notebooks"><span
+                                        class="header-section-number">1.1.3</span>
+                                        Guardar y cargar Notebooks</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#python-basics" id="toc-ipython-basics" class="nav-link"
+                            data-scroll-target="#in-python-basics"><span class="header-section-number">1.2</span>
+                            Conceptos básicos del lenguaje Python</a>
+                            <ul class="collapse">
+                                <li><a href="#assign-name" id="toc-assign-name" class="nav-link"
+                                        data-scroll-target="#assign-name"><span class="header-section-number">1.2.1</span>
+                                        Asignar nombre de variable a un objeto</a>
+                                </li>
+                                <li><a href="#import-libraries" id="toc-import-libraries" class="nav-link" data-scroll-target="#import-libraries"><span
+                                            class="header-section-number">1.2.2</span>
+                                            Importar bibliotecas</a></li>
+                                <li><a href="#built-in-objects" id="toc-built-in-objects" class="nav-link" data-scroll-target="#built-in-objects"><span
+                                            class="header-section-number">1.2.3</span>
+                                            Objetos integrados</a></li>
+                                <li><a href="#flow-control" id="toc-flow-control" class="nav-link" data-scroll-target="#flow-control"><span
+                                                class="header-section-number">1.2.4</span>
+                                                Control de flujo</a></li>
+                            </ul>
+                    </li>
+                    <li><a href="#practice-exercise" id="toc-practice-exercise" class="nav-link"
+                            data-scroll-target="#practice-exercise"><span class="header-section-number">1.3</span> Ejercicios prácticos</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- main -->
+        <main class="content" id="quarto-document-content">
+
+            <header id="title-block-header" class="quarto-title-block default">
+                <div class="quarto-title">
+                    <h1 class="title"><span class="chapter-number">1</span>&nbsp; <span
+                            class="chapter-title">Introducción a
+                            Python</span></h1>
+                </div>
+
+                <div class="quarto-title-meta"> </div>
+            </header>
+            <section id="objetivo" class="level1">
+                <h1 class="anchored" data-anchor-id="objetivo">Objetivo</h1>
+                <p>Esta clase es una introducción <strong>muy breve</strong> al lenguaje Python y
+                    el entorno Jupyter Notebook.
+                    Solamente abordaremos el contenido relevante para aplicar Python para analizar datos.</p>
+            </section>
+            <section id="instalacion" class="level1">
+                <h1 class="anchored" data-anchor-id="instalacion">Instalación y configuración del entorno</h2>
+                    <p>Si es nuevo en Python, le recomendamos descargar el
+                        <a href="https://docs.anaconda.com/anaconda/install/">instalador de Anaconda</a>
+                        y seguir las instrucciones de instalación. <strong>
+                            Es importante notar que se recomienda instalar para el perfil de usuario local,
+                            no para todos los usuarios</strong>. Una vez instalado, usaremos la interfaz de
+                        Jupyter Notebook para escribir código.
+                    </p>
+                    <p>Jupyter no es el único IDE disponible para desarrollar <em>Notebooks</em>,
+                        tambien se puede usar <a href="https://colab.google/">Google Colab</a> o VS Code.</p>
+            </section>
+            <section id="jupyter-notebook" class="level2" data-number="1.1">
+                <h2 data-number="1.1" class="anchored" data-anchor-id="jupyter-notebook"><span
+                        class="header-section-number">1.1</span> Jupyter notebook</h2>
+                <section id="introduction" class="level3" data-number="1.1.1">
+                    <h3 data-number="1.1.1" class="anchored" data-anchor-id="introduction"><span
+                            class="header-section-number">1.1.1</span> Introducción</h3>
+                    <p><strong>Jupyter notebook</strong> es una plataforma interactiva donde se puede
+                        escribir código y texto y realizar visualizaciones. Puede acceder a Jupyter Notebook
+                        desde Anaconda Navigator o abrir directamente la aplicación (no recomendado).
+                        Debería abrirse automáticamente en su navegador predeterminado.
+                        La siguiente figura muestra un Notebook abierto con Google Chrome,
+                        usando la interfaz JupyerLab.</p>
+                    <div class="quarto-figure quarto-figure-center">
+                        <figure class="figure">
+                            <p><img src="./Datasets/jupyter.jpg" class="img-fluid figure-img"></p>
+                        </figure>
+                    </div>
+                    <p>Para crear un nuevo <em>Notebook</em>, haga clic en el botón <strong>Python 3
+                            (ipykernel)</strong>, como se muestra en la figura.</p>
+                    <div class="quarto-figure quarto-figure-center">
+                        <figure class="figure">
+                            <p><img src="./Datasets/jupyter_create.jpg" class="img-fluid figure-img"></p>
+                        </figure>
+                    </div>
+                    <p>Debería ver un <em>Notebook</em> en blanco como se muestra en la siguiente figura.</p>
+                    <div class="quarto-figure quarto-figure-center">
+                        <figure class="figure">
+                            <p><img src="./Datasets/jupyter_newbook.jpg" class="img-fluid figure-img"></p>
+                        </figure>
+                    </div>
+                </section>
+                <section id="writing-and-executing-code" class="level3" data-number="1.1.2">
+                    <h3 data-number="1.1.2" class="anchored" data-anchor-id="writing-and-executing-code"><span
+                            class="header-section-number">1.1.2</span> Escribir y ejecutar código</h3>
+                    <p><strong>Celda de código:</strong> De forma predeterminada, una celda es del tipo <em>Code</em>,
+                        es decir, para escribir código. Intente escribir una línea de código Python (por ejemplo,
+                        <code>2+3</code>) en una celda de código vacía y ejecútela presionando <em>Shift+Enter</em>.
+                        Esto debería ejecutar el código y crear una nueva celda de código. Al presionar <em>Ctlr+Enter
+                            para Windows (o Cmd+Enter para Mac)</em> se ejecutará el código sin crear una nueva celda.
+                    </p>
+                    <p><strong>Comentar código en una celda de código:</strong> Se deben realizar comentarios mientras
+                        se escribe el código para explicar su propósito o añadir una breve explicación de las tareas que
+                        realiza el mismo. Se puede agregar un comentario en una celda de código precediéndolo con un
+                        signo <strong>#</strong>. Por ejemplo, vea el comentario en el código siguiente.</p>
+                    <p>Escribir comentarios ayudará a otros usuarios, y a usted mismo, a comprender su código y realizar
+                        un seguimiento de las tareas que se realizan.</p>
+                        
+                    <div id="37302504" class="cell">
+                        <div class="sourceCode cell-code" id="cb1">
+                            <pre
+                                class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Este código suma 3 + 5</span></span>
+<span class="co">3 + 5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                        </div>
+                    </div>
+                    <p><strong>Celda Markdown:</strong> Aunque se puede escribir un comentario en una celda de código,
+                        una celda de código no se puede utilizar para escribir títulos o subtítulos y no es apropiada
+                        para escribir fragmentos de texto largos. En tales casos, cambie el tipo de celda a
+                        <em>Markdown</em> en el menú desplegable. Utilice cualquier hoja de referencia que encuentre en
+                        línea, por ejemplo <a href="https://www.markdownguide.org/cheat-sheet/">esta</a>, para dar
+                        formato al texto en las celdas <em>Markdown</em>.</p>
+                </section>
+                <section id="saving-and-loading-notebooks" class="level3" data-number="1.1.3">
+                    <h3 data-number="1.1.3" class="anchored" data-anchor-id="saving-and-loading-notebooks"><span
+                            class="header-section-number">1.1.3</span> Guardar y cargar <em>Notebooks</em></h3>
+                            <p>Guarde el <em>Notebook</em> haciendo clic en “File” y seleccionando “<em>Save Notebook</em>” o “<em>Save Notebook As</em>”. El <em>Notebook</em> se guardará como un archivo con una extensión <em>ipynb</em>. Este archivo contendrá todo el código, así como los resultados, y un usuario de Jupyter puede cargarlo y editarlo. Para cargar un <em>Notebook</em> de Jupyter existente, navegue hasta la carpeta en la que se encuentra guardado, usando el navegador en la izquierda (el ícomo de carpeta) y luego haga clic en el archivo para abrirlo.</p>
+                        </section>
+            </section>
+            <section id="python-basics" class="level2" data-number="1.2">
+                <h2 data-number="1.2" class="anchored" data-anchor-id="python-basics"><span
+                        class="header-section-number">1.2</span> Conceptos básicos del lenguaje Python</h2>
+                        <section id="assign-name" class="level3" data-number="1.2.1">
+                            <h3 data-number="1.2.1" class="anchored" data-anchor-id="assign-name"><span
+                                    class="header-section-number">1.2.1</span> Asignar nombre de variable a un objeto</h3>
+                                <p>Cuando a un objeto se le asigna un nombre de variable, el nombre de la variable sirve como referencia al objeto. Por ejemplo, considere la siguiente tarea:</p>
+<div id="bd97adc0" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">5</span>,<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El nombre de la variable <code>x</code> es una referencia a la ubicación de memoria donde está almacenado el objeto <code>[5, 3]</code>. Ahora, supongamos que asignamos <code>x</code> a una nueva variable <code>y</code>:</p>
+<div id="72952036" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En la declaración anterior, el nombre de la variable <code>y</code> ahora se refiere al mismo objeto <code>[5,3]</code>. El objeto <code>[5,3]</code> <strong>no</strong> se copia a una nueva ubicación de memoria referida por <code>y</code>. Para probar esto, agreguemos un elemento a <code>y</code>:</p>
+<div id="96fbe234" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y.append(<span class="dv">4</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="8341c5e8" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cuando cambiamos <code>y</code>, observe que <code>x</code> también cambió al mismo objeto, lo que muestra que <code>x</code> y <code>y</code> se refieren al mismo objeto, en lugar de referirse a diferentes copias del mismo objeto.</p>
+</section>
+<section id="import-libraries" class="level3" data-number="1.2.2">
+    <h3 data-number="1.2.2" class="anchored" data-anchor-id="import-libraries"><span
+            class="header-section-number">1.2.2</span> Importar bibliotecas</h3>
+            <p>Hay varias <a href="https://docs.python.org/3/library/functions.html">funciones integradas</a> en Python como <code>print()</code>, <code>abs()</code>, <code>max()</code>, <code>sum()</code> etc., que no requieren importar ninguna biblioteca. Sin embargo, estas funciones normalmente serán insuficientes para analizar datos. Algunas de las bibliotecas populares y sus propósitos principales son los siguientes:</p>
+<ol type="1">
+<li><strong>NumPy:</strong> Realizar operaciones numéricas y almacenar datos numéricos de manera eficiente.</li>
+<li><strong>Pandas:</strong> Lectura, limpieza y manipulación de datos.</li>
+<li><strong>Matplotlib, Seaborn:</strong> Visualización de datos.</li>
+<li><strong>SciPy:</strong> Realizar computación científica como resolución de ecuaciones diferenciales, optimización, pruebas estadísticas, etc.</li>
+<li><strong>Scikit-learn:</strong> Preprocesamiento de datos y aprendizaje automático, con enfoque en la predicción.</li>
+<li><strong>Statsmodels:</strong> Desarrollo de modelos estadísticos centrados en la inferencia</li>
+</ol>
+<p>Se puede importar una biblioteca usando la palabra clave <code>import</code>. Por ejemplo, la biblioteca NumPy se puede importar como:</p>
+<div id="2125aa04" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Usando la palabra clave <code>as</code>, a la biblioteca NumPy se le ha dado el alias <code>np</code>. Todas las funciones y atributos de la biblioteca se pueden llamar usando el prefijo <code>np.</code>. Por ejemplo, generemos una secuencia de números enteros hasta <code>10</code> usando la función NumPy <a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html">arange()</a>:</p>
+<div id="ba604907" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>np.arange(<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+    </section>
+    <section id="built-in-objects" class="level3" data-number="1.2.3">
+        <h3 data-number="1.2.3" class="anchored" data-anchor-id="built-in-objects"><span
+                class="header-section-number">1.2.3</span> Objetos integrados</h3>
+                <p>Hay varios <a href="https://docs.python.org/3/library/stdtypes.html">objetos, módulos y funciones integrados en Python</a>. Abajo hay algunos ejemplos:</p>
+<p><strong>Objetos escalares:</strong> Python tiene algunos tipos de datos integrados para manejar objetos escalares como números, cadenas, valores booleanos y fecha/hora. La función incorporada <code>type()</code> se puede utilizar para determinar el tipo de datos de un objeto:</p>
+<div id="1c816988" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>var <span class="op">=</span> <span class="fl">2.2</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Fecha y hora:</strong> Python tiene un módulo integrado <a href="https://docs.python.org/3/library/datetime.html">datetime</a> para manejar objetos de fecha/hora:</p>
+<div id="38e2456a" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="963b22f5" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dt_object <span class="op">=</span> dt.datetime(<span class="dv">2022</span>, <span class="dv">9</span>, <span class="dv">20</span>, <span class="dv">11</span>,<span class="dv">30</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Se puede acceder a la información sobre la fecha y la hora con el atributo relevante del objeto <code>datetime</code>.</p>
+<div id="98f6ae72" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dt_object.day</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="376e251c" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dt_object.year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El método <code>strftime</code> del módulo <code>datetime</code> formatea un objeto <code>datetime</code> como una cadena. Existen varios <a href="https://docs.python.org/es/3.9/library/datetime.html#strftime-strptime-behavior">tipos de formatos</a> para representar la fecha como una cadena:</p>
+<div id="b7d53210" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dt_object.strftime(<span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b441d63d" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dt_object.strftime(<span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%y %H:%M'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a18c3b67" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dt_object.strftime(<span class="st">'%b-</span><span class="sc">%d</span><span class="st">-%Y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>range():</strong> La función <code>range()</code> devuelve una secuencia de valores <strong>enteros</strong> espaciados uniformemente. Se usa comúnmente en bucles <code>for</code> para definir la secuencia de elementos sobre los cuales se realizan las iteraciones.</p>
+<p>A continuación se muestra un ejemplo donde se utiliza la función <code>range()</code> para crear una secuencia de números enteros hasta 10:</p>
+<div id="207746ca" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">10</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+        </section>
+        <section id="flow-control" class="level3" data-number="1.2.4">
+            <h3 data-number="1.2.4" class="anchored" data-anchor-id="flow-control"><span
+                    class="header-section-number">1.2.4</span> Control de flujo</h3>
+                    <p>Como en otros lenguajes, Python tiene <a href="https://docs.python.org/3/tutorial/controlflow.html">palabras clave integradas</a> que proporcionan un control de flujo condicional o cíclico en el código. Este es tema de la próxima clase, pero acá veremos un breve abrebocas.</p>
+<p><strong>If-elif-else:</strong> La declaración <code>if-elif-else</code> puede verificar varias condiciones y ejecutar el código correspondiente a la condición que es verdadera. Tenga en cuenta que puede haber tantas declaraciones <code>elif</code> como sea necesario (proceso tedioso que a partir de Python 3.10 se resolvió con la sentencia <code>match-case</code></p>
+<div id="84e2c03a" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="bu">float</span>(<span class="bu">input</span>(<span class="st">'Ingrese un número:'</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x<span class="op">&gt;</span><span class="dv">0</span>:</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'El número es positivo'</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x<span class="op">==</span><span class="dv">0</span>:</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"El número es cero"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"El número es negativo"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Esta es la última condición evaluada'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>for:</strong> Un ciclo <code>for</code> itera sobre los elementos de un objeto <strong>iterable</strong> y ejecuta las declaraciones dentro del ciclo en cada iteración. Por ejemplo, a continuación se muestra un ciclo <code>for</code> que imprime números naturales impares hasta 10:</p>
+<div id="53c5edf6" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i<span class="op">%</span><span class="dv">2</span><span class="op">!=</span><span class="dv">0</span>:</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Esto se puede hacer de forma más eficiente si se hace un llamado a la función <code>range()</code> con diferentes parámetros. Consulte la <a href="https://docs.python.org/2/library/functions.html#range">documentación</a> para entender mejor su funcionamiento.</p>
+<p><strong>while:</strong> Un ciclo <code>while</code> itera sobre un conjunto de declaraciones <em>mientras</em> se cumpla una condición. Por ejemplo, a continuación se muestra un bucle <code>while</code> que imprime números impares hasta 10:</p>
+<div id="cc3f3054" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>i<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> i<span class="op">&lt;</span><span class="dv">10</span>:</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i<span class="op">%</span><span class="dv">2</span><span class="op">!=</span><span class="dv">0</span>:</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(i)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    i<span class="op">=</span>i<span class="op">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+            </section>
+            <section id="practice-exercise" class="level2" data-number="1.3">
+                <h2 data-number="1.3" class="anchored" data-anchor-id="practice-exercise"><span
+                        class="header-section-number">1.3</span> Ejercicios prácticos</h2>
+                        <section id="practice-exercise-1" class="level3" data-number="1.3.1">
+                            <h3 data-number="1.3.1" class="anchored" data-anchor-id="practice-exercise-1"><span
+                                    class="header-section-number">1.3.1</span> Ejercicio práctico 1</h3>
+                                    <ol type="1">
+                                        <li>Cree un nuevo <em>Notebook</em>.</li>
+                                        <li>Guarde el archivo como <strong>Ejercicios_practicos_clase_1.ipynb</strong>.</li>
+                                        <li>Asigne un título <strong>H1</strong> al archivo: <strong>primer archivo IPYNB</strong>.</li>
+                                        <li>Imprimir <em>Hoy es el primer día de mi curso de programación</em>.</li>
+                                        <li>Calcule e imprima el número de segundos que tiene un día.</li>
+                                        </ol>
+                                        <p>El archivo debe lucir como en la siguiente imagen</p>
+                                        <div class="quarto-figure quarto-figure-center">
+                                        <figure class="figure">
+                                        <p><img src="./Datasets/ejercicio_1.png" class="img-fluid figure-img"></p>
+                                        </figure>
+                                        </div>    
+                                </section>
+                                <section id="practice-exercise-2" class="level3" data-number="1.3.1">
+                                    <h3 data-number="1.3.1" class="anchored" data-anchor-id="practice-exercise-2"><span
+                                            class="header-section-number">1.3.2</span> Ejercicio práctico 2</h3>
+                                            <ol type="1">
+                                                <li>Para este ejercicio use el mismo <em>Notebook</em> del ejercicio práctico 1.1 (<strong>Ejercicios_practicos_clase_1.ipynb</strong>).</li>
+                                                <li>Genere otro título <strong>H1</strong> en el archivo: <strong>Ejercicio 1.2</strong>.</li>
+                                                <li>Importe la biblioteca <code>datetime</code> con un alias diferente a <code>dt</code>, cree un objeto fecha/hora y acceda a los datos de la hora. A continuación, cree un control de flujo que, con base en el objeto creado, salude al usuario con buenos días, buenas tardes o buenas noches, de acuerdo a la hora del objeto.</li>
+                                                <li>Cree un programa que solicite al usuario dos números enteros y cuente los números pares e impares que hay entre ellos, ambos números inclusive. Al finalizar el ciclo, se deben imprimir los resultados</li>
+                                                </ol>
+                                                <p>Esta parte del archivo debe lucir como en la siguiente imagen</p>
+                                                <div class="quarto-figure quarto-figure-center">
+                                                <figure class="figure">
+                                                <p><img src="./Datasets/ejercicio_2.png" class="img-fluid figure-img"></p>
+                                                </figure>
+                                                </div>   
+                                        </section>
+</section>
+
+        </main> <!-- /main -->
+        <script id="quarto-html-after-body" type="application/javascript">
+            window.document.addEventListener("DOMContentLoaded", function (event) {
+                const toggleBodyColorMode = (bsSheetEl) => {
+                    const mode = bsSheetEl.getAttribute("data-mode");
+                    const bodyEl = window.document.querySelector("body");
+                    if (mode === "dark") {
+                        bodyEl.classList.add("quarto-dark");
+                        bodyEl.classList.remove("quarto-light");
+                    } else {
+                        bodyEl.classList.add("quarto-light");
+                        bodyEl.classList.remove("quarto-dark");
+                    }
+                }
+                const toggleBodyColorPrimary = () => {
+                    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+                    if (bsSheetEl) {
+                        toggleBodyColorMode(bsSheetEl);
+                    }
+                }
+                toggleBodyColorPrimary();
+                const icon = "";
+                const anchorJS = new window.AnchorJS();
+                anchorJS.options = {
+                    placement: 'right',
+                    icon: icon
+                };
+                anchorJS.add('.anchored');
+                const isCodeAnnotation = (el) => {
+                    for (const clz of el.classList) {
+                        if (clz.startsWith('code-annotation-')) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                const clipboard = new window.ClipboardJS('.code-copy-button', {
+                    text: function (trigger) {
+                        const codeEl = trigger.previousElementSibling.cloneNode(true);
+                        for (const childEl of codeEl.children) {
+                            if (isCodeAnnotation(childEl)) {
+                                childEl.remove();
+                            }
+                        }
+                        return codeEl.innerText;
+                    }
+                });
+                clipboard.on('success', function (e) {
+                    // button target
+                    const button = e.trigger;
+                    // don't keep focus
+                    button.blur();
+                    // flash "checked"
+                    button.classList.add('code-copy-button-checked');
+                    var currentTitle = button.getAttribute("title");
+                    button.setAttribute("title", "Copied!");
+                    let tooltip;
+                    if (window.bootstrap) {
+                        button.setAttribute("data-bs-toggle", "tooltip");
+                        button.setAttribute("data-bs-placement", "left");
+                        button.setAttribute("data-bs-title", "Copied!");
+                        tooltip = new bootstrap.Tooltip(button,
+                            {
+                                trigger: "manual",
+                                customClass: "code-copy-button-tooltip",
+                                offset: [0, -8]
+                            });
+                        tooltip.show();
+                    }
+                    setTimeout(function () {
+                        if (tooltip) {
+                            tooltip.hide();
+                            button.removeAttribute("data-bs-title");
+                            button.removeAttribute("data-bs-toggle");
+                            button.removeAttribute("data-bs-placement");
+                        }
+                        button.setAttribute("title", currentTitle);
+                        button.classList.remove('code-copy-button-checked');
+                    }, 1000);
+                    // clear code selection
+                    e.clearSelection();
+                });
+                function tippyHover(el, contentFn) {
+                    const config = {
+                        allowHTML: true,
+                        content: contentFn,
+                        maxWidth: 500,
+                        delay: 100,
+                        arrow: false,
+                        appendTo: function (el) {
+                            return el.parentElement;
+                        },
+                        interactive: true,
+                        interactiveBorder: 10,
+                        theme: 'quarto',
+                        placement: 'bottom-start'
+                    };
+                    window.tippy(el, config);
+                }
+                const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+                for (var i = 0; i < noterefs.length; i++) {
+                    const ref = noterefs[i];
+                    tippyHover(ref, function () {
+                        // use id or data attribute instead here
+                        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+                        try { href = new URL(href).hash; } catch { }
+                        const id = href.replace(/^#\/?/, "");
+                        const note = window.document.getElementById(id);
+                        return note.innerHTML;
+                    });
+                }
+                let selectedAnnoteEl;
+                const selectorForAnnotation = (cell, annotation) => {
+                    let cellAttr = 'data-code-cell="' + cell + '"';
+                    let lineAttr = 'data-code-annotation="' + annotation + '"';
+                    const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+                    return selector;
+                }
+                const selectCodeLines = (annoteEl) => {
+                    const doc = window.document;
+                    const targetCell = annoteEl.getAttribute("data-target-cell");
+                    const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+                    const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                    const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+                    const lineIds = lines.map((line) => {
+                        return targetCell + "-" + line;
+                    })
+                    let top = null;
+                    let height = null;
+                    let parent = null;
+                    if (lineIds.length > 0) {
+                        //compute the position of the single el (top and bottom and make a div)
+                        const el = window.document.getElementById(lineIds[0]);
+                        top = el.offsetTop;
+                        height = el.offsetHeight;
+                        parent = el.parentElement.parentElement;
+                        if (lineIds.length > 1) {
+                            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                            height = bottom - top;
+                        }
+                        if (top !== null && height !== null && parent !== null) {
+                            // cook up a div (if necessary) and position it 
+                            let div = window.document.getElementById("code-annotation-line-highlight");
+                            if (div === null) {
+                                div = window.document.createElement("div");
+                                div.setAttribute("id", "code-annotation-line-highlight");
+                                div.style.position = 'absolute';
+                                parent.appendChild(div);
+                            }
+                            div.style.top = top - 2 + "px";
+                            div.style.height = height + 4 + "px";
+                            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                            if (gutterDiv === null) {
+                                gutterDiv = window.document.createElement("div");
+                                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                                gutterDiv.style.position = 'absolute';
+                                const codeCell = window.document.getElementById(targetCell);
+                                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                                gutter.appendChild(gutterDiv);
+                            }
+                            gutterDiv.style.top = top - 2 + "px";
+                            gutterDiv.style.height = height + 4 + "px";
+                        }
+                        selectedAnnoteEl = annoteEl;
+                    }
+                };
+                const unselectCodeLines = () => {
+                    const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+                    elementsIds.forEach((elId) => {
+                        const div = window.document.getElementById(elId);
+                        if (div) {
+                            div.remove();
+                        }
+                    });
+                    selectedAnnoteEl = undefined;
+                };
+                // Attach click handler to the DT
+                const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+                for (const annoteDlNode of annoteDls) {
+                    annoteDlNode.addEventListener('click', (event) => {
+                        const clickedEl = event.target;
+                        if (clickedEl !== selectedAnnoteEl) {
+                            unselectCodeLines();
+                            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+                            if (activeEl) {
+                                activeEl.classList.remove('code-annotation-active');
+                            }
+                            selectCodeLines(clickedEl);
+                            clickedEl.classList.add('code-annotation-active');
+                        } else {
+                            // Unselect the line
+                            unselectCodeLines();
+                            clickedEl.classList.remove('code-annotation-active');
+                        }
+                    });
+                }
+                const findCites = (el) => {
+                    const parentEl = el.parentElement;
+                    if (parentEl) {
+                        const cites = parentEl.dataset.cites;
+                        if (cites) {
+                            return {
+                                el,
+                                cites: cites.split(' ')
+                            };
+                        } else {
+                            return findCites(el.parentElement)
+                        }
+                    } else {
+                        return undefined;
+                    }
+                };
+                var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+                for (var i = 0; i < bibliorefs.length; i++) {
+                    const ref = bibliorefs[i];
+                    const citeInfo = findCites(ref);
+                    if (citeInfo) {
+                        tippyHover(citeInfo.el, function () {
+                            var popup = window.document.createElement('div');
+                            citeInfo.cites.forEach(function (cite) {
+                                var citeDiv = window.document.createElement('div');
+                                citeDiv.classList.add('hanging-indent');
+                                citeDiv.classList.add('csl-entry');
+                                var biblioDiv = window.document.getElementById('ref-' + cite);
+                                if (biblioDiv) {
+                                    citeDiv.innerHTML = biblioDiv.innerHTML;
+                                }
+                                popup.appendChild(citeDiv);
+                            });
+                            return popup.innerHTML;
+                        });
+                    }
+                }
+            });
+        </script>
+        <nav class="page-navigation">
+            <div class="nav-page nav-page-previous">
+                <a href="./index.html" class="pagination-link">
+                    <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Inicio</span>
+                </a>
+            </div>
+            <div class="nav-page nav-page-next">
+                <a href="./02_Estructuras_control.html" class="pagination-link">
+                    <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span
+                            class="chapter-title">Estucturas de control</span></span> <i
+                        class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+        </nav>
+    </div> <!-- /content -->
+
+</body>
+
+</html>
