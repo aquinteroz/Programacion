@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.3.450">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="author" content="Andrés Quintero-Zea">
+    <meta name="dcterms.date" content="2024-07-15">
+
+    <title>Estructuras de control y funciones</title>
+    <style>
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        div.hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        ul.task-list {
+            list-style: none;
+        }
+
+        ul.task-list li input[type="checkbox"] {
+            width: 0.8em;
+            margin: 0 0.8em 0.2em -1em;
+            /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+            vertical-align: middle;
+        }
+
+        /* CSS for syntax highlighting */
+        pre>code.sourceCode {
+            white-space: pre;
+            position: relative;
+        }
+
+        pre>code.sourceCode>span {
+            display: inline-block;
+            line-height: 1.25;
+        }
+
+        pre>code.sourceCode>span:empty {
+            height: 1.2em;
+        }
+
+        .sourceCode {
+            overflow: visible;
+        }
+
+        code.sourceCode>span {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        div.sourceCode {
+            margin: 1em 0;
+        }
+
+        pre.sourceCode {
+            margin: 0;
+        }
+
+        @media screen {
+            div.sourceCode {
+                overflow: auto;
+            }
+        }
+
+        @media print {
+            pre>code.sourceCode {
+                white-space: pre-wrap;
+            }
+
+            pre>code.sourceCode>span {
+                text-indent: -5em;
+                padding-left: 5em;
+            }
+        }
+
+        pre.numberSource code {
+            counter-reset: source-line 0;
+        }
+
+        pre.numberSource code>span {
+            position: relative;
+            left: -4em;
+            counter-increment: source-line;
+        }
+
+        pre.numberSource code>span>a:first-child::before {
+            content: counter(source-line);
+            position: relative;
+            left: -1em;
+            text-align: right;
+            vertical-align: baseline;
+            border: none;
+            display: inline-block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 0 4px;
+            width: 4em;
+        }
+
+        pre.numberSource {
+            margin-left: 3em;
+            padding-left: 4px;
+        }
+
+        div.sourceCode {}
+
+        @media screen {
+            pre>code.sourceCode>span>a:first-child::before {
+                text-decoration: underline;
+            }
+        }
+    </style>
+
+
+    <script src="assets/quarto-nav/quarto-nav.js"></script>
+    <script src="assets/quarto-nav/headroom.min.js"></script>
+    <script src="assets/clipboard/clipboard.min.js"></script>
+    <script src="assets/quarto-search/autocomplete.umd.js"></script>
+    <script src="assets/quarto-search/fuse.min.js"></script>
+    <script src="assets/quarto-search/quarto-search.js"></script>
+    <meta name="quarto:offset" content="./">
+    <link href="./functions2.html" rel="next">
+    <link href="./Variable_expressions_statements.html" rel="prev">
+    <script src="assets/quarto-html/quarto.js"></script>
+    <script src="assets/quarto-html/popper.min.js"></script>
+    <script src="assets/quarto-html/tippy.umd.min.js"></script>
+    <script src="assets/quarto-html/anchor.min.js"></script>
+    <link href="assets/quarto-html/tippy.css" rel="stylesheet">
+    <link href="assets/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet"
+        id="quarto-text-highlighting-styles">
+    <script src="assets/bootstrap/bootstrap.min.js"></script>
+    <link href="assets/bootstrap/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+    <script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+    <!-- content -->
+    <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+        <!-- sidebar -->
+        <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+            <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+                <img src="./LogoNuevo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+                <div class="sidebar-title mb-0 py-0">
+                    <a href="./index.html">Programación PRE2013A45</a>
+                </div>
+            </div>
+            <div class="sidebar-menu-container">
+                <ul class="list-unstyled mt-1">
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+                                <span class="menu-text">Python</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./01_Intro_Python.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Python</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./02_Estructuras_control.html"
+                                        class="sidebar-item-text sidebar-link active">
+                                        <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Control y
+                                                Funciones</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./03_Estructura_datos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Datos Avanzadas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./04_Archivos_excepciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span
+                                                class="chapter-title">Manejo de Archivos y Excepciones</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./05_POO.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span
+                                                class="chapter-title">Programación Orientada a Objetos</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+                                <span class="menu-text">Análisis de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./06_Numpy.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Numpy</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./07_Pandas.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span
+                                                class="chapter-title">Manipulación de Datos con Pandas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./08_EDA.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span
+                                                class="chapter-title">Análisis Exploratorio de Datos
+                                                (EDA)</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./09_Matplotlib.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Matplotlib</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./10_Seaborn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Seaborn</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+                                <span class="menu-text">Ciencia de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./11_Intro_DS.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span
+                                                class="chapter-title">Introducción a la Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./12_Estadistica.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span
+                                                class="chapter-title">Fundamentos de Estadística para Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./13_Preparacion_modelos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span
+                                                class="chapter-title">Preparación de Datos para
+                                                Modelado</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./14_Scikit_learn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span
+                                                class="chapter-title">Introducción al Machine Learning con
+                                                Scikit-Learn</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./15_Clasificacion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Clasificación</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./16_Regresion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Regresión</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass">
+        </div>
+        <!-- margin-sidebar -->
+        <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+            <nav id="TOC" role="doc-toc" class="toc-active">
+                <h2 id="toc-title">Tabla de contenidos</h2>
+
+                <ul>
+                    <li><a href="#objetivo" id="toc-objetivo" class="nav-link active"
+                            data-scroll-target="#objetivo">Objetivo</a></li>
+                    <li><a href="#conditonal-execution" id="toc-conditonal-execution" class="nav-link active"
+                            data-scroll-target="#conditonal-execution"><span class="header-section-number">2.1</span>
+                            Condicional en Python</a>
+                        <ul class="collapse">
+                            <li><a href="#comparison-operators" id="toc-comparison-operators" class="nav-link"
+                                    data-scroll-target="#comparison-operators"><span
+                                        class="header-section-number">2.1.1</span> Uso del <code>if</code></a></li>
+                            <li><a href="#if-elif-else-statement" id="toc-if-elif-else-statement" class="nav-link"
+                                    data-scroll-target="#if-elif-else-statement"><span
+                                        class="header-section-number">2.1.2</span> Uso de <code>else</code> y
+                                    <code>elif</code></a></li>
+                            <li><a href="#ternary-operator" id="toc-ternary-operator" class="nav-link"
+                                    data-scroll-target="#ternary-operator"><span
+                                        class="header-section-number">2.1.3</span> Operador ternario</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#spm" id="toc-spm" class="nav-link" data-scroll-target="#spm"><span
+                                class="header-section-number">2.2</span> Structural Pattern Matching en Python </a>
+                        <ul class="collapse">
+                            <li><a href="#intro-switch" id="toc-intro-switch" class="nav-link"
+                                    data-scroll-target="#intro-switch"><span class="header-section-number">2.2.1</span>
+                                    Introducción al switch</a></li>
+                            <li><a href="#diferencias" id="toc-diferencias" class="nav-link"
+                                    data-scroll-target="#diferencias"><span class="header-section-number">2.2.2</span>
+                                    Diferencia entre <code>if-elif-else</code> y <code>match-case</code></a></li>
+                            <li><a href="#spm-switch" id="toc-spm-switch" class="nav-link"
+                                    data-scroll-target="#spm-switch"><span class="header-section-number">2.2.3</span>
+                                    Structural pattern matching vs. Switch</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#for-loop" id="toc-for-loop" class="nav-link" data-scroll-target="#for-loop"><span
+                                class="header-section-number">2.3</span> Bucle <code>for</code> en Python </a>
+                        <ul class="collapse">
+                            <li><a href="#iterables" id="toc-iterables" class="nav-link"
+                                    data-scroll-target="#iterables"><span class="header-section-number">2.3.1</span>
+                                    Iterables e iteradores</a></li>
+                            <li><a href="#nested-for" id="toc-nested-for" class="nav-link"
+                                    data-scroll-target="#nested-for"><span class="header-section-number">2.3.2</span>
+                                    Bucles <code>for</code> anidados</code></a></li>
+                            <li><a href="#list-comprehension" id="toc-list-comprehension" class="nav-link"
+                                    data-scroll-target="#list-comprehension"><span
+                                        class="header-section-number">2.3.3</span>
+                                    Listas por comprensión</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#while-loop" id="toc-while-loop" class="nav-link"
+                            data-scroll-target="#while-loop"><span class="header-section-number">2.4</span>
+                            Bucle <code>while</code> en Python</a>
+                    </li>
+                    <li><a href="#break-continue-else" id="toc-break-continue-else" class="nav-link"
+                            data-scroll-target="#break-continue-else"><span class="header-section-number">2.5</span>
+                            <code>break</code>, <code>continue</code> y <code>else</code></a>
+                    </li>
+                    <li><a href="#practice-exrcises" id="toc-practice-exrcises" class="nav-link"
+                            data-scroll-target="#practice-exrcises"><span class="header-section-number">2.6</span>
+                            Ejercicios prácticos</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- main -->
+        <main class="content" id="quarto-document-content">
+
+            <header id="title-block-header" class="quarto-title-block default">
+                <div class="quarto-title">
+                    <h1 class="title"><span class="chapter-number">2</span>&nbsp; <span
+                            class="chapter-title">Estructuras de control y Funciones</span></h1>
+                </div>
+                <div class="quarto-title-meta"> </div>
+            </header>
+            <section id="objetivo" class="level1">
+                <h1 class="anchored" data-anchor-id="objetivo">Objetivo</h1>
+                <p>En esta clase aprenderemos a utilizar estructuras de control en Python para la toma de decisiones y
+                    la iteración.</p>
+            </section>
+            <p>Una <a href="https://docs.python.org/3/tutorial/controlflow.html">estructura de control</a> en un
+                programa de computadora determina las líneas individuales de código que se ejecutarán y/o el orden o las
+                veces en el que se ejecutarán. En este capítulo, aprenderemos sobre 4 tipos de declaraciones de control
+                de flujo:</p>
+            <ol type="1">
+                <li><code>if-elif-else</code></li>
+                <li><code>match-case</code></li>
+                <li><code>for</code></li>
+                <li><code>while</code></li>
+            </ol>
+
+            <section id="conditonal-execution" class="level2" data-number="2.1">
+                <h2 data-number="2.1" class="anchored" data-anchor-id="conditonal-execution"><span
+                        class="header-section-number">2.1</span> Condicional en Python</h2>
+                        <p>De no ser por las <strong>estructuras de control</strong>, el código en cualquier 
+                            lenguaje de programación sería ejecutado secuencialmente hasta terminar. Un código, 
+                            no deja de ser un conjunto de instrucciones que son ejecutadas unas tras otra. 
+                            Gracias a las estructuras de control, podemos <strong>cambiar el flujo de ejecución 
+                                de un programa</strong>, haciendo que ciertos bloques de código se ejecuten si y 
+                                solo si se dan unas condiciones particulares.</p>
+                <section id="comparison-operators" class="level3" data-number="2.1.1">
+                    <h3 data-number="2.1.1" class="anchored" data-anchor-id="comparison-operators"><span
+                            class="header-section-number">2.1.1</span> Uso del <code>if</code></h3>
+                            <p>Un ejemplo sería si tenemos dos valores <code>a</code> y <code>b</code> que queremos dividir. Antes de entrar en el bloque de código que divide <code>a/b</code>, sería importante verificar que <code>b</code> es distinto de cero, ya que la división por cero no está definida. Es aquí donde entran los condicionales <code>if</code>.</p>
+<div id="37302504" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="2"></a>b <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> b <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(a<span class="op">/</span>b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>En este ejemplo podemos ver como se puede usar un <code>if</code> en Python. Con el operador <code>!=</code> se comprueba que el número <code>b</code> sea distinto de cero y, si lo es, se ejecuta el código que está <strong>sangrado</strong>. Por lo tanto un if tiene dos partes:</p>
+                            <ul>
+                            <li>La <strong>condición</strong> que se tiene que cumplir para que el bloque de código se ejecute, en nuestro caso <code>b!=0</code>.</li>
+                            <li>El <strong>bloque de código</strong> que se ejecutará si se cumple la condición anterior.</li>
+                            </ul>
+                            <p>Es muy importante tener en cuenta que la sentencia <code>if</code> debe ir terminada por <code>:</code> y el bloque de código a ejecutar debe estar sangrado con una tabulación o 4 espacios. En la mayoría de IDEs, el sangrado se produce automáticamente al presionar enter. Nótese que el bloque de código puede contener más de una instrucción.</p>
+<div id="e202a444-4ccd-4fa8-a451-b3073a4eed2b" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> b <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> a<span class="op">/</span>b</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> c <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Todo lo que vaya después del <code>if</code> y esté sangrado, será parte del <strong>bloque de código</strong> que se ejecutará si la condición se cumple. Por lo tanto, en el siguiente ejemplo, el segundo <code>print()</code> será ejecutado <strong>siempre</strong>, ya que está fuera del bloque <code>if</code>, ya que tiene un nivel de sangrado diferente.</p>
+<div id="582c7b7b-a858-4754-bf81-7a0447f7d9ae" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> b <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> a<span class="op">/</span>b</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Dentro if"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Fuera if"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Existen otros operadores con los que se puede construir la condición del <code>if</code>, como son <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code>.</p>
+<div id="0bc8851d-26cd-41b1-b220-281f5cfad96d" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> b <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(a<span class="op">/</span>b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Se pueden combinar varias condiciones entre el <code>if</code> y <code>:</code>. Por ejemplo, se puede requerir que un número sea mayor que 5 y además menor que 15. Tenemos en realidad tres operadores usados conjuntamente, que serán evaluados por separado hasta devolver el resultado final, que será <code>True</code> si la condición se cumple o <code>False</code> de lo contrario.</p>
+<div id="be4ce2ab-60fb-4bbc-9a3a-9578520ade40" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">&gt;</span> <span class="dv">5</span> <span class="kw">and</span> a <span class="op">&lt;</span> <span class="dv">15</span>:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Mayor que 5 y menor que 15"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Es muy importante tener en cuenta que, a diferencia de otros lenguajes, en Python no puede haber un bloque <code>if</code> vacío.</p>
+<div id="6d7d4470-3cd4-4d32-b63c-c89f251a8041" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">&gt;</span> <span class="dv">5</span>:</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Por lo tanto si tenemos un <code>if</code> sin contenido, tal vez porque sea una tarea pendiente que estamos dejando para implementar en un futuro, es necesario hacer uso de <code>pass</code> para evitar el error. Realmente <code>pass</code> no hace nada, simplemente es para tener contento al interprete de código.</p>
+<div id="7756e8e6-f5e3-44c6-a2e4-23fda7c67687" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">&gt;</span> <span class="dv">5</span>:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Algo que es posible, <strong>pero no es recomendable</strong>, es poner todo el bloque que va dentro del <code>if</code> en la misma línea, justo a continuación de los <code>:</code>. Si el bloque de código no es muy largo, puede ser útil para ahorrarse alguna línea de código.</p>
+                            <div id="53ef0771-10ea-4460-afdb-1e82b850b281" class="cell">
+                            <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">&gt;</span> <span class="dv">5</span>: <span class="bu">print</span>(<span class="st">"Es &gt; 5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+                            </div>
+                            <p>Si tu bloque de código tiene más de una línea, se pueden poner también en la misma línea separándolas con <code>;</code>.</p>
+                            <div id="3d74ae25-7e01-44ef-b727-7179a6a063a4" class="cell">
+                            <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> a <span class="op">&gt;</span> <span class="dv">5</span>: <span class="bu">print</span>(<span class="st">"Es &gt; 5"</span>)<span class="op">;</span> <span class="bu">print</span>(<span class="st">"Dentro del if"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+                            </div>    
+                </section>
+                <section id="if-elif-else-statement" class="level3" data-number="2.1.2">
+                    <h3 data-number="2.1.2" class="anchored" data-anchor-id="if-elif-else-statement"><span
+                            class="header-section-number">2.1.2</span> Uso de <code>else</code> y
+                            <code>elif</code></h3>
+                            <p>Es posible que no solo queramos hacer algo si una determinada condición se cumple, sino que además queramos hacer algo en caso contrario. Es aquí donde entra la cláusula <code>else</code>. La parte del <code>if</code> se comporta de la manera que ya hemos explicado, con la diferencia de que si esa condición no se cumple, se ejecutará el código presente dentro del <code>else</code>. Nótese que ambos bloque de código son excluyentes, se entra o en uno o en otro, pero nunca se ejecutarán los dos.</p>
+<div id="53003c8a-21eb-4349-8339-e9431ffb13e1" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 5"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No es 5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>En muchos casos, podemos tener varias condiciones diferentes y para cada una queremos un código distinto. Es aquí donde entra en juego el <code>elif</code>.</p>
+<div id="cb1b169b-f0b3-4ff6-855e-5bec1160bd2e" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 5"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">==</span> <span class="dv">6</span>:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 6"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">==</span> <span class="dv">7</span>:</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 7"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Con la cláusula <code>elif</code> podemos ejecutar tantos bloques de código distintos como queramos según la condición. Traducido al lenguaje natural, sería algo así como decir:</p>
+                            <blockquote class="blockquote">
+                            <p>si es igual a 5 haz esto, si es igual a 6 haz lo otro, si es igual a 7 haz lo otro.</p>
+                            </blockquote>
+                            <p>Se puede usar también de manera conjunta todo, el <code>if</code> con el <code>elif</code> y un <code>else</code> al final. Es muy importante notar que <code>if</code> y <code>else</code> solamente puede haber uno, mientras que <code>elif</code> puede haber varios.</p>
+<div id="c225bc78-e432-4fce-aa76-e5bd23622b32" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 5"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">==</span> <span class="dv">6</span>:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 6"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">==</span> <span class="dv">7</span>:</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es 7"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Es otro"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                </section>
+                <section id="ternary-operator" class="level3" data-number="2.1.3">
+                    <h3 data-number="2.1.3" class="anchored" data-anchor-id="ternary-operator"><span
+                            class="header-section-number">2.1.3</span> Operador ternario</h3>
+                            <p>El operador ternario es una herramienta muy potente que muchos lenguajes de programación tienen. En Python es un poco distinto a lo que sería en C, pero el concepto es el mismo. Se trata de una cláusula <code>if</code>, <code>else</code> que se define en una sola línea y puede ser usado, por ejemplo, dentro de un <code>print()</code>.</p>
+                            <p>Existen tres partes en un operador ternario, que son exactamente iguales a los que había en un <code>if</code> <code>else</code>. Tenemos la condición a evaluar, el código que se ejecuta si se cumple y el código que se ejecuta si no se cumple. En este caso, tenemos los tres en la misma línea.</p>
+                            <div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[código si se cumple] <span class="cf">if</span> [condición] <span class="cf">else</span> [código si no se cumple]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+                            <p><strong>Para saber más:</strong> El operador ternario fue propuesto en la <a href="https://peps.python.org/pep-0308/">PEP 308</a>.</p>
+<div id="8c2d7720-f1a6-4e5f-92cf-8f899ea7bf7c" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Es 5"</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">5</span> <span class="cf">else</span> <span class="st">"No es 5"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Es 5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Es muy útil y permite ahorrarse algunas líneas de código, además de aumentar la rapidez a la que escribimos. Si por ejemplo tenemos una variable a la que queremos asignar un valor en función de una condición, se puede hacer de la siguiente manera. Siguiendo el ejemplo anterior, en el siguiente código intentamos dividir <code>a</code> entre <code>b</code>. Si <code>b</code> es diferente a cero, se realiza la división y se almacena en <code>c</code>, de lo contrario se almacena <code>-1</code>. Ese <code>-1</code> podría ser una forma de indicar que ha habido un error con la división.</p>
+<div id="a4f93376-a916-4f6a-961a-d9aae6f43ed0" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> a<span class="op">/</span>b <span class="cf">if</span> b<span class="op">!=</span><span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                </section>
+            </section>
+            <section id="spm" class="level2" data-number="2.2">
+                <h2 data-number="2.2" class="anchored" data-anchor-id="spm"><span
+                        class="header-section-number">2.2</span> <em>Structural Pattern Matching</em> en Python</h2>
+                        <p>La coincidencia de patrones estructurales (<em>Structural Pattern Matching</em>) 
+                            es una herramienta que nos permite ejecutar diferentes secciones de código 
+                            dependiendo de una condición. Su funcionalidad es similar a una estructura de 
+                            tipo <em>switch</em> al estilo de las que tenemos en C, Java u otros lenguajes, 
+                            pero mucho más potente. Esta estructura de control es la más reciente en Python, 
+                            ya que fue propuesta en la <a href="https://peps.python.org/pep-0636/">PEP 636</a> 
+                            y se implementó a partir de la versión 3.10.</p>
+                <section id="intro-switch" class="level3" data-number="2.2.1">
+                    <h3 data-number="2.2.1" class="anchored" data-anchor-id="intro-switch"><span
+                            class="header-section-number">2.2.1</span> Introducción al <em>switch</em></h3>
+                            <p>Ya sabemos que el uso del <code>if</code> junto con <code>else</code> y 
+                                <code>elif</code> nos permite ejecutar un código determinado dependiendo de una 
+                                condicion, como podemos ver en el siguiente código.</p>
+<div id="54dc6e03-76fd-474a-83d8-8a6953721b44" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>status <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> status <span class="op">==</span> <span class="dv">400</span>:</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Bad request"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> status <span class="op">==</span> <span class="dv">404</span>:</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Not found"</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> status <span class="op">==</span> <span class="dv">418</span>:</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"I'm a teapot"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Something's wrong with the Internet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>La misma funcionalidad se podría escribir de la siguiente manera haciendo uso del 
+                                <code>switch</code>. Como puedes ver su uso tal vez resulte algo más limpio y 
+                                de hecho en determinadas ocasiones es más rápido. Para construir nuestra estructura
+                                en Python haremos uso de dos nuevas palabras en el lenguaje: <code>match</code> y 
+                                <code>case</code>.</p>
+<div id="a8a33a12-28ff-49cc-b94a-20cc63dbe183" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>status <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> status:</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="dv">400</span>:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Bad request"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="dv">404</span>:</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Not found"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="dv">418</span>:</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"I'm a teapot"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> _:</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Something's wrong with the Internet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>    
+                </section>
+                <section id="diferencias" class="level3" data-number="2.2.2">
+                    <h3 data-number="2.2.2" class="anchored" data-anchor-id="diferencias"><span
+                            class="header-section-number">2.2.2</span> Diferencia entre <code>if-elif-else</code> 
+                            y <code>match-case</code></h3>
+                            <p>Una de las principales diferencias es que usando <code>if-elif-else</code> no todos 
+                                los bloques tienen el mismo tiempo de acceso. Todas las condiciones van siendo 
+                                evaluadas hasta que se cumple y se sale. Imaginemos que tenemos 100 condiciones.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> condicion <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"1"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> condicion <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"2"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ... hasta 100</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> condicion <span class="op">==</span> <span class="dv">100</span>:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"3"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+                            <p>El tiempo de ejecución será distinto si la condicion es 1 o es 70 por ejemplo:</p>
+                            <ul>
+                            <li>Si es 1: Se evalúa el primer <code>if</code> y como se cumple la condición se ejecuta y se sale.</li>
+                            <li>Si es 70: Se va evaluando cada condición hasta llegar al 70. Es decir, tienen que evaluarse 70 condiciones.</li>
+                            <li>Sin embargo, en el <code>match-case</code> todos los elementos tienen el mismo tiempo de acceso. Esto se debe a que por debajo está implementado con <em>lookup tables</em>.</li>
+                            </ul>
+                            <p>Si trabajamos con un gran número de condiciones, el uso del <code>match-case</code> sobre el <code>if-elif-else</code> podría notarse.</p>    
+                </section>
+                <section id="spm-switch" class="level3" data-number="2.2.3">
+                    <h3 data-number="2.2.3" class="anchored" data-anchor-id="spm-switch"><span
+                            class="header-section-number">2.2.3</span> <em>Structural pattern matching</em>
+                             vs. <em>Switch</em></h3>
+                             <p>Hasta aquí hemos visto un ejemplo básico, que no parece especialmente novedoso. 
+                                Sin embargo, las posibilidades son mucho mayores y más potentes para poder hacer 
+                                <em>matching</em> con diferentes estructuras y tipos de datos, lo que realmente 
+                                convierte al <strong>Structural Pattern Matching</strong> en una herramienta muy 
+                                conveniente en muchas circunstancias. Veamos algunos ejemplos más avanzados:</p>
+<div id="aeb52d61-ca17-4bdc-9d84-4815fc3477b2" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> my_list:</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    case []:</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Lista vacía"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    case [x]:</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Lista de un elemento: </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    case [<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">|</span> [<span class="dv">2</span>, <span class="dv">1</span>] <span class="op">|</span> [<span class="dv">1</span>, <span class="dv">3</span>] <span class="op">|</span> [<span class="dv">3</span>, <span class="dv">1</span>]:</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Estas combinaciones me interesan mucho"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    case [x, y]:</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Lista con dos elementos: </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss"> y </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    case [x, y, z]:</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Lista con tres elementos: </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss"> y </span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    case [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="op">*</span>tail]:</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Parece que es la serie de Fibonacci..."</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    case [<span class="st">"end"</span>, <span class="st">"of"</span>, <span class="st">"game"</span>]:</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Se acabó el juego..."</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    case [x, y, <span class="op">*</span>tail]:</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Lista con más de tres elementos. Los dos primeros son: </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss"> y </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                             <p>En este ejemplo vemos como junto al <code>case</code>, podemos no solo poner 
+                                literales o enteros, sino listas con diferente estructura. De esta forma podemos 
+                                hacer un manejo muy cómodo y sencillo en función de la estructura y contenido de 
+                                la lista recibida y ejecutar diferente lógica, sin la necesidad de usar la función 
+                                <code>len()</code> ni acceder explícitamente a los elementos de la lista.</p>
+                             <p>Como vemos en el tercer <code>case</code>, podemos usar el operador <code>|</code> 
+                                (OR) para declarar varias opciones que harían <em>match</em> en ese caso.</p>
+                             <p>Funciona también con otro tipo de estructura de datos, por ejemplo en el siguiente 
+                                código se trabajo sobre tuplas.</p>
+<div id="66dfffc8-835d-4889-bac6-a0354262faf7" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>point <span class="op">=</span> (<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> point:</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    case (<span class="dv">0</span>, <span class="dv">0</span>):</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Origin"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    case (<span class="dv">0</span>, y):</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Y=</span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    case (x, <span class="dv">0</span>):</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"X=</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    case (x, y):</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"X=</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">, Y=</span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> _:</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Not a point"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                             <p>No sólo podemos hacer uso de tipos de datos básicos de Python, sino que podemos 
+                                hacer <em>match</em> con objetos de clases definidas por nosotros mismos y 
+                                ahorrarnos un montón de llamadas a la función <code>isinstance()</code>.</p>
+                             <p>Para ello, en el <code>case</code> declararemos la construcción del objeto con 
+                                los argumentos correspondientes nombrados y de esta forma haremos <em>match</em>.
+                            </p>
+                             <p>También es posible no nombrar los argumentos del constructor y pasarlos de forma 
+                                posicional, pero para ello tendremos que apoyarnos en el decorador 
+                                <code>dataclass</code> de la biblioteca estándar de Python o definiendo el 
+                                atributo <code>match_args</code> de cualquiera de nuestras clases.</p>
+<div id="4025e28b-2149-4d5e-b36a-a92eaf31efb1" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pair:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    first: <span class="bu">int</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    second: <span class="bu">int</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>pair <span class="op">=</span> Pair(<span class="dv">20</span>, <span class="dv">20</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="cf">match</span> pair:</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> Pair(<span class="dv">0</span>, x):</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Case #1"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> Pair(x, y) <span class="cf">if</span> x <span class="op">==</span> y:</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Case #2"</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> Pair(first<span class="op">=</span>x, second<span class="op">=</span><span class="dv">20</span>):</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Case #3"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> Pair <span class="im">as</span> p:</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Case #4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                             <p>En este último ejemplo observamos también la posibilidad de añadir condicionales 
+                                adicionales al <em>matching</em>. En el caso 2 vemos cómo se ha añadido una 
+                                condición adicional y es que <span class="math inline">\(x\)</span> sea igual a 
+                                <span class="math inline">\(y\)</span> a través de una construcción <code>if</code>.
+                                 Esto nos permite llegar a un nivel de casuísticas y de control muy fino.</p>    
+                </section>
+            </section>
+            <section id="for-loop" class="level2" data-number="2.3">
+                <h2 data-number="2.3" class="anchored" data-anchor-id="for-loop"><span
+                        class="header-section-number">2.3</span> Bucle <code>for</code> en Python</h2>
+                        <p>A continuación explicaremos el bucle <code>for</code> y sus particularidades en Python, 
+                            que comparado con otros lenguajes de programación, tiene ciertas diferencias.</p>
+                        <p>El <code>for</code> es un tipo de bucle en que el número de iteraciones esta definido de
+                             antemano por un iterable. En el siguiente ejemplo vemos un bucle for que se ejecuta 5 
+                             veces, y donde la <code>i</code> incrementa su valor <em>automáticamente</em> en 1 
+                             en cada iteración.</p>
+<div id="eff37cb2-c16a-4c25-9cfc-251a6ee9fd8f" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>En Python se puede iterar prácticamente todo, como por ejemplo una cadena. En el siguiente ejemplo vemos como la <code>i</code> va tomando los valores de cada letra.</p>
+<div id="5c783bcd-52c8-4249-9a0d-9a4b19cb1f78" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="st">"Python"</span>:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                <section id="iterables" class="level3" data-number="2.3.1">
+                    <h3 data-number="2.3.1" class="anchored" data-anchor-id="iterables"><span
+                            class="header-section-number">2.3.1</span> Iterables e iteradores</h3>
+                            <p>Para entender completamete los bucles <code>for</code> es muy importante entender los conceptos de <strong>iterables</strong> e <strong>iteradores</strong>. Empecemos con un par de definiciones:</p>
+                            <ul>
+                            <li><strong>Los iterables</strong> son aquellos objetos que como su nombre indica pueden ser iterados, lo que dicho de otra forma es que puedan ser indexados. Si piensas en una lista en Python, podemos indexarlo con <code>lista[1]</code> por ejemplo, por lo que sería un iterable.</li>
+                            <li><strong>Los iteradores</strong> son objetos que hacen referencia a un elemento y que tienen un método <code>next</code> que permite hacer referencia al siguiente.</li>
+                            </ul>
+                            <p><strong>Para saber más:</strong> Si quieres saber más sobre los iteradores te dejamos este <a href="https://docs.python.org/3/tutorial/classes.html#iterators">enlace</a> a la documentación oficial.</p>
+                            <p>Ambos son conceptos un tanto abstractos y que pueden ser complicados de entender. Veamos unos ejemplos. Como hemos comentado, los iterables son objetos que pueden ser iterados o accedidos con un índice. Algunos ejemplos de iterables en Python son las listas, tuplas, cadenas o diccionarios. Sabiendo esto, lo primero que tenemos que tener claro es que en un <code>for</code> lo que va después del <code>in</code> deberá ser siempre un iterable.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">&lt;</span>iterador<span class="op">&gt;</span> <span class="kw">in</span> <span class="op">&lt;</span>iterable<span class="op">&gt;</span>:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>Código<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+                            <p>Tiene bastante sentido, porque si queremos iterar una variable, esta variable debe ser iterable, todo muy lógico. Pero llegados a este punto, tal vez te preguntes ¿pero cómo sé yo si algo es iterable o no?. Bien fácil, con la siguiente función <code>isinstance()</code> podemos saberlo. No te preocupes si no entiendes muy bien lo que estamos haciendo, fíjate solo en el resultado, <code>True</code> significa que es iterable y <code>False</code> que no lo es.</p>
+<div id="445c57d7-e11e-4749-80d1-401fef4b5942" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections.abc <span class="im">import</span> Iterable</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>cadena <span class="op">=</span> <span class="st">"Python"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>numero <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">isinstance</span>(lista, Iterable))  <span class="co">#True</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">isinstance</span>(cadena, Iterable)) <span class="co">#True</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">isinstance</span>(numero, Iterable)) <span class="co">#False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Una vez entendidos los iterables, veamos los iteradores. Para entender los iteradores, es importante conocer la función <code>iter()</code> en Python. Dicha función puede ser llamada sobre un objeto que sea iterable y nos devolverá un iterador como se ve en el siguiente ejemplo.</p>
+<div id="3705dac2-20b9-49d3-b85c-50214d7b3b1b" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>it <span class="op">=</span> <span class="bu">iter</span>(lista)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(it)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(it))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Vemos que al imprimir <code>it</code> es un iterador, de la clase <code>list_iterator</code>. Esta variable iteradora hace referencia a la lista original y nos permite acceder a sus elementos con la función <code>next()</code>. Cada vez que llamamos a <code>next()</code> sobre <code>it</code>, nos devuelve el siguiente elemento de la lista original. Por lo tanto, si queremos acceder al elemento 4, tendremos que llamar 4 veces a <code>next()</code>. Nótese que el iterador empieza apuntando fuera de la lista y no hace referencia al primer elemento hasta que no se llama a <code>next()</code> por primera vez.</p>
+<div id="a7be2d73-2c9f-440b-88da-8d15260a8c6c" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>it <span class="op">=</span> <span class="bu">iter</span>(lista)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p><strong>Para saber mas:</strong> Existen otros iteradores para diferentes clases:</p>
+                            <ul>
+                            <li><code>str_iterator</code> para cadenas</li>
+                            <li><code>list_iterator</code> para sets.</li>
+                            <li><code>tuple_iterator</code> para tuplas.</li>
+                            <li><code>set_iterator</code> para sets.</li>
+                            <li><code>dict_keyiterator</code> para diccionarios.</li>
+                            </ul>
+                            <p>Dado que el iterador hace referencia a nuestra lista, si llamamos más veces a <code>next()</code> que la longitud de la lista se nos devolverá un error <code>StopIteration</code>. Lamentablemente no existe ninguna opción de volver al elemento anterior.</p>
+<div id="cd7deff2-4e19-4651-878e-a1203785e796" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">6</span>]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>it <span class="op">=</span> <span class="bu">iter</span>(lista)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it))</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Es perfectamente posible tener diferentes iteradores para la misma lista y serán totalmente independientes. Tan solo dependerán de la lista, como es evidente, pero no entre ellos.</p>
+<div id="ce414a12-e0fd-4304-b386-3a148088f28f" class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>it1 <span class="op">=</span> <span class="bu">iter</span>(lista)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>it2 <span class="op">=</span> <span class="bu">iter</span>(lista)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it1))</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it1))</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it1))</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(it2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                </section>
+                <section id="nested-for" class="level3" data-number="2.3.2">
+                    <h3 data-number="2.3.2" class="anchored" data-anchor-id="nested-for"><span
+                            class="header-section-number">2.3.2</span> Bucles <code>for</code> anidados</h3>
+                            <p>Es posible anidar los <code>for</code>, es decir, meter uno dentro de otro. Esto puede ser muy útil si queremos iterar algún objeto que en cada elemento, tiene a su vez otra clase iterable. Podemos tener por ejemplo, una lista de listas, una especie de matriz.</p>
+<div id="c3ea801b-63bb-40f5-8f2b-c8c975072f70" class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [[<span class="dv">56</span>, <span class="dv">34</span>, <span class="dv">1</span>],</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>         [<span class="dv">12</span>, <span class="dv">4</span>, <span class="dv">5</span>],</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>         [<span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Si iteramos usando sólo un <code>for</code> estaremos realmente accediendo a la segunda lista, pero no a los elementos individuales.</p>
+<div id="04e2065b-e0c4-4952-88f1-a747a2da89b8" class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> lista:</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Si queremos acceder a cada elemento individualmente, podemos anidar dos <code>for</code>. Uno de ellos se encargará de iterar las columnas y el otro las filas.</p>
+<div id="84e1285b-afc0-4a7c-93c3-bd43655fa815" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> lista:</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'for externo para:'</span>,i)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> i:</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                </section>
+                <section id="list-comprehension" class="level3" data-number="2.3.3">
+                    <h3 data-number="2.3.3" class="anchored" data-anchor-id="list-comprehension"><span
+                            class="header-section-number">2.3.3</span> Listas por comprensión</h3>
+                            <p>Las <a href="https://ellibrodepython.com/list-comprehension-python">listas por comprensión</a> es una construcción sintáctica disponible en Python con la que se pueden crear lista a partir de otros elementos iterables. Siendo una de las contracciones más elegantes del lenguaje. A continuación, se mostrará la sintaxis básica para trabajar con las listas por comprensión.</p>
+<div id="88f4fb45-090d-455a-a38b-1b99f3e01d4f" class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Forma tradicional</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> numbers:</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    results.append(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="aed17f0b-83d6-4aad-9218-f45142114a01" class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando comprensión</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [n <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> n <span class="kw">in</span> numbers]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Obteniéndose el mismo resultado solamente con mucho menos código. En el código los corchetes indican que la salida de la lista <code>n + 1</code> es la expresión que ejecutar para cada uno de los elementos del bucle <code>for</code>. Es decir, que a cada uno de los valores sobre los que se itera se añada se le sume la unidad.</p>
+                            <p>Adicionalmente, es posible añadir condiciones a las listas por comprensión en Python. Para lo que solamente se tiene que agregar un <code>if</code> al final de la condición. Siguiendo con el ejemplo anterior, se podría sumar uno solamente a los registros que sean menores que tres.</p>
+<div id="ce333d26-30a3-4481-bf10-137ab945fa74" class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [n <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> n <span class="kw">in</span> numbers <span class="cf">if</span> n <span class="op">&lt;</span> <span class="dv">3</span>]</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>Al ejecutar el código se puede observar que solamente se tienen dos registros, los que cumple la condición. En el caso de que se desee realizar una operación diferente cuando no se cumple la condición se puede hacer con un <code>else</code>. Aunque es necesario modificar el orden. Si se utiliza un <code>else</code>, la condición se tiene que situar justamente después de la expresión y antes del <code>for</code>. Por ejemplo, en el siguiente código los números mayores o iguales que tres se dejan sin modificar.</p>
+<div id="6abcb038-3701-4b14-a51f-f876db89ec80" class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [n <span class="op">+</span> <span class="dv">1</span> <span class="cf">if</span> n <span class="op">&lt;</span> <span class="dv">3</span> <span class="cf">else</span> n <span class="cf">for</span> n <span class="kw">in</span> numbers]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                            <p>La posibilidad de anidar bucles <code>for</code> en las listas por comprensión permiten realizar operaciones realmente completas. Así se puede iterar sobre varios objetos iterables para aplicar una condición.</p>
+                            <p>Un ejemplo típico de esto es buscar el conjunto de elementos comunes en dos listas. Lo que se puede conseguir de con el siguiente código.</p>
+<div id="7741cde9-12f5-4d39-89af-8b86a1ff7f58" class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>names_1 <span class="op">=</span> [<span class="st">'Oralie'</span> ,<span class="st">'Imojean'</span> ,<span class="st">'Michele'</span>, <span class="st">'Ailbert'</span>, <span class="st">'Stevy'</span>]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>names_2 <span class="op">=</span> [<span class="st">'Jayson'</span>, <span class="st">'Oralie'</span> ,<span class="st">'Michele'</span>, <span class="st">'Stevy'</span>, <span class="st">'Alwyn'</span>]</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>common <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> names_1 <span class="cf">for</span> b <span class="kw">in</span> names_2 <span class="cf">if</span> a <span class="op">==</span> b]</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>common</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                </section>
+            </section>
+            <section id="while-loop" class="level2" data-number="2.4">
+                <h2 data-number="2.4" class="anchored" data-anchor-id="while-loop"><span
+                        class="header-section-number">2.4</span> Bucle <code>while</code> en Python</h2>
+                        <p>El uso del <code>while</code> nos permite ejecutar una sección de código repetidas veces, de ahí su nombre. El código se ejecutará <strong>mientras</strong> una condición determinada se cumpla. Cuando se deje de cumplir, se saldrá del bucle y se continuará la ejecución normal. Llamaremos iteración a una ejecución completa del bloque de código.</p>
+                        <p>Cabe destacar que el <code>while</code> es un tipo de bucle con un número de iteraciones no definidas.</p>
+<div id="4e7d7b81-a5aa-4fb9-9fc2-37bc75d9a7c8" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> x <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">-=</span><span class="dv">1</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>En el ejemplo anterior tenemos un caso sencillo de <code>while</code>. Tenemos una condición <code>x&gt;0</code> y un bloque de código a ejecutar mientras dure esa condición. Por lo tanto mientras que <code>x</code> sea mayor que 0, se ejecutará el código. Una vez se llega al final, se vuelve a empezar y si la condición se cumple, se ejecuta otra vez. En este caso se entra al bloque de código 5 veces, hasta que en la sexta, <code>x</code> vale cero y por lo tanto la condición ya no se cumple. Por lo tanto el <code>while</code> tiene dos partes:</p>
+                        <ul>
+                        <li>La <strong>condición</strong> que se tiene que cumplir para que se ejecute el código.</li>
+                        <li>El <strong>bloque de código</strong> que se ejecutará mientras la condición se cumpla.</li>
+                        </ul>
+                        <p>¡Ten cuidado!, ya que un mal uso del <code>while</code> puede dar lugar a <strong>bucles infinitos</strong> y problemas de memoria y uso de CPU. Cierto es que en algún caso tal vez nos interese tener un bucle infinito, pero salvo que estemos seguros de lo que estamos haciendo, hay que tener cuidado. Imaginemos que tenemos un bucle cuya condición siempre se cumple. Por ejemplo, si ponemos <code>True</code> en la condición del <code>while</code>, siempre que se evalúe esa expresión, el resultado será <code>True</code> y se ejecutará el bloque de código. Una vez llegado al final del bloque, se volverá a evaluar la condición, se cumplirá, y vuelta a empezar.</p>
+                        <p>&#9888;&#9888;&#9888; <strong>No te recomiendo que ejecutes el siguiente código, pero puedes intentarlo.</strong> &#9888;&#9888;&#9888;</p>
+<div id="2241a5ed-d671-4654-8926-0a6fa857dd45" class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ⚠ ⚠ ⚠ ⚠ </span><span class="al">WARNING</span><span class="co">: bucle infinito</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Bucle infinito"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>Es posible tener un <code>while</code> en una sola línea, algo muy útil si el bloque que queremos ejecutar es corto. En el caso de tener más de una sentencia, las debemos separar con <code>;</code>.</p>
+<div id="68b8fff5-841d-436c-92e9-e6d2690d8b31" class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> x <span class="op">&gt;</span> <span class="dv">0</span>: x<span class="op">-=</span><span class="dv">1</span><span class="op">;</span> <span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>También podemos usar otro tipo de operación dentro del <code>while</code>, como la que se muestra a continuación. En este caso tenemos una lista que mientras no este vacía, vamos eliminando su primer elemento.</p>
+<div id="6e2025a0-8fa9-42d7-92da-ad8db68665d6" class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="st">"Uno"</span>, <span class="st">"Dos"</span>, <span class="st">"Tres"</span>]</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> x:</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    x.pop(<span class="dv">0</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+            </section>
+            <section id="break-continue-else" class="level2" data-number="2.5">
+                <h2 data-number="2.5" class="anchored" data-anchor-id="break-continue-else"><span
+                        class="header-section-number">2.5</span> <code>break</code>, <code>continue</code> y <code>else</code></h2>
+                        <p>La declaración <code>break</code> rompe el bucle <code>for</code> o <code>while</code> más interno. Un bucle <code>for</code> o <code>while</code> puede incluir una cláusula <code>else</code>. En un bucle <code>for</code>, la cláusula <code>else</code> se ejecuta después de que el bucle alcanza su iteración final. En un bucle <code>while</code>, se ejecuta después de que la condición del bucle se vuelve falsa. En cualquier tipo de bucle, la cláusula <code>else</code> <strong>NO</strong> se ejecuta si el bucle terminó con una interrupción.</p>
+                        <p>Esto se ejemplifica en el siguiente bucle <code>for</code>, que busca números primos:</p>
+<div id="24cdcfb3-541b-44f4-8aa7-089d4eb9bcae" class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">10</span>):</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, n):</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n <span class="op">%</span> x <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(n, <span class="st">'='</span>, x, <span class="st">'*'</span>, n<span class="op">//</span>x)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># bucle acaba sin hallar un factor</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(n, <span class="st">'es número primo'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>El uso de <code>continue</code>, al igual que el ya visto <code>break</code>, nos permite modificar el comportamiento de de los bucles <code>while</code> y <code>for</code>.</p>
+                        <p>Concretamente, <code>continue</code> se salta todo el código restante en la iteración actual y vuelve al principio en el caso de que aún queden iteraciones por completar.</p>
+                        <p>La diferencia entre el <code>break</code> y <code>continue</code> es que el <code>continue</code> <strong>NO</strong> rompe el bucle, si no que pasa a la siguiente iteración saltando el código pendiente.</p>
+                        <p>En el siguiente ejemplo vemos como al encontrar la letra “P” se llama al <code>continue</code>, lo que hace que se salte el <code>print()</code>. Es por ello por lo que no vemos la letra “P” impresa en pantalla.</p>
+<div id="17cf2aef-74cb-4b13-a34b-8f27188f886a" class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>cadena <span class="op">=</span> <span class="st">'Python'</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> letra <span class="kw">in</span> cadena:</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> letra <span class="op">==</span> <span class="st">'P'</span>:</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(letra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>A diferencia del <code>break</code>, el <code>continue</code> no rompe el bucle sino que finaliza la iteración actual, haciendo que todo el código que va después se salte, y se vuelva al principio a evaluar la condición.</p>
+                        <p>En el siguiente ejemplo podemos ver como cuando la <code>x</code> vale 3, se llama al <code>continue</code>, lo que hace que se salte el resto de código de la iteración.</p>
+<div id="e122ecb5-92b3-4645-ae1a-56a96927b6ae" class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> x <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">==</span> <span class="dv">3</span>:</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'x ='</span>,x,<span class="st">'| y ='</span>,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+            </section>
+            <section id="practice-exrcises" class="level2" data-number="2.6">
+                <h2 data-number="2.6" class="anchored" data-anchor-id="practice-exrcises"><span
+                        class="header-section-number">2.6</span> Ejercicios prácticos</h2>
+                        <ol type="1">
+                            <li>Cree un nuevo Notebook.</li>
+                            <li>Guarde el archivo como <strong>Ejercicios_practicos_clase_2.ipynb</strong>.</li>
+                            <li>Asigne un título <strong>H1</strong> con su nombre.</li>
+                            </ol>
+                            <section id="ejercicio-práctico-1" class="level3">
+                            <h3 class="anchored" data-anchor-id="ejercicio-práctico-1">Ejercicio práctico 1</h3>
+                            <ol type="1">
+                            <li>Escribe un programa que solicite al usuario ingresar 10 números enteros.</li>
+                            <li>El programa debe analizar cada número ingresado y clasificarlo como <strong>par</strong> o <strong>impar</strong>.</li>
+                            <li>Si el número es negativo, el programa debe saltar a la siguiente iteración utilizando <code>continue</code>.</li>
+                            <li>Si el número es 0, el programa debe terminar el bucle prematuramente utilizando <code>break</code>.</li>
+                            <li>Al final, el programa debe imprimir cuántos números fueron clasificados como <strong>par</strong> y cuántos como <strong>impar</strong>.</li>
+                            <li>Si el bucle termina sin que se haya encontrado un 0, imprime un mensaje adicional que indique que todos los números fueron procesados sin interrupción.</li>
+                            </ol>
+                            </section>
+                            <section id="ejercicio-práctico-2" class="level3">
+                            <h3 class="anchored" data-anchor-id="ejercicio-práctico-2">Ejercicio práctico 2</h3>
+                            <ol type="1">
+                            <li>Escribe un programa que actúe como una calculadora básica.</li>
+                            <li>El programa debe solicitar al usuario ingresar dos números y una operación (suma, resta, multiplicación, división).</li>
+                            <li>Utiliza <code>match-case</code> para realizar la operación correspondiente.</li>
+                            <li>Si la operación es división y el segundo número es 0, el programa debe mostrar un mensaje de error y solicitar una nueva operación.</li>
+                            <li>Permite al usuario continuar realizando operaciones hasta que decida salir ingresando la palabra “salir”.</li>
+                            </ol>
+            </section>
+        </main> <!-- /main -->
+        <script id="quarto-html-after-body" type="application/javascript">
+            window.document.addEventListener("DOMContentLoaded", function (event) {
+                const toggleBodyColorMode = (bsSheetEl) => {
+                    const mode = bsSheetEl.getAttribute("data-mode");
+                    const bodyEl = window.document.querySelector("body");
+                    if (mode === "dark") {
+                        bodyEl.classList.add("quarto-dark");
+                        bodyEl.classList.remove("quarto-light");
+                    } else {
+                        bodyEl.classList.add("quarto-light");
+                        bodyEl.classList.remove("quarto-dark");
+                    }
+                }
+                const toggleBodyColorPrimary = () => {
+                    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+                    if (bsSheetEl) {
+                        toggleBodyColorMode(bsSheetEl);
+                    }
+                }
+                toggleBodyColorPrimary();
+                const icon = "";
+                const anchorJS = new window.AnchorJS();
+                anchorJS.options = {
+                    placement: 'right',
+                    icon: icon
+                };
+                anchorJS.add('.anchored');
+                const isCodeAnnotation = (el) => {
+                    for (const clz of el.classList) {
+                        if (clz.startsWith('code-annotation-')) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                const clipboard = new window.ClipboardJS('.code-copy-button', {
+                    text: function (trigger) {
+                        const codeEl = trigger.previousElementSibling.cloneNode(true);
+                        for (const childEl of codeEl.children) {
+                            if (isCodeAnnotation(childEl)) {
+                                childEl.remove();
+                            }
+                        }
+                        return codeEl.innerText;
+                    }
+                });
+                clipboard.on('success', function (e) {
+                    // button target
+                    const button = e.trigger;
+                    // don't keep focus
+                    button.blur();
+                    // flash "checked"
+                    button.classList.add('code-copy-button-checked');
+                    var currentTitle = button.getAttribute("title");
+                    button.setAttribute("title", "Copied!");
+                    let tooltip;
+                    if (window.bootstrap) {
+                        button.setAttribute("data-bs-toggle", "tooltip");
+                        button.setAttribute("data-bs-placement", "left");
+                        button.setAttribute("data-bs-title", "Copied!");
+                        tooltip = new bootstrap.Tooltip(button,
+                            {
+                                trigger: "manual",
+                                customClass: "code-copy-button-tooltip",
+                                offset: [0, -8]
+                            });
+                        tooltip.show();
+                    }
+                    setTimeout(function () {
+                        if (tooltip) {
+                            tooltip.hide();
+                            button.removeAttribute("data-bs-title");
+                            button.removeAttribute("data-bs-toggle");
+                            button.removeAttribute("data-bs-placement");
+                        }
+                        button.setAttribute("title", currentTitle);
+                        button.classList.remove('code-copy-button-checked');
+                    }, 1000);
+                    // clear code selection
+                    e.clearSelection();
+                });
+                function tippyHover(el, contentFn) {
+                    const config = {
+                        allowHTML: true,
+                        content: contentFn,
+                        maxWidth: 500,
+                        delay: 100,
+                        arrow: false,
+                        appendTo: function (el) {
+                            return el.parentElement;
+                        },
+                        interactive: true,
+                        interactiveBorder: 10,
+                        theme: 'quarto',
+                        placement: 'bottom-start'
+                    };
+                    window.tippy(el, config);
+                }
+                const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+                for (var i = 0; i < noterefs.length; i++) {
+                    const ref = noterefs[i];
+                    tippyHover(ref, function () {
+                        // use id or data attribute instead here
+                        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+                        try { href = new URL(href).hash; } catch { }
+                        const id = href.replace(/^#\/?/, "");
+                        const note = window.document.getElementById(id);
+                        return note.innerHTML;
+                    });
+                }
+                let selectedAnnoteEl;
+                const selectorForAnnotation = (cell, annotation) => {
+                    let cellAttr = 'data-code-cell="' + cell + '"';
+                    let lineAttr = 'data-code-annotation="' + annotation + '"';
+                    const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+                    return selector;
+                }
+                const selectCodeLines = (annoteEl) => {
+                    const doc = window.document;
+                    const targetCell = annoteEl.getAttribute("data-target-cell");
+                    const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+                    const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                    const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+                    const lineIds = lines.map((line) => {
+                        return targetCell + "-" + line;
+                    })
+                    let top = null;
+                    let height = null;
+                    let parent = null;
+                    if (lineIds.length > 0) {
+                        //compute the position of the single el (top and bottom and make a div)
+                        const el = window.document.getElementById(lineIds[0]);
+                        top = el.offsetTop;
+                        height = el.offsetHeight;
+                        parent = el.parentElement.parentElement;
+                        if (lineIds.length > 1) {
+                            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                            height = bottom - top;
+                        }
+                        if (top !== null && height !== null && parent !== null) {
+                            // cook up a div (if necessary) and position it 
+                            let div = window.document.getElementById("code-annotation-line-highlight");
+                            if (div === null) {
+                                div = window.document.createElement("div");
+                                div.setAttribute("id", "code-annotation-line-highlight");
+                                div.style.position = 'absolute';
+                                parent.appendChild(div);
+                            }
+                            div.style.top = top - 2 + "px";
+                            div.style.height = height + 4 + "px";
+                            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                            if (gutterDiv === null) {
+                                gutterDiv = window.document.createElement("div");
+                                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                                gutterDiv.style.position = 'absolute';
+                                const codeCell = window.document.getElementById(targetCell);
+                                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                                gutter.appendChild(gutterDiv);
+                            }
+                            gutterDiv.style.top = top - 2 + "px";
+                            gutterDiv.style.height = height + 4 + "px";
+                        }
+                        selectedAnnoteEl = annoteEl;
+                    }
+                };
+                const unselectCodeLines = () => {
+                    const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+                    elementsIds.forEach((elId) => {
+                        const div = window.document.getElementById(elId);
+                        if (div) {
+                            div.remove();
+                        }
+                    });
+                    selectedAnnoteEl = undefined;
+                };
+                // Attach click handler to the DT
+                const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+                for (const annoteDlNode of annoteDls) {
+                    annoteDlNode.addEventListener('click', (event) => {
+                        const clickedEl = event.target;
+                        if (clickedEl !== selectedAnnoteEl) {
+                            unselectCodeLines();
+                            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+                            if (activeEl) {
+                                activeEl.classList.remove('code-annotation-active');
+                            }
+                            selectCodeLines(clickedEl);
+                            clickedEl.classList.add('code-annotation-active');
+                        } else {
+                            // Unselect the line
+                            unselectCodeLines();
+                            clickedEl.classList.remove('code-annotation-active');
+                        }
+                    });
+                }
+                const findCites = (el) => {
+                    const parentEl = el.parentElement;
+                    if (parentEl) {
+                        const cites = parentEl.dataset.cites;
+                        if (cites) {
+                            return {
+                                el,
+                                cites: cites.split(' ')
+                            };
+                        } else {
+                            return findCites(el.parentElement)
+                        }
+                    } else {
+                        return undefined;
+                    }
+                };
+                var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+                for (var i = 0; i < bibliorefs.length; i++) {
+                    const ref = bibliorefs[i];
+                    const citeInfo = findCites(ref);
+                    if (citeInfo) {
+                        tippyHover(citeInfo.el, function () {
+                            var popup = window.document.createElement('div');
+                            citeInfo.cites.forEach(function (cite) {
+                                var citeDiv = window.document.createElement('div');
+                                citeDiv.classList.add('hanging-indent');
+                                citeDiv.classList.add('csl-entry');
+                                var biblioDiv = window.document.getElementById('ref-' + cite);
+                                if (biblioDiv) {
+                                    citeDiv.innerHTML = biblioDiv.innerHTML;
+                                }
+                                popup.appendChild(citeDiv);
+                            });
+                            return popup.innerHTML;
+                        });
+                    }
+                }
+            });
+        </script>
+        <nav class="page-navigation">
+            <div class="nav-page nav-page-previous">
+                <a href="./01_Intro_Python.html" class="pagination-link">
+                    <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span
+                            class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a Python</span></span>
+                </a>
+            </div>
+            <div class="nav-page nav-page-next">
+                <a href="./03_Estructura_datos.html" class="pagination-link">
+                    <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span
+                            class="chapter-title">Estructuras de Datos Avanzadas</span></span> <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- /content -->
+
+
+
+</body>
+
+</html>
