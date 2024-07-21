@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.3.450">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="author" content="Andrés Quintero-Zea">
+    <meta name="dcterms.date" content="2024-07-15">
+
+    <title>Funciones en Python</title>
+    <style>
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        div.hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        ul.task-list {
+            list-style: none;
+        }
+
+        ul.task-list li input[type="checkbox"] {
+            width: 0.8em;
+            margin: 0 0.8em 0.2em -1em;
+            /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+            vertical-align: middle;
+        }
+
+        /* CSS for syntax highlighting */
+        pre>code.sourceCode {
+            white-space: pre;
+            position: relative;
+        }
+
+        pre>code.sourceCode>span {
+            display: inline-block;
+            line-height: 1.25;
+        }
+
+        pre>code.sourceCode>span:empty {
+            height: 1.2em;
+        }
+
+        .sourceCode {
+            overflow: visible;
+        }
+
+        code.sourceCode>span {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        div.sourceCode {
+            margin: 1em 0;
+        }
+
+        pre.sourceCode {
+            margin: 0;
+        }
+
+        @media screen {
+            div.sourceCode {
+                overflow: auto;
+            }
+        }
+
+        @media print {
+            pre>code.sourceCode {
+                white-space: pre-wrap;
+            }
+
+            pre>code.sourceCode>span {
+                text-indent: -5em;
+                padding-left: 5em;
+            }
+        }
+
+        pre.numberSource code {
+            counter-reset: source-line 0;
+        }
+
+        pre.numberSource code>span {
+            position: relative;
+            left: -4em;
+            counter-increment: source-line;
+        }
+
+        pre.numberSource code>span>a:first-child::before {
+            content: counter(source-line);
+            position: relative;
+            left: -1em;
+            text-align: right;
+            vertical-align: baseline;
+            border: none;
+            display: inline-block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 0 4px;
+            width: 4em;
+        }
+
+        pre.numberSource {
+            margin-left: 3em;
+            padding-left: 4px;
+        }
+
+
+        @media screen {
+            pre>code.sourceCode>span>a:first-child::before {
+                text-decoration: underline;
+            }
+        }
+    </style>
+
+    <script src="assets/quarto-nav/quarto-nav.js"></script>
+    <script src="assets/quarto-nav/headroom.min.js"></script>
+    <script src="assets/clipboard/clipboard.min.js"></script>
+    <script src="assets/quarto-search/autocomplete.umd.js"></script>
+    <script src="assets/quarto-search/fuse.min.js"></script>
+    <script src="assets/quarto-search/quarto-search.js"></script>
+    <meta name="quarto:offset" content="./">
+    <link href="./04_Estructura_datos.html" rel="next">
+    <link href="./02_Estructuras_control.html" rel="prev">
+    <script src="assets/quarto-html/quarto.js"></script>
+    <script src="assets/quarto-html/popper.min.js"></script>
+    <script src="assets/quarto-html/tippy.umd.min.js"></script>
+    <script src="assets/quarto-html/anchor.min.js"></script>
+    <link href="assets/quarto-html/tippy.css" rel="stylesheet">
+    <link href="assets/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet"
+        id="quarto-text-highlighting-styles">
+    <script src="assets/bootstrap/bootstrap.min.js"></script>
+    <link href="assets/bootstrap/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+    <script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"
+        integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script type="application/javascript">define('jquery', [], function () { return window.jQuery; })</script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+    <!-- content -->
+    <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+        <!-- sidebar -->
+        <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+            <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+                <img src="./LogoNuevo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+                <div class="sidebar-title mb-0 py-0">
+                    <a href="./index.html">Programación PRE2013A45</a>
+                </div>
+            </div>
+            <div class="sidebar-menu-container">
+                <ul class="list-unstyled mt-1">
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+                                <span class="menu-text">Python</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./01_Intro_Python.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Python</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./02_Estructuras_control.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Control</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./03_Funciones.html" class="sidebar-item-text sidebar-link  active">
+                                        <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span
+                                                class="chapter-title">Funciones</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./04_Estructura_datos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Datos Avanzadas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./05_Archivos_excepciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span
+                                                class="chapter-title">Manejo de Archivos y Excepciones</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+                                <span class="menu-text">Análisis de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./06_Numpy.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Numpy</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./07_Pandas.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span
+                                                class="chapter-title">Manipulación de Datos con Pandas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./08_EDA.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span
+                                                class="chapter-title">Análisis Exploratorio de Datos
+                                                (EDA)</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./09_Matplotlib.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Matplotlib</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./10_Seaborn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Seaborn</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+                                <span class="menu-text">Ciencia de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./11_Intro_DS.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span
+                                                class="chapter-title">Introducción a la Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./12_Estadistica.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span
+                                                class="chapter-title">Fundamentos de Estadística para Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./13_Preparacion_modelos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span
+                                                class="chapter-title">Preparación de Datos para
+                                                Modelado</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./14_Scikit_learn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span
+                                                class="chapter-title">Introducción al Machine Learning con
+                                                Scikit-Learn</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./15_Clasificacion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Clasificación</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./16_Regresion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Regresión</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass">
+        </div>
+        <!-- margin-sidebar -->
+        <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+            <nav id="TOC" role="doc-toc" class="toc-active">
+                <h2 id="toc-title">Tabla de contenidos</h2>
+
+                <ul>
+                    <li><a href="#objetivo" id="toc-objetivo" class="nav-link active"
+                            data-scroll-target="#objetivo">Objetivo</a></li>
+                    <li><a href="#argin-manage" id="toc-argin-manage" class="nav-link active"
+                            data-scroll-target="#argin-manage"><span class="header-section-number">3.1</span>
+                            Manejo de argumentos de entrada</a>
+                        <ul class="collapse">
+                            <li><a href="#position-args" id="toc-position-args" class="nav-link"
+                                    data-scroll-target="#position-args"><span class="header-section-number">3.1.1</span>
+                                    Argumentos por posición</a></li>
+                            <li><a href="#keyword-args" id="toc-keyword-args" class="nav-link"
+                                    data-scroll-target="#keyword-args"><span class="header-section-number">3.1.2</span>
+                                    Argumentos por nombre</a></li>
+                            <li><a href="#default-args" id="toc-default-args" class="nav-link"
+                                    data-scroll-target="#default-args"><span class="header-section-number">3.1.3</span>
+                                    Argumentos por defecto </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#variable-args" id="toc-variable-args" class="nav-link active"
+                            data-scroll-target="#variable-args"><span class="header-section-number">3.2</span>
+                            Argumentos de longitud variable (<code>*args</code> y <code>*kwargs</code>)</a>
+                        <ul class="collapse">
+                            <li><a href="#args-args" id="toc-args-args" class="nav-link"
+                                    data-scroll-target="#args-args"><span class="header-section-number">3.2.1</span> Uso
+                                    de <code>*args</code></a></li>
+                            <li><a href="#kwargs-args" id="toc-kwargs-args" class="nav-link"
+                                    data-scroll-target="#kwargs-args"><span class="header-section-number">3.2.2</span>
+                                    Uso de <code>*kwargs</code></a></li>
+                            <li><a href="#both-args" id="toc-both-args" class="nav-link"
+                                    data-scroll-target="#both-args"><span class="header-section-number">3.2.3</span>
+                                    Uso combinado de <code>*args</code> y <code>*kwargs</code></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#return-clause" id="toc-return-clause" class="nav-link"
+                            data-scroll-target="#return-clause"><span class="header-section-number">3.3</span>
+                            Sentencia <code>return</code></a></li>
+                    <li><a href="#docstring" id="toc-docstring" class="nav-link"
+                            data-scroll-target="#docstring"><span class="header-section-number">3.4</span>
+                            Documentación</a></li>
+                    <li><a href="#value-refer" id="toc-value-refer" class="nav-link"
+                            data-scroll-target="#value-refer"><span class="header-section-number">3.5</span>
+                            Paso por valor y referencia</a></li>
+                    <li><a href="#lambda-funcs" id="toc-lambda-funcs" class="nav-link"
+                            data-scroll-target="#lambda-funcs"><span class="header-section-number">3.6</span>
+                            Funciones <it>lambda</it></a></li>
+                    <li><a href="#recursion" id="toc-recursion" class="nav-link active"
+                            data-scroll-target="#recursion"><span class="header-section-number">3.7</span>
+                            Recursividad</a>
+                        <ul class="collapse">
+                            <li><a href="#factorial" id="toc-factorial" class="nav-link"
+                                    data-scroll-target="#factorial"><span class="header-section-number">3.7.1</span>
+                                    Cálculo del factorial</a></li>
+                            <li><a href="#fibonacci" id="toc-fibonacci" class="nav-link"
+                                    data-scroll-target="#fibonacci"><span class="header-section-number">3.7.2</span>
+                                    Serie de Fibonacci</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link"
+                            data-scroll-target="#practice-exercises"><span class="header-section-number">3.8</span>
+                            Ejercicios prácticos</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- main -->
+        <main class="content" id="quarto-document-content">
+
+            <header id="title-block-header" class="quarto-title-block default">
+                <div class="quarto-title">
+                    <h1 class="title"><span class="chapter-number">3</span>&nbsp; <span
+                            class="chapter-title">Funciones en Python</span></h1>
+                </div>
+                <div class="quarto-title-meta"> </div>
+            </header>
+            <section id="objetivo" class="level1">
+                <h1 class="anchored" data-anchor-id="objetivo">Objetivo</h1>
+                <p>Aprender a definir y utilizar funciones en Python, incluyendo el manejo de argumentos por
+                    posición y por nombre, el uso de <code>*args</code> y <code>*kwargs</code>, la creación de
+                    funciones <it>lambda</it>, la implementación de recursividad y la documentación de funciones
+                    con <it>docstrings</it>.</p>
+            <p>Anteriormente hemos usado funciones nativas que vienen con Python como <code>len()</code> para 
+                calcular la longitud de una lista, pero al igual que en otros lenguajes de programación, 
+                también podemos definir nuestras propias funciones. Para ello hacemos uso de <code>def</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nombre_funcion(argumentos):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    código</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> retorno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Cualquier función tendrá un nombre, unos argumentos de entrada, un código a ejecutar y unos parámetros de salida. Al igual que las funciones matemáticas, en programación nos permiten realizar diferentes operaciones con la entrada, para entregar una determinada salida que dependerá del código que escribamos dentro. Por lo tanto, es totalmente análogo al clásico <span class="math inline">\(y=f(x)\)</span> de las matemáticas.</p>
+<div id="729e5ebe-63c4-4195-83b0-845f55e8daf1" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>x</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(<span class="dv">3</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Algo que diferencia en cierto modo las funciones en el mundo de la programación, es que no sólo realizan una 
+    operación con sus entradas, sino que también parten de los siguientes principios: </p>
+    <ul>
+        <li>
+            El principio de <strong>reusabilidad</strong>, que nos dice que si por ejemplo tenemos un fragmento 
+            de código usado en muchos sitios, la mejor solución sería pasarlo a una función. Esto nos evitaría 
+            tener código repetido, y que modificarlo fuera más fácil, ya que bastaría con cambiar la función una vez. 
+        </li>
+        <li>
+            Y el principio de <strong>modularidad</strong>, que defiende que en vez de escribir largos trozos de código, es mejor crear 
+            módulos o funciones que agrupen ciertos fragmentos de código en funcionalidades específicas, haciendo que el 
+            código resultante sea más fácil de leer.
+        </li>
+    </ul>  
+</section>
+            <section id="argin-manage" class="level2" data-number="3.1">
+                <h2 data-number="3.1" class="anchored" data-anchor-id="argin-manage"><span
+                        class="header-section-number">3.1</span> Manejo de argumentos de entrada</h2>
+                        <p>Empecemos por la función más sencilla de todas. Una función sin parámetros de entrada ni parámetros de salida.</p>
+<div id="1970da1c-b2ed-453d-942a-52b9fe4b810e" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> di_hola():</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Hola"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>Hemos declarado o definido la función. El siguiente paso es llamarla con <code>di_hola()</code>. Si lo realizamos veremos que se imprime Hola.</p>
+<div id="536f89fe-3227-477f-b480-e58de2f2d1c5" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>di_hola()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>Vamos a complicar un poco las cosas pasando un argumento de entrada. Ahora si pasamos como entrada un nombre, se imprimirá Hola y el nombre.</p>
+<div id="1e09c01c-8440-423d-ad23-7c73f9ec9acd" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> di_hola(nombre):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Hola"</span>, nombre)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>di_hola(<span class="st">"Juan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                        <p>Python permite pasar argumentos también de otras formas. A continuación las explicamos todas.</p>
+                <section id="position-args" class="level3" data-number="3.1.1">
+                    <h3 data-number="3.1.1" class="anchored" data-anchor-id="position-args"><span
+                            class="header-section-number">3.1.1</span> Argumentos por posición</h3>
+<p>Los argumentos por posición o <em>posicionales</em> son la forma más básica e intuitiva de pasar parámetros. Si tenemos una función <code>resta()</code> que acepta dos parámetros, se puede llamar como se muestra a continuación.</p>
+<div id="4a2b8d83-cbcb-4560-9dff-c5afa85def44" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resta(a, b):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">-</span>b</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>resta(<span class="dv">5</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Al tratarse de parámetros posicionales, se interpretará que el primer número es la <code>a</code> y el segundo la <code>b</code>. El número de parámetros es fijo, por lo que si intentamos llamar a la función con solo uno, dará error.</p>
+<div id="323c17d0-ae68-4faf-9a7d-2f382855ff29" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>resta(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tampoco es posible usar mas argumentos de los tiene la función definidos, ya que no sabría que hacer con ellos. Por lo tanto si lo intentamos, Python nos dirá que toma 2 posicionales y estamos pasando 3, lo que no es posible.</p>
+<div id="70f90df5-5fde-4f86-b6c6-9f184d1ab7f0" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>resta(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+                <section id="keyword-args" class="level3" data-number="3.1.2">
+                    <h3 data-number="3.1.2" class="anchored" data-anchor-id="keyword-args"><span
+                            class="header-section-number">3.1.2</span> Argumentos por nombre</h3>
+<p>Otra forma de llamar a una función, es usando el nombre del argumento con <code>=</code> y su valor. El siguiente código hace lo mismo que el código anterior, con la diferencia de que los argumentos no son posicionales.</p>
+<div id="1617b8ed-4964-46ac-a14f-4c8da1e691c6" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>resta(a<span class="op">=</span><span class="dv">3</span>, b<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Al indicar en la llamada a la función el nombre de la variable y el valor, el orden ya no importa, y se podría llamar de la siguiente forma.</p>
+<div id="0801d9bc-ca26-42c8-8d6c-36e767d54b9c" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>resta(b<span class="op">=</span><span class="dv">5</span>, a<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como es de esperar, si indicamos un argumento que no ha sido definido como parámetro de entrada, tendremos un error.</p>
+<div id="8a411aef-32f3-43dd-9822-ba529c8ced62" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>resta(b<span class="op">=</span><span class="dv">5</span>, c<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>      
+                    </section>
+                <section id="default-args" class="level3" data-number="3.1.3">
+                    <h3 data-number="3.1.3" class="anchored" data-anchor-id="default-args"><span
+                            class="header-section-number">3.1.3</span> Argumentos por defecto</h3>
+<p>Tal vez queramos tener una función con algún parámetro opcional, que pueda ser usado o no dependiendo de diferentes circunstancias. Para ello, lo que podemos hacer es asignar un valor por defecto a la función. En el siguiente caso <code>c</code> valdría cero salvo que se indique lo contrario.</p>
+<div id="d0320d53-096d-4975-860e-38ee0b76ec34" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(a, b, c<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">+</span>b<span class="op">+</span>c</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dado que el parámetro <code>c</code> tiene un valor por defecto, la función puede ser llamada sin ese valor.</p>
+<div id="f5514763-5a06-439b-86a7-70d09d93e042" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">4</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Podemos incluso asignar un valor por defecto a todos los parámetros, por lo que se podría llamar a la función sin ningún argumento de entrada.</p>
+<div id="984e98ad-e595-4e5a-ae7e-b4b81a24de4f" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(a<span class="op">=</span><span class="dv">3</span>, b<span class="op">=</span><span class="dv">5</span>, c<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">+</span>b<span class="op">+</span>c</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>suma()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Las siguientes llamadas a la función también son válidas</p>
+<div id="90579b8e-1072-4d76-9a5c-2245152c45d1" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">4</span>,<span class="dv">5</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>O haciendo uso de lo que hemos visto antes y usando los nombres de los argumentos.</p>       
+                    </section>
+            </section>
+            <section id="variable-args" class="level2" data-number="3.2">
+                <h2 data-number="3.2" class="anchored" data-anchor-id="variable-args"><span
+                        class="header-section-number">3.2</span> Argumentos de longitud variable 
+                        (<code>*args</code> y <code>*kwargs</code>)</h2>
+<p>Si alguna vez has tenido que definir una función con un número variable de argumentos y no has sabido como hacerlo, a continuación te explicamos cómo gracias a los <code>args</code> y <code>kwargs</code> en Python.</p>
+<p>Vamos a suponer que queremos una función que sume un conjunto de números, pero no sabemos a priori la cantidad de números que se quieren sumar. Si por ejemplo tuviéramos tres, la función sería tan sencilla como la siguiente.</p>
+<div id="609fc10a-c5ef-4a50-aa4d-8d599032acec" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(a, b, c):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">+</span>b<span class="op">+</span>c</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El problema surge si por ejemplo queremos sumar cuatro números. Como es evidente, la siguiente llamada a la función anterior daría un error ya que estamos usando cuatro argumentos mientras que la función sólo soporta tres.</p>
+<div id="a083dee0-bc0c-4422-a341-8127ac8f389d" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Introducida ya la problemática, veamos como podemos resolver este problema con <code>*args</code> y <code>**kwargs</code> en Python.</p>		
+                <section id="args-args" class="level3" data-number="3.2.1">
+                    <h3 data-number="3.2.1" class="anchored" data-anchor-id="args-args"><span
+                            class="header-section-number">3.2.1</span> Uso de <code>*args</code></h3>
+<p>Gracias a los <code>*args</code> en Python, podemos definir funciones cuyo número de argumentos es variable. Es decir, podemos definir funciones genéricas que no aceptan un número determinado de parámetros, sino que se “<em>adaptan</em>” al número de argumentos con los que son llamados.</p>
+<p>De hecho, el <code>args</code> viene de <em>arguments</em> en Inglés, o argumentos. Haciendo uso de <code>*args</code> en la declaración de la función podemos hacer que el número de parámetros que acepte sea variable.</p>
+<div id="d9fd6681-fdd3-4747-ae74-84f7a128651d" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(<span class="op">*</span>args):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arg <span class="kw">in</span> args:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        s <span class="op">+=</span> arg</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suma(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>))</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suma(<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Antes de nada, el uso del nombre <code>args</code> es totalmente arbitrario, por lo que podrías haberlo llamado como quisieras. Es una mera convención entre los usuarios de Python y resulta frecuente darle ese nombre. Lo que si es un requisito, es usar <code>*</code> junto al nombre.</p>
+<p>En el ejemplo anterior hemos visto como <code>*args</code> puede ser iterado, ya que en realidad es una <strong>tupla</strong>. Por lo tanto iterando la tupla podemos acceder a todos los argumentos de entrada, y en nuestro caso sumarlos y devolverlos.</p>
+<p>Nótese que es un mero ejemplo didáctico. En realidad podríamos hacer algo como lo siguiente, lo que sería mucho más sencillo.</p>
+<div id="3e1c70d5-63f4-4a75-90ac-2612f435dc6a" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(<span class="op">*</span>args):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(args)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Con esto resolvemos nuestro problema inicial, en el que necesitábamos un número variable de argumentos. Sin embargo, hay otra forma que nos proporciona además un nombre asociado al argumento, con el uso de <code>**kwargs</code>. La explicamos a continuación.</p>
+                    </section>
+					
+                <section id="kwargs-args" class="level3" data-number="3.2.2">
+                    <h3 data-number="3.2.2" class="anchored" data-anchor-id="kwargs-args"><span
+                            class="header-section-number">3.2.2</span> Uso de <code>*kwargs</code></h3>
+<p>Al igual que en <code>*args</code>, en <code>**kwargs</code> el nombre es una mera convención entre los usuarios de Python. Puedes usar cualquier otro nombre siempre y cuando respetes el <code>**</code>.</p>
+<p>En este caso, en vez de tener una tupla tenemos un diccionario. Puedes verificarlo de la siguiente forma con <code>type()</code>.</p>
+<div id="80f08f82-82de-45f0-b6bb-41544671bc74" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(<span class="op">**</span>kwargs):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(kwargs))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>suma(x <span class="op">=</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pero veamos un ejemplo más completo. A diferencia de <code>*args</code>, los <code>**kwargs</code> nos permiten dar un nombre a cada argumento de entrada, pudiendo acceder a ellos dentro de la función a través de un diccionario.</p>
+<div id="4b2c660f-d91b-4ac3-afe3-e136dcbe4559" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(<span class="op">**</span>kwargs):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> kwargs.items():</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(key, <span class="st">"="</span>, value)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        s <span class="op">+=</span> value</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>suma(a<span class="op">=</span><span class="dv">3</span>, b<span class="op">=</span><span class="dv">10</span>, c<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como podemos ver, es posible iterar los argumentos de entrada con <code>items()</code>, y podemos acceder a la clave <em>key</em> y el valor o <em>value</em> de cada argumento.</p>
+<p>El uso de los <code>**kwargs</code> es muy útil si además de querer acceder al valor de las variables dentro de la función, quieres darles un nombre que brinde una información extra.</p>
+                    </section>
+					
+                <section id="both-args" class="level3" data-number="3.2.3">
+                    <h3 data-number="3.2.3" class="anchored" data-anchor-id="both-args"><span
+                            class="header-section-number">3.2.3</span> Uso combinado de <code>*args</code> y
+                            <code>*kwargs</code></h3>
+<p>Una vez entendemos el uso de <code>*args</code> y <code>**kwargs</code>, podemos complicar las cosas un poco más. Es posible mezclar argumentos normales con <code>*args</code> y <code>**kwargs</code> dentro de la misma función. Lo único que necesitas saber es que debes definir la función en el siguiente orden:</p>
+<ul>
+<li>Primero argumentos por posición.</li>
+<li>Luego, los argumentos por defecto.</li>
+<li>Después los <code>*args</code>.</li>
+<li>Y por último los <code>**kwargs</code>.</li>
+</ul>
+<p>Veamos un ejemplo.</p>
+<div id="262ab3e4-2efb-46e1-ba25-32dc57b5b446" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(a, b <span class="op">=</span> <span class="dv">0</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"a ="</span>, a)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"b ="</span>, b)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arg <span class="kw">in</span> args:</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"args ="</span>, arg)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> kwargs.items():</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(key, <span class="st">"="</span>, value)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>funcion(<span class="dv">10</span>, <span class="dv">35</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, x<span class="op">=</span><span class="st">"Hola"</span>, y<span class="op">=</span><span class="st">"Que"</span>, z<span class="op">=</span><span class="st">"Tal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y por último un truco que no podemos dejar sin mencionar es lo que se conoce como <em>tuple unpacking</em>. Haciendo uso de <code>*</code>, podemos extraer los valores de una lista o tupla y que sean pasados como argumentos a la función.</p>
+<div id="b794b06f-d325-42bc-a7a7-799eeb46cb58" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(a, b, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"a ="</span>, a)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"b ="</span>, b)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arg <span class="kw">in</span> args:</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"args ="</span>, arg)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> kwargs.items():</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(key, <span class="st">"="</span>, value)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>args <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> {<span class="st">'x'</span>:<span class="st">"Hola"</span>, <span class="st">'y'</span>:<span class="st">"Que"</span>, <span class="st">'z'</span>:<span class="st">"Tal"</span>}</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>funcion(<span class="dv">10</span>, <span class="dv">20</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>      
+                    </section>
+            </section>
+
+            <section id="return-clause" class="level2" data-number="3.3">
+                <h2 data-number="3.3" class="anchored" data-anchor-id="return-clause"><span
+                        class="header-section-number">3.3</span> Sentencia <code>return</code> </h2>
+<p>El uso de la sentencia <code>return</code> permite realizar dos cosas:</p>
+    <ul>
+        <li>Salir de la función y transferir la ejecución de vuelta a donde se realizó la llamada. </li>
+        <li>Devolver uno o varios parámetros, fruto de la ejecución de la función.</li>
+    </ul>
+<p>En lo relativo a lo primero, una vez se llama a <code>return</code> se para la ejecución de la función y se vuelve o retorna al punto donde fue llamada. Es por ello por lo que el código que va después del <code>return</code> no es ejecutado en el siguiente ejemplo.</p>
+<div id="4e2b7b43-80f3-488b-b1f0-729051b4b773" class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mi_funcion():</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Entra en mi_funcion"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No llega"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>mi_funcion()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por ello, sólo llamamos a <code>return</code> una vez hemos acabado de hacer lo que teníamos que hacer en la función.</p>
+<p>Por otro lado, se pueden devolver parámetros. Normalmente las funciones son llamadas para realizar unos cálculos con base en una entrada, por lo que es interesante poder devolver ese resultado a quien llamó a la función.</p>
+<div id="f2482616-3c99-4057-afe9-091a5f4ce02e" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> di_hola():</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Hola"</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>di_hola()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También es posible devolver mas de una variable, separadas por <code>,</code>. En el siguiente ejemplo tenemos una función que calcula la suma y media de tres números, y devuelve su resultado.</p>
+<div id="c92940be-53b6-4283-898f-b960396c7051" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma_y_media(a, b, c):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    suma <span class="op">=</span> a<span class="op">+</span>b<span class="op">+</span>c</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    media <span class="op">=</span> suma<span class="op">/</span><span class="dv">3</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> suma, media</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>suma, media <span class="op">=</span> suma_y_media(<span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">3</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suma)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(media)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>			
+            </section>
+			
+            <section id="docstring" class="level2" data-number="3.4">
+                <h2 data-number="3.4" class="anchored" data-anchor-id="docstring"><span
+                        class="header-section-number">3.4</span> Documentación</h2>
+<p>Ahora que ya tenemos nuestras propias funciones creadas, tal vez alguien se interese en ellas y podamos compartírselas. Las funciones pueden ser muy complejas y leer código ajeno no es tarea fácil. Es por ello por lo que es importante documentar las funciones. Es decir, añadir comentarios para indicar como deben ser usadas.</p>
+<div id="5578bd72-f320-4efc-924f-f6a0bbc66a47" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mi_funcion_suma(a, b):</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Descripción de la función. Como debe ser usada,</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">    que parámetros acepta y que devuelve</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">+</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para ello debemos usar la triple comilla <code>"""</code> o triple apóstrofo <code>'''</code> al principio de la función. Se trata de una especie de comentario que podemos usar para indicar como la función debe ser usada. No se trata de código, es un simple comentario un tanto especial, conocido como <strong>docstring</strong>.</p>
+<p>Ahora cualquier persona que tenga nuestra función, podrá llamar a la función <code>help()</code> y obtener la ayuda de como debe ser usada.</p>
+<div id="a97ef7df-ed0d-4a48-a5ab-392179f777a3" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(mi_funcion_suma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Otra forma de acceder a la documentación es la siguiente.</p>
+<div id="d647fe84-d6db-4de9-b1f0-a16f13c8f269" class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mi_funcion_suma.__doc__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Para saber más:</strong> Las descripciones de las funciones suelen ser un poco mas detalladas de lo que hemos mostrado. En la <a href="https://www.python.org/dev/peps/pep-0257/">PEP257</a> se define en detalle como debería ser.</p>			
+            </section>
+
+            <section id="value-refer" class="level2" data-number="3.5">
+                <h2 data-number="3.5" class="anchored" data-anchor-id="value-refer"><span
+                        class="header-section-number">3.5</span> Paso por valor y referencia</h2>
+<p>En muchos lenguajes de programación existen los conceptos de paso por <strong>valor</strong> y por <strong>referencia</strong> que aplican a la hora de como trata una función a los parámetros que se le pasan como entrada. Su comportamiento es el siguiente:</p>
+<ul>
+<li>Si usamos un parámetro pasado por <strong>valor</strong>, se creará una copia local de la variable, lo que implica que cualquier modificación sobre la misma no tendrá efecto sobre la original.</li>
+<li>Con una variable pasada como <strong>referencia</strong>, se actuará directamente sobre la variable pasada, por lo que las modificaciones afectarán a la variable original.</li>
+</ul>
+<p>En Python las cosas son un poco distintas y el comportamiento estará definido por el tipo de variable con la que estamos tratando. Veamos un ejemplo de paso por valor.</p>
+<div id="9b47d935-d3f0-4d78-b35c-5d2c791a6fdd" class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(entrada):</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    entrada <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>funcion(x)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Iniciamos la <code>x</code> a 10 y se la pasamos a <code>funcion()</code>. Dentro de la función hacemos que la variable valga 0. Dado que Python trata a los <code>int</code> como pasados por <strong>valor</strong>, dentro de la función se crea una copia local de <code>x</code>, por lo que la variable original no es modificada.</p>
+<p>No pasa lo mismo si por ejemplo <code>x</code> es una lista como en el siguiente ejemplo. En este caso Python lo trata como si estuviese pasada por <strong>referencia</strong>, lo que hace que se modifique la variable original. La variable original <code>x</code> ha sido modificada.</p>
+<div id="14d88e0e-0d6e-4034-962e-5f17e9134f5d" class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(entrada):</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    entrada.append(<span class="dv">40</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>funcion(x)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El ejemplo anterior nos podría llevar a pensar que si en vez de añadir un elemento a <code>x</code>, hacemos <code>x = []</code>, estaríamos destruyendo la lista original. Sin embargo esto no es cierto.</p>
+<div id="73b71342-3cd6-48a7-9d91-6b678dbd6cdc" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(entrada):</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    entrada <span class="op">=</span> []</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>funcion(x)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una forma muy útil de saber lo que pasa por debajo de Python, es haciendo uso de la función <code>id()</code>. Esta función nos devuelve un identificador único para cada objeto. Volviendo al primer ejemplo podemos ver como los objetos a los que “apuntan” <code>x</code> y entrada son distintos.</p>
+<div id="8d4a737f-28e6-4ee7-86e9-d98a1dc410f5" class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">id</span>(x))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(entrada):</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    entrada <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">id</span>(entrada))</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>funcion(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sin embargo si hacemos lo mismo cuando la variable de entrada es una lista, podemos ver que en este caso el objeto con el que se trabaja dentro de la función es el mismo que tenemos fuera. Y al acceder al identificador despues de hacer la asignación <code>entrada = []</code> podemos notar que se crea un nuevo objeto con identificador diferente al original.</p>
+<div id="8262ab2c-aec9-43c2-8810-9032b90aa0b2" class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">id</span>(x))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> funcion(entrada):</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    entrada.append(<span class="dv">40</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">id</span>(entrada))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    entrada <span class="op">=</span> []</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">id</span>(entrada))</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>funcion(x)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+            </section>
+
+            <section id="lambda-funcs" class="level2" data-number="3.6">
+                <h2 data-number="3.6" class="anchored" data-anchor-id="lambda-funcs"><span
+                        class="header-section-number">3.6</span> Funciones <it>lambda</it></h2>
+<p>Las funciones lambda o anónimas son un tipo de funciones en Python que típicamente se definen en una línea y cuyo código a ejecutar suele ser pequeño. Resulta complicado explicar las diferencias y para que te hagas una idea de ello te dejamos con la siguiente cita sacada de la documentación oficial.</p>
+<blockquote class="blockquote">
+<p>Python lambdas are only a shorthand notation if you’re too lazy to define a function.</p>
+</blockquote>
+<p>Lo que significa algo así como, “las funciones lambda son simplemente una versión acortada, que puedes usar si te da pereza escribir una función”</p>
+<p>Lo que sería una función que suma dos números como la siguiente.</p>
+<div id="0da59d57-f661-4c7a-a46d-f6dce1e520d3" class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suma(a, b):</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">+</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Se podría expresar en forma de una función lambda de la siguiente manera.</p>
+<div id="1bc849b8-b31e-41b4-b63c-ec53a0506643" class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">lambda</span> a, b : a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La primera diferencia es que una función lambda no tiene un nombre y por lo tanto, salvo que sea asignada a una variable, es totalmente inútil. Para ello debemos.</p>
+<div id="1ade680f-d341-4a3d-8e24-bb5d1174fa6a" class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>suma <span class="op">=</span> <span class="kw">lambda</span> a, b: a <span class="op">+</span> b</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">3</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si es una función que solo queremos usar una vez, tal vez no tenga sentido almacenarla en una variable. Es posible declarar la función y llamarla en la misma línea.</p>
+<div id="50c7e103-8a6e-4900-b780-f9d25fb3f4f0" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)(<span class="dv">2</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una función lambda puede ser la entrada a una función normal.</p>
+<div id="e9abdcc8-81aa-4a19-ae18-c72fbf6e3d0b" class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mi_funcion(lambda_func):</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lambda_func(<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>mi_funcion(<span class="kw">lambda</span> a, b: a <span class="op">+</span> b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y una función normal también puede ser la entrada de una función lambda. Nótese que son ejemplo didácticos y sin demasiada utilidad práctica <em>per se</em>.</p>
+<div id="38066d7a-806c-49c5-a062-93e29c582ea7" class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mi_otra_funcion(a, b):</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> a, b: mi_otra_funcion(a, b))(<span class="dv">2</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Además, se puede usar una función lambda como parámetro de retorno de una función normal.</p>
+<div id="f2338d23-57c3-4fff-81a6-513630174fa6" class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myfunc(n):</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">lambda</span> a : a <span class="op">*</span> n</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>mydoubler <span class="op">=</span> myfunc(<span class="dv">2</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>mydoubler(<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A pesar de que las funciones lambda tienen muchas limitaciones frente a las funciones normales, comparten gran cantidad de funcionalidades. Es posible tener argumentos con valor asignado por defecto.</p>
+<div id="49ac3dec-e9ba-423a-9939-c51c756324b3" class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> a, b, c<span class="op">=</span><span class="dv">3</span>: a <span class="op">+</span> b <span class="op">+</span> c)(<span class="dv">1</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También se pueden pasar los parámetros indicando su nombre.</p>
+<div id="d4db6dff-9470-4d02-9db6-aa548e7d0ef2" class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> a, b, c: a <span class="op">+</span> b <span class="op">+</span> c)(a<span class="op">=</span><span class="dv">1</span>, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Al igual que en las funciones se puede tener un número variable de argumentos haciendo uso de <code>*</code> y user <em>tuple unpacking</em>.</p>
+<div id="05e391a3-7f4d-43b8-a374-59434c0fe6f5" class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> <span class="op">*</span>args: <span class="bu">sum</span>(args))(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y si tenemos los parámetros de entrada almacenados en forma de <code>key</code> y <code>value</code> como si fuera un diccionario, también es posible llamar a la función.</p>
+<div id="7d656c94-a5f0-4f99-b2bf-6094b158b8cc" class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> <span class="op">**</span>kwargs: <span class="bu">sum</span>(kwargs.values()))(a<span class="op">=</span><span class="dv">1</span>, b<span class="op">=</span><span class="dv">2</span>, c<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por último, es posible devolver más de un valor.</p>
+<div id="e956b728-ad54-41ec-aeee-da1c41b76185" class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="kw">lambda</span> a, b: (b, a)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x(<span class="dv">3</span>, <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+            </section>
+
+            <section id="recursion" class="level2" data-number="3.7">
+                <h2 data-number="3.7" class="anchored" data-anchor-id="recursion"><span
+                        class="header-section-number">3.7</span> Recursividad</h2>
+                        <blockquote class="blockquote">
+                            <p>¿En qué trabajas?</p>
+                            <p>Estoy intentando arreglar los problemas que creé cuando intentaba arreglar los problemas que creé cuando intentaba arreglar los problemas que creé. Y así nació la recursividad.</p>
+                            </blockquote>
+                            <p>La <strong>recursividad</strong> o <strong>recursión</strong> es un concepto que proviene de las matemáticas y que, aplicado al mundo de la programación, nos permite resolver problemas o tareas donde las mismas pueden ser divididas en subtareas cuya funcionalidad es la misma. Dado que los subproblemas a resolver son de la misma naturaleza, se puede usar la misma función para resolverlos. Dicho de otra manera, una función recursiva es aquella que está definida en función de sí misma, por lo que se llama repetidamente a sí misma hasta llegar a un punto de salida.</p>
+                            <p>Cualquier función recursiva tiene dos secciones de código claramente divididas:</p>
+                            <ul>
+                            <li>Por un lado tenemos la sección en la que la función se llama a sí misma.</li>
+                            <li>Por otro lado, tiene que existir siempre una condición en la que la función retorna sin volver a llamarse. Es muy importante porque de lo contrario, la función se llamaría de manera indefinida.</li>
+                            </ul>
+                            <p>Veamos unos ejemplos con el <strong>factorial</strong> y la <strong>serie de fibonacci</strong>.</p>
+                <section id="factorial" class="level3" data-number="3.7.1">
+                    <h3 data-number="3.7.1" class="anchored" data-anchor-id="factorial"><span
+                            class="header-section-number">3.7.1</span> Cálculo del factorial</h3>
+<p>Uno de los ejemplos mas usados para entender la recursividad, es el cálculo del factorial de un número <span class="math inline">\(n!\)</span>. El factorial de un número <span class="math inline">\(n\)</span> se define como la multiplicación de todos sus números predecesores hasta llegar a uno. Por lo tanto <span class="math inline">\(5!\)</span>, leído como cinco factorial, sería <span class="math inline">\(5 \times 4 \times 3 \times 2 \times 1\)</span>. Además, por definición <span class="math inline">\(0! = 1\)</span>.</p>
+<p>Utilizando un enfoque tradicional no recursivo, podríamos calcular el factorial de la siguiente manera.</p>
+<div id="efbcc0f8-9059-4094-9dab-ff15649455c5" class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> factorial_normal(n):</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        r <span class="op">*=</span> i</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> r</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>factorial_normal(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dado que el factorial es una tarea que puede ser dividida en subtareas del mismo tipo (multiplicaciones), podemos darle un enfoque recursivo y escribir la función de otra manera.</p>
+<div id="49bbe2c8-b737-4c85-a46c-c1b15fb1d874" class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> factorial_recursivo(n):</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Validación del argumento</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"El número debe ser entero no negativo"</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> <span class="bu">isinstance</span>(n, <span class="bu">int</span>):</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">TypeError</span>(<span class="st">"El número debe ser entero"</span>)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">1</span> <span class="kw">or</span> n <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> n <span class="op">*</span> factorial_recursivo(n<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>factorial_recursivo(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lo que realmente hacemos con el código anterior es llamar a la función <code>factorial_recursivo()</code> múltiples veces. Es decir, <code>5!</code> es igual a <code>5 * 4!</code> y <code>4!</code> es igual a <code>4 * 3!</code> y así sucesivamente hasta llegar a 1.</p>
+<p>Algo muy importante a tener en cuenta es que si realizamos demasiadas llamadas a la función, podríamos llegar a tener un error del tipo <code>RecursionError</code>. Esto se debe a que todas las llamadas van apilándose y creando un contexto de ejecución, algo que podría llegar a causar un <code>stack overflow</code>. Es por eso por lo que Python lanza ese error, para protegernos de llegar a ese punto.</p>
+                    </section>
+					
+                <section id="fibonacci" class="level3" data-number="3.7.2">
+                    <h3 data-number="3.7.2" class="anchored" data-anchor-id="fibonacci"><span
+                            class="header-section-number">3.7.2</span> Serie de Fibonacci </h3>
+<p>Otro ejemplo muy usado para ilustrar las posibilidades de la recursividad, es calcular la serie de fibonacci. Dicha serie calcula como <span class="math display">\[a_n=a_{n-1}+a_{n-2}\]</span></p>
+<p>Se supone que los dos primeros elementos son <span class="math inline">\(a_0=0\)</span> y <span class="math inline">\(a_1=1\)</span>.</p>
+<div id="6c74ee08-7733-4a6e-a6d9-25e8346ff0c7" class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fibonacci_recursivo(n):</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> n <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fibonacci_recursivo(n<span class="op">-</span><span class="dv">1</span>) <span class="op">+</span> fibonacci_recursivo(n<span class="op">-</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div> 
+<p>Podemos ver que siempre que <span class="math inline">\(n \neq {0,1}\)</span> se llamará recursivamente a la función, buscando los dos elementos anteriores. Cuando <span class="math inline">\(n = {0,1}\)</span> se dejará de llamar a la función y se devolverá un valor concreto. Podemos calcular el elemento 7, que será <span class="math inline">\(0,1,1,2,3,5,8,13\)</span>, es decir, 13.</p>
+<div id="8f00e811-4a5e-470f-b6fe-e76250977584" class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>fibonacci_recursivo(<span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+
+            </section>			
+
+            <section id="practice-exercises" class="level2" data-number="3.8">
+                <h2 data-number="3.8" class="anchored" data-anchor-id="practice-exercises"><span
+                        class="header-section-number">3.8</span> Ejercicios prácticos</h2>
+                <ol type="1">
+                    <li>Cree un nuevo Notebook.</li>
+                    <li>Guarde el archivo como <strong>Ejercicios_practicos_clase_3.ipynb</strong>.</li>
+                    <li>Asigne un título <strong>H1</strong> con su nombre.</li>
+                </ol>
+                <section id="practice-exercise-1" class="level3" data-number="3.8.1">
+                    <h3 data-number="3.8.1" class="anchored" data-anchor-id="practice-exercise-1"><span
+                            class="header-section-number">3.8.1</span> Ejercicio práctico 1</h3>
+                    <ol type="1">
+<li>Escribe una función <code>generar_historial_temperaturas</code> que acepte dos parámetros: <code>num_dias</code> (número de días) y <code>**kwargs</code> (opciones adicionales).</li>
+<li>La función debe generar una lista de temperaturas aleatorias para los días especificados.</li>
+<li>Permite al usuario especificar a través de <code>**kwargs</code> el rango de temperaturas (<code>min_temp</code> y <code>max_temp</code>). En caso de no especificarse <code>min_temp</code>, se debe usar un valor por defecto de 0 y para <code>max_temp</code> un valor por defecto de 40.</li>
+<li>Utiliza una función lambda para calcular la media de las temperaturas generadas.</li>
+<li>Devuelve un diccionario con el historial de temperaturas y la media calculada.</li>
+</ol>
+                </section>
+                <section id="practice-exercise-2" class="level3" data-number="3.8.2">
+                    <h3 data-number="3.8.2" class="anchored" data-anchor-id="practice-exercise-2"><span
+                            class="header-section-number">3.8.2</span> Ejercicio práctico 1</h3>
+                    <ol type="1">
+                        <li>Escribe una función recursiva <code>fibonacci</code> que acepte un número entero <span class="math inline">\(n\)</span> y devuelva el <span class="math inline">\(n\)</span>-ésimo número en la secuencia de Fibonacci.</li>
+                        <li>Escribe una función <code>generar_fibonacci</code> que acepte un número entero <span class="math inline">\(n\)</span> y use una función <em>lambda</em> para generar una lista con los primeros <span class="math inline">\(n\)</span> números de la secuencia de Fibonacci.</li>
+                        <li>Documenta ambas funciones utilizando <em>docstring</em>.</li>
+                    </ol>
+                </section>
+            </section>
+        </main> <!-- /main -->
+        <script id="quarto-html-after-body" type="application/javascript">
+            window.document.addEventListener("DOMContentLoaded", function (event) {
+                const toggleBodyColorMode = (bsSheetEl) => {
+                    const mode = bsSheetEl.getAttribute("data-mode");
+                    const bodyEl = window.document.querySelector("body");
+                    if (mode === "dark") {
+                        bodyEl.classList.add("quarto-dark");
+                        bodyEl.classList.remove("quarto-light");
+                    } else {
+                        bodyEl.classList.add("quarto-light");
+                        bodyEl.classList.remove("quarto-dark");
+                    }
+                }
+                const toggleBodyColorPrimary = () => {
+                    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+                    if (bsSheetEl) {
+                        toggleBodyColorMode(bsSheetEl);
+                    }
+                }
+                toggleBodyColorPrimary();
+                const icon = "";
+                const anchorJS = new window.AnchorJS();
+                anchorJS.options = {
+                    placement: 'right',
+                    icon: icon
+                };
+                anchorJS.add('.anchored');
+                const isCodeAnnotation = (el) => {
+                    for (const clz of el.classList) {
+                        if (clz.startsWith('code-annotation-')) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                const clipboard = new window.ClipboardJS('.code-copy-button', {
+                    text: function (trigger) {
+                        const codeEl = trigger.previousElementSibling.cloneNode(true);
+                        for (const childEl of codeEl.children) {
+                            if (isCodeAnnotation(childEl)) {
+                                childEl.remove();
+                            }
+                        }
+                        return codeEl.innerText;
+                    }
+                });
+                clipboard.on('success', function (e) {
+                    // button target
+                    const button = e.trigger;
+                    // don't keep focus
+                    button.blur();
+                    // flash "checked"
+                    button.classList.add('code-copy-button-checked');
+                    var currentTitle = button.getAttribute("title");
+                    button.setAttribute("title", "Copied!");
+                    let tooltip;
+                    if (window.bootstrap) {
+                        button.setAttribute("data-bs-toggle", "tooltip");
+                        button.setAttribute("data-bs-placement", "left");
+                        button.setAttribute("data-bs-title", "Copied!");
+                        tooltip = new bootstrap.Tooltip(button,
+                            {
+                                trigger: "manual",
+                                customClass: "code-copy-button-tooltip",
+                                offset: [0, -8]
+                            });
+                        tooltip.show();
+                    }
+                    setTimeout(function () {
+                        if (tooltip) {
+                            tooltip.hide();
+                            button.removeAttribute("data-bs-title");
+                            button.removeAttribute("data-bs-toggle");
+                            button.removeAttribute("data-bs-placement");
+                        }
+                        button.setAttribute("title", currentTitle);
+                        button.classList.remove('code-copy-button-checked');
+                    }, 1000);
+                    // clear code selection
+                    e.clearSelection();
+                });
+                function tippyHover(el, contentFn) {
+                    const config = {
+                        allowHTML: true,
+                        content: contentFn,
+                        maxWidth: 500,
+                        delay: 100,
+                        arrow: false,
+                        appendTo: function (el) {
+                            return el.parentElement;
+                        },
+                        interactive: true,
+                        interactiveBorder: 10,
+                        theme: 'quarto',
+                        placement: 'bottom-start'
+                    };
+                    window.tippy(el, config);
+                }
+                const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+                for (var i = 0; i < noterefs.length; i++) {
+                    const ref = noterefs[i];
+                    tippyHover(ref, function () {
+                        // use id or data attribute instead here
+                        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+                        try { href = new URL(href).hash; } catch { }
+                        const id = href.replace(/^#\/?/, "");
+                        const note = window.document.getElementById(id);
+                        return note.innerHTML;
+                    });
+                }
+                let selectedAnnoteEl;
+                const selectorForAnnotation = (cell, annotation) => {
+                    let cellAttr = 'data-code-cell="' + cell + '"';
+                    let lineAttr = 'data-code-annotation="' + annotation + '"';
+                    const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+                    return selector;
+                }
+                const selectCodeLines = (annoteEl) => {
+                    const doc = window.document;
+                    const targetCell = annoteEl.getAttribute("data-target-cell");
+                    const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+                    const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                    const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+                    const lineIds = lines.map((line) => {
+                        return targetCell + "-" + line;
+                    })
+                    let top = null;
+                    let height = null;
+                    let parent = null;
+                    if (lineIds.length > 0) {
+                        //compute the position of the single el (top and bottom and make a div)
+                        const el = window.document.getElementById(lineIds[0]);
+                        top = el.offsetTop;
+                        height = el.offsetHeight;
+                        parent = el.parentElement.parentElement;
+                        if (lineIds.length > 1) {
+                            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                            height = bottom - top;
+                        }
+                        if (top !== null && height !== null && parent !== null) {
+                            // cook up a div (if necessary) and position it 
+                            let div = window.document.getElementById("code-annotation-line-highlight");
+                            if (div === null) {
+                                div = window.document.createElement("div");
+                                div.setAttribute("id", "code-annotation-line-highlight");
+                                div.style.position = 'absolute';
+                                parent.appendChild(div);
+                            }
+                            div.style.top = top - 2 + "px";
+                            div.style.height = height + 4 + "px";
+                            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                            if (gutterDiv === null) {
+                                gutterDiv = window.document.createElement("div");
+                                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                                gutterDiv.style.position = 'absolute';
+                                const codeCell = window.document.getElementById(targetCell);
+                                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                                gutter.appendChild(gutterDiv);
+                            }
+                            gutterDiv.style.top = top - 2 + "px";
+                            gutterDiv.style.height = height + 4 + "px";
+                        }
+                        selectedAnnoteEl = annoteEl;
+                    }
+                };
+                const unselectCodeLines = () => {
+                    const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+                    elementsIds.forEach((elId) => {
+                        const div = window.document.getElementById(elId);
+                        if (div) {
+                            div.remove();
+                        }
+                    });
+                    selectedAnnoteEl = undefined;
+                };
+                // Attach click handler to the DT
+                const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+                for (const annoteDlNode of annoteDls) {
+                    annoteDlNode.addEventListener('click', (event) => {
+                        const clickedEl = event.target;
+                        if (clickedEl !== selectedAnnoteEl) {
+                            unselectCodeLines();
+                            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+                            if (activeEl) {
+                                activeEl.classList.remove('code-annotation-active');
+                            }
+                            selectCodeLines(clickedEl);
+                            clickedEl.classList.add('code-annotation-active');
+                        } else {
+                            // Unselect the line
+                            unselectCodeLines();
+                            clickedEl.classList.remove('code-annotation-active');
+                        }
+                    });
+                }
+                const findCites = (el) => {
+                    const parentEl = el.parentElement;
+                    if (parentEl) {
+                        const cites = parentEl.dataset.cites;
+                        if (cites) {
+                            return {
+                                el,
+                                cites: cites.split(' ')
+                            };
+                        } else {
+                            return findCites(el.parentElement)
+                        }
+                    } else {
+                        return undefined;
+                    }
+                };
+                var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+                for (var i = 0; i < bibliorefs.length; i++) {
+                    const ref = bibliorefs[i];
+                    const citeInfo = findCites(ref);
+                    if (citeInfo) {
+                        tippyHover(citeInfo.el, function () {
+                            var popup = window.document.createElement('div');
+                            citeInfo.cites.forEach(function (cite) {
+                                var citeDiv = window.document.createElement('div');
+                                citeDiv.classList.add('hanging-indent');
+                                citeDiv.classList.add('csl-entry');
+                                var biblioDiv = window.document.getElementById('ref-' + cite);
+                                if (biblioDiv) {
+                                    citeDiv.innerHTML = biblioDiv.innerHTML;
+                                }
+                                popup.appendChild(citeDiv);
+                            });
+                            return popup.innerHTML;
+                        });
+                    }
+                }
+            });
+        </script>
+        <nav class="page-navigation">
+            <div class="nav-page nav-page-previous">
+                <a href="./01_Intro_Python.html" class="pagination-link">
+                    <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span
+                            class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a
+                            Python</span></span>
+                </a>
+            </div>
+            <div class="nav-page nav-page-next">
+                <a href="./03_Funciones.html" class="pagination-link">
+                    <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span
+                            class="chapter-title">Funciones</span></span> <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- /content -->
+
+
+
+</body>
+
+</html>
