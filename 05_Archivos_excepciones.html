@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.3.450">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="author" content="Andrés Quintero-Zea">
+    <meta name="dcterms.date" content="2024-08-12">
+
+    <title>Manejo de archivos y excepciones</title>
+    <style>
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        div.hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        ul.task-list {
+            list-style: none;
+        }
+
+        ul.task-list li input[type="checkbox"] {
+            width: 0.8em;
+            margin: 0 0.8em 0.2em -1em;
+            /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+            vertical-align: middle;
+        }
+
+        /* CSS for syntax highlighting */
+        pre>code.sourceCode {
+            white-space: pre;
+            position: relative;
+        }
+
+        pre>code.sourceCode>span {
+            display: inline-block;
+            line-height: 1.25;
+        }
+
+        pre>code.sourceCode>span:empty {
+            height: 1.2em;
+        }
+
+        .sourceCode {
+            overflow: visible;
+        }
+
+        code.sourceCode>span {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        div.sourceCode {
+            margin: 1em 0;
+        }
+
+        pre.sourceCode {
+            margin: 0;
+        }
+
+        @media screen {
+            div.sourceCode {
+                overflow: auto;
+            }
+        }
+
+        @media print {
+            pre>code.sourceCode {
+                white-space: pre-wrap;
+            }
+
+            pre>code.sourceCode>span {
+                text-indent: -5em;
+                padding-left: 5em;
+            }
+        }
+
+        pre.numberSource code {
+            counter-reset: source-line 0;
+        }
+
+        pre.numberSource code>span {
+            position: relative;
+            left: -4em;
+            counter-increment: source-line;
+        }
+
+        pre.numberSource code>span>a:first-child::before {
+            content: counter(source-line);
+            position: relative;
+            left: -1em;
+            text-align: right;
+            vertical-align: baseline;
+            border: none;
+            display: inline-block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 0 4px;
+            width: 4em;
+        }
+
+        pre.numberSource {
+            margin-left: 3em;
+            padding-left: 4px;
+        }
+
+
+        @media screen {
+            pre>code.sourceCode>span>a:first-child::before {
+                text-decoration: underline;
+            }
+        }
+    </style>
+
+    <script src="assets/quarto-nav/quarto-nav.js"></script>
+    <script src="assets/quarto-nav/headroom.min.js"></script>
+    <script src="assets/clipboard/clipboard.min.js"></script>
+    <script src="assets/quarto-search/autocomplete.umd.js"></script>
+    <script src="assets/quarto-search/fuse.min.js"></script>
+    <script src="assets/quarto-search/quarto-search.js"></script>
+    <meta name="quarto:offset" content="./">
+    <link href="./05_Archivos_excepciones.html" rel="next">
+    <link href="./03_Funciones.html" rel="prev">
+    <script src="assets/quarto-html/quarto.js"></script>
+    <script src="assets/quarto-html/popper.min.js"></script>
+    <script src="assets/quarto-html/tippy.umd.min.js"></script>
+    <script src="assets/quarto-html/anchor.min.js"></script>
+    <link href="assets/quarto-html/tippy.css" rel="stylesheet">
+    <link href="assets/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet"
+        id="quarto-text-highlighting-styles">
+    <script src="assets/bootstrap/bootstrap.min.js"></script>
+    <link href="assets/bootstrap/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+    <script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"
+        integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script type="application/javascript">define('jquery', [], function () { return window.jQuery; })</script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+    <!-- content -->
+    <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+        <!-- sidebar -->
+        <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+            <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+                <img src="./LogoNuevo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+                <div class="sidebar-title mb-0 py-0">
+                    <a href="./index.html">Programación PRE2013A45</a>
+                </div>
+            </div>
+            <div class="sidebar-menu-container">
+                <ul class="list-unstyled mt-1">
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+                                <span class="menu-text">Python</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./01_Intro_Python.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Python</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./02_Estructuras_control.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Control</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./03_Funciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span
+                                                class="chapter-title">Funciones</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./04_Estructura_datos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de Datos Avanzadas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./05_Archivos_excepciones.html" class="sidebar-item-text sidebar-link active">
+                                        <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span
+                                                class="chapter-title">Manejo de Archivos y Excepciones</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+                                <span class="menu-text">Análisis de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./06_Numpy.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Numpy</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./07_Pandas.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span
+                                                class="chapter-title">Manipulación de Datos con Pandas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./08_EDA.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span
+                                                class="chapter-title">Análisis Exploratorio de Datos
+                                                (EDA)</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./09_Matplotlib.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Matplotlib</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./10_Seaborn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span
+                                                class="chapter-title">Visualización de Datos con
+                                                Seaborn</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+                                <span class="menu-text">Ciencia de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./11_Intro_DS.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span
+                                                class="chapter-title">Introducción a la Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./12_Estadistica.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span
+                                                class="chapter-title">Fundamentos de Estadística para Ciencia de
+                                                Datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./13_Preparacion_modelos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span
+                                                class="chapter-title">Preparación de Datos para
+                                                Modelado</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./14_Scikit_learn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span
+                                                class="chapter-title">Introducción al Machine Learning con
+                                                Scikit-Learn</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./15_Clasificacion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Clasificación</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./16_Regresion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span
+                                                class="chapter-title">Modelos de Regresión</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass">
+        </div>
+        <!-- margin-sidebar -->
+        <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+            <nav id="TOC" role="doc-toc" class="toc-active">
+                <h2 id="toc-title">Tabla de contenidos</h2>
+
+                <ul>
+                    <li><a href="#objetivo" id="toc-objetivo" class="nav-link active"
+                            data-scroll-target="#objetivo">Objetivo</a></li>
+                    <li><a href="#py-excep" id="toc-py-excep" class="nav-link"
+                            data-scroll-target="#py-excep"><span class="header-section-number">5.1</span> Excepciones en Python</a>
+                        <ul class="collapse">
+                            <li><a href="#py-raise" id="toc-py-raise" class="nav-link"
+                                    data-scroll-target="#py-raise"><span class="header-section-number">5.1.1</span> Uso de <code>raise</code> </a></li>
+							<li><a href="#py-try-except" id="toc-py-try-except" class="nav-link"
+                                    data-scroll-target="#py-try-except"><span class="header-section-number">5.1.2</span> Uso de <code>try</code> y <code>except</code> </a></li>
+							<li><a href="#py-else" id="toc-py-else" class="nav-link"
+                                    data-scroll-target="#py-else"><span class="header-section-number">5.1.3</span> Uso de <code>else</code> </a></li>
+							<li><a href="#py-finally" id="toc-py-finally" class="nav-link"
+                                    data-scroll-target="#py-finally"><span class="header-section-number">5.1.4</span> Uso de <code>finally</code> </a></li>
+							<li><a href="#py-personalizadas" id="toc-py-personalizadas" class="nav-link"
+                                    data-scroll-target="#py-personalizadas"><span class="header-section-number">5.1.5</span> Excepciones personalizadas </a></li>
+							<li><a href="#py-ejemplos" id="toc-py-ejemplos" class="nav-link"
+                                    data-scroll-target="#py-ejemplos"><span class="header-section-number">5.1.6</span> Ejemplos </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#py-read-files" id="toc-py-read-files" class="nav-link"
+                            data-scroll-target="#py-read-files"><span class="header-section-number">5.2</span> Lectura de archivos en Python </a>
+                        <ul class="collapse">
+                            <li><a href="#py-read-close" id="toc-py-read-close" class="nav-link"
+                                    data-scroll-target="#py-read-close"><span class="header-section-number"> 5.2.1 </span> Métodos <code>read</code> y <code>close</code> </a></li>
+							<li><a href="#py-readline" id="toc-py-readline" class="nav-link"
+                                    data-scroll-target="#py-readline"><span class="header-section-number"> 5.2.2 </span> Método <code>readline</code> </a></li>
+							<li><a href="#py-readlines" id="toc-py-readlines" class="nav-link"
+                                    data-scroll-target="#py-readlines"><span class="header-section-number"> 5.2.3 </span> Método <code>readlines</code> </a></li>
+							<li><a href="#py-open-args" id="toc-py-open-args" class="nav-link"
+                                    data-scroll-target="#py-open-args"><span class="header-section-number"> 5.2.4 </span> Argumentos de <code>open</code> </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#py-write-files" id="toc-py-write-files" class="nav-link"
+                            data-scroll-target="#py-write-files"><span class="header-section-number">5.3</span>
+                            Escritura de archivos en Python</a>
+                        <ul class="collapse">
+                            <li><a href="#py-write" id="toc-py-write" class="nav-link"
+                                    data-scroll-target="#py-write"><span class="header-section-number">5.3.1</span> 
+                                    Método <code>write</code></a></li>
+                            <li><a href="#py-writelines" id="toc-py-writelines" class="nav-link"
+                                    data-scroll-target="#py-py-writelines"><span class="header-section-number">5.3.2</span>
+                                    Método <code>writelines</code> </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#py-json" id="toc-py-json" class="nav-link"
+                            data-scroll-target="#py-py-json"><span class="header-section-number">5.4</span>
+                            Manejo de archivos .json con Python</a>
+                        <ul class="collapse">
+                            <li><a href="#py-json-struct" id="toc-py-json-struct" class="nav-link"
+                                    data-scroll-target="#py-json-struct"><span class="header-section-number">5.4.1</span> Estructura JSON </a></li>
+							<li><a href="#py-json-module" id="toc-py-json-module" class="nav-link"
+                                    data-scroll-target="#py-json-module"><span class="header-section-number">5.4.2</span> Módulo <code>json</code> </a></li>
+							<li><a href="#py-json-files" id="toc-py-json-files" class="nav-link"
+                                    data-scroll-target="#py-json-files"><span class="header-section-number">5.4.3</span> Archivos .json </a></li>
+                        </ul>
+                        </li>
+                    <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link"
+                            data-scroll-target="#practice-exercises"><span class="header-section-number">5.5</span>
+                            Ejercicios prácticos</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- main -->
+        <main class="content" id="quarto-document-content">
+
+            <header id="title-block-header" class="quarto-title-block default">
+                <div class="quarto-title">
+                    <h1 class="title"><span class="chapter-number">5</span>&nbsp; <span
+                            class="chapter-title">Manejo de archivos y excepciones</span></h1>
+                </div>
+                <div class="quarto-title-meta"> </div>
+            </header>
+
+            <section id="objetivo" class="level1">
+                <h1 class="anchored" data-anchor-id="objetivo">Objetivo</h1>
+                <p>El objetivo de esta clase es proporcionar a los estudiantes una comprensión práctica y aplicada del manejo de excepciones en Python, junto con la manipulación de archivos en diferentes formatos como CSV, TXT y JSON.</p>
+                <p>Los archivos necesarios para este módulo se encuentran en el repositorio de <a href="https://github.com/aquinteroz/Programacion/tree/main/Datasets">GitHub</a></p>
+            </section>
+
+            <!-- 5.1 -->
+
+            <section id="py-excep" class="level2" data-number="5.1">
+                <h2 data-number="5." class="anchored" data-anchor-id="py-excep"><span
+                        class="header-section-number">5.1</span> Excepciones en Python </h2>
+<p>Las excepciones en Python son una herramienta muy potente que la gran mayoría de lenguajes deprogramación modernos tienen. Se trata de una forma de controlar el comportamiento de un programacuando se produce un error.</p>
+<p>Esto es muy importante ya que, salvo que tratemos este error, el programa se parará y esto es algoque en determinadas aplicaciones no es una opción válida.</p>
+<p>Imaginemos que tenemos el siguiente código con dos variables <code>a</code> y <code>b</code> yrealizamos su división <code>a/b</code>.</p>
+<div id="570a064d-3255-4daf-8ced-3c3c50f84d75" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><codeclass="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span><span class="dv">2</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span>a<span class="op">/</span>b</span></code><button title="Copy to Clipboard"class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pero imaginemos ahora que por cualquier motivo las variables tienen otro valor y que, por ejemplo,<code>b</code> tiene el valor <code>0</code>. Si intentamos hacer la división entre cero, esteprograma dará un error y su ejecución terminará de manera abrupta.</p>
+<div id="5daa9193-00f7-474e-85a1-a85010997923" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><codeclass="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span> <span class="dv">4</span><span class="op">;</span> b <span class="op">=<span> <span class="dv">0</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span(a<span class="op">/</span>b)</span></code><button title="Copy to Clipboard"class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ese error que decimos que ha ocurrido es lanzado (<em>raise</em> en Inglés) por Python ya que ladivisión entre cero es una operación que matemáticamente no está definida.</p>
+<p>Se trata de la excepción <code>ZeroDivisionError</code>. En el siguiente <a href="https://docspython.org/3/library/exceptions.html">enlace</a> tenemos un listado de todas las excepciones con lasque nos podemos encontrar.</p>
+<p>Veamos un ejemplo con otra excepción. ¿Que pasaría si intentásemos sumar un número con un texto?Evidentemente esto no tiene ningún sentido y Python define una excepción para esto llamada<code>TypeError</code>.</p>
+<div id="3f9ea613-bd99-40fa-89af-4022f263c99b" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><codeclass="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"><a><span class="bu">print</span>(<span class="dv">2</span> <span class="op">+</span> <spanclass="st">'2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><iclass="bi"></i></button></pre></div>
+</div>
+<p>Con base en esto, es muy importante controlar las excepciones, porque por muchas comprobacionesque realicemos es posible que en algún momento ocurra una y, si no se hace nada, el programa separará.</p>
+<p>¿Te imaginas que en un avión, un tren o un cajero automático tiene un error que lanza unaexcepción y se detiene por completo?</p>
+<p>Una primera aproximación al control de excepciones podría ser el siguiente ejemplo. Podemosrealizar una comprobación manual de que no estamos dividiendo por cero, para así evitar tener unerror tipo <code>ZeroDivisionError</code>.</p>
+<p>Sin embargo, es complicado escribir código que contemple y que prevenga todo tipo de excepciones.Para ello, veremos más adelante el uso de <code>except</code>.</p>
+<div id="3278fd1c-e8fa-40c3-8088-ec9285d3a3f6" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><codeclass="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span><span class="dv">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>b<span class="op">!=</span><span class="dv">0</span>:</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print<span>(a<span class="op">/</span>b)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:<span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print<span>(<span class="st">'No se puede dividir!'</span>)</span></code><button title="Copy to Clipboard"class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>        
+                <section id="py-raise" class="level3" data-number="5.1.1">
+                    <h3 data-number="5.1.1" class="anchored" data-anchor-id="py-raise"><span
+                            class="header-section-number">5.1.1 </span> Uso de <code>raise</code> </h3>
+<p>También podemos ser nosotros los que lancemos una excepción. Volviendo a los ejemplos usados en el apartado anterior, podemos ser nosotros los que levantemos <code>ZeroDivisionError</code> o <code>TypeError</code> usando <code>raise</code>. La sintaxis es muy fácil.</p>
+<div id="1970da1c-b2ed-453d-942a-52b9fe4b810e" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> <span class="pp">ZeroDivisionError</span>(<span class="st">'Información de la excepción'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a2f9628e-361e-4ba6-8c8b-f498d83ac8c7" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> <span class="pp">TypeError</span>(<span class="st">'Información de la excepción'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Se puede ver como el string que hemos pasado se imprime a continuación de la excepción. Se puede llamar también sin ningún parámetro como se hace a continuación.</p>
+<div id="536f89fe-3227-477f-b480-e58de2f2d1c5" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> <span class="pp">ZeroDivisionError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visto esto, ya sabemos como una excepción puede ser lanzada. Existen dos maneras principalmente:</p>
+<ul>
+<li>Hacemos una operación que no puede ser realizada (como dividir por cero). En este caso Python se encarga de lanzar automáticamente la excepción.</li>
+<li>Podemos lanzar nosotros una excepción manualmente, usando <code>raise</code>.</li>
+</ul>
+<p>A continuación veremos que podemos hacer para controlar estas excepciones, y que hacer cuando se lanza una para que no se interrumpa la ejecución del programa.</p>
+                    </section>
+
+                <section id="py-try-except" class="level3" data-number="5.1.2">
+                    <h3 data-number="5.1.2" class="anchored" data-anchor-id="py-try-except"><span
+                            class="header-section-number">5.1.2 </span> Uso de <code>try</code> y <code>except</code> </h3>
+<p>La buena noticia es que las excepciones que hemos visto antes, pueden ser capturadas y manejadas adecuadamente, sin que el programa se detenga. Veamos un ejemplo con la división entre cero.</p>
+<div id="1e09c01c-8440-423d-ad23-7c73f9ec9acd" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> b <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> a<span class="op">/</span>b</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'No se ha podido realizar la división'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En este caso no verificamos que <code>b!=0</code>. Directamente intentamos realizar la división y en el caso de que se lance la excepción <code>ZeroDivisionError</code>, la capturamos y la tratamos adecuadamente.</p>
+<p>La diferencia con el ejemplo anterior es que ahora no se para el programa y se puede seguir ejecutando. Entonces, lo que hay dentro del <code>try</code> es la sección del código que podría lanzar la excepción que se está capturando en el <code>except</code>. Por lo tanto cuando ocurra una excepción, se entra en el <code>except</code> pero el programa no se para.</p>
+<p>También se puede capturar diferentes excepciones como se ve en el siguiente ejemplo.</p>
+<div id="53ecdf8e-494d-4003-9361-53e1936a790c" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#c = 5/0</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="st">'Hola'</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'No se puede dividir entre cero!'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">TypeError</span>:</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Problema de tipos!'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Puedes también hacer que un determinado número de excepciones se traten de la misma manera con el mismo bloque de código. Sin embargo suele ser más interesante tratar a diferentes excepciones de diference manera.</p>
+<div id="b293077c-9d21-4ccc-9c8f-2d03d745067d" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#c = 5/0</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="st">'Hola'</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> (<span class="pp">ZeroDivisionError</span>, <span class="pp">TypeError</span>):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Error en la ejecución'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Otra forma si no sabes que excepción puede saltar, puedes usar la clase genérica <code>Exception</code>. En este caso se controla cualquier tipo de excepción. De hecho todas las excepciones heredan de <code>Exception</code> (ver <a href="https://docs.python.org/3/library/exceptions.html">documentación</a>).</p>
+<div id="542c92b2-a3fe-46e4-a9af-b91952a005e4" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#c = 5/0</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="st">'Hola'</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Ha habido una excepción'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>No obstante hay una forma de saber que excepción ha sido la que ha ocurrido.</p>
+<div id="d105acd7-75c0-4196-9ea4-4ea55cbc0cd9" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="st">'Hola'</span> <span class="co"># Si comentas esto entra en ZeroDivisionError</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> ex:</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Ha habido una excepción:'</span>, <span class="bu">type</span>(ex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+				<section id="py-else" class="level3" data-number="5.1.3">
+                    <h3 data-number="5.1.3" class="anchored" data-anchor-id="py-else"><span
+                            class="header-section-number">5.1.3 </span> Uso de <code>else</code> </h3>
+<p>Al ya explicado <code>try</code> y <code>except</code> le podemos añadir un bloque <code>else</code> adicional. Dicho bloque se ejecutará si no ha ocurrido ninguna excepción. Fíjate en la diferencia entre los siguientes códigos.</p>
+<div id="f4dcf357-79c5-4f8b-b26a-ff090d26af58" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="dv">2</span><span class="op">/</span><span class="dv">4</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Entra en except, ha ocurrido una excepción'</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Entra en else, no ha ocurrido ninguna excepción'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+				
+				<section id="py-finally" class="level3" data-number="5.1.4">
+                    <h3 data-number="5.1.4" class="anchored" data-anchor-id="py-finally"><span
+                            class="header-section-number">5.1.4 </span> Uso de <code>finally</code> </h3>
+<p>A los ya vistos bloques <code>try</code>, <code>except</code> y <code>else</code> podemos añadir un bloque más, el <code>finally</code>. Dicho bloque se ejecuta siempre, haya o no haya habido excepción.</p>
+<p>Este bloque se suele usar si queremos ejecutar algún tipo de acción de limpieza. Si por ejemplo estamos escribiendo datos en un fichero pero ocurre una excepción, tal vez queramos borrar el contenido que hemos escrito con anterioridad, para no dejar datos inconsistenes en el fichero.</p>
+<p>En el siguiente código vemos un ejemplo. Haya o no haya excepción el código que haya dentro de <code>finally</code> será ejecutado.</p>
+<div id="323c17d0-ae68-4faf-9a7d-2f382855ff29" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="dv">2</span><span class="op">/</span><span class="dv">2</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Entra en except, ha ocurrido una excepción'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Entra en else, ha ocurrido una excepción'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Entra en finally, se ejecuta el bloque finally'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+				<section id="py-personalizadas" class="level3" data-number="5.1.5">
+                    <h3 data-number="5.1.5" class="anchored" data-anchor-id="py-personalizadas"><span
+                            class="header-section-number">5.1.5 </span> Excepciones personalizadas </h3>
+<p>A pesar de que Python define un conjunto de excepciones por defecto, podrían no ser suficientes para nuestro programa. En ese caso, deberíamos definir nuestra propia excepción.</p>
+<p>Si queremos crear una excepción, solamente tenemos que crear una clase que herede de la clase <code>Exception</code>. Es tan sencillo como el siguiente ejemplo.</p>
+<div id="02f5c286-6d1f-4edf-99c1-81fe6449bbba" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MiExcepcionPersonalizada(<span class="pp">Exception</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y ya podríamos lanzarla con <code>raise</code> cuando quisiéramos.</p>
+<div id="42b8953f-9424-48e7-ad97-3292334553fd" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> MiExcepcionPersonalizada(<span class="st">'Texto personalizado'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También se pueden pasar parámetros de entrada al lanzarla. Esto es muy útil para dar información adicional a la excepción. En el siguiente ejemplo se pasan dos parámetros. Para ello tenemos que modificar la función <code>__init__()</code> definida por defecto al heredar. Veamos dos formas.</p>
+<div id="25520b73-6d27-463d-85ed-dad7504f3a6a" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MiExcepcion(<span class="pp">Exception</span>):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, mensaje, informacion):</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(mensaje)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(informacion)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> MiExcepcion(<span class="st">"Mi Mensaje"</span>, <span class="st">"Mi Informacion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6e98df61-26fa-47f9-9a56-19c1edefbfca" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MiExcepcion(<span class="pp">Exception</span>):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, mensaje, informacion):</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.mensaje <span class="op">=</span> mensaje</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.informacion <span class="op">=</span> informacion</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> MiExcepcion(<span class="st">"Mi Mensaje"</span>, <span class="st">"Mi Informacion"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> MiExcepcion <span class="im">as</span> e:</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(e.mensaje)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(e.informacion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+				<section id="py-ejemplos" class="level3" data-number="5.1.6">
+                    <h3 data-number="5.1.6" class="anchored" data-anchor-id="py-ejemplos"><span
+                            class="header-section-number">5.1.6 </span> Ejemplos </h3>
+<p>Un ejemplo muy típico de excepciones es en el manejo de archivos. Se intenta abrir, pero se captura una posible excepción. De hecho si entras en la documentación de <code>open</code> se indica que <code>OSError</code> es lanzada si el archivo no puede ser abierto.</p>
+<div id="70f90df5-5fde-4f86-b6c6-9f184d1ab7f0" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'archivo_1.txt'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        read_data <span class="op">=</span> <span class="bu">file</span>.read()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'No se pudo abrir'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como ya hemos comentado, en el <code>except</code> también se puede capturar una excepción concreta. Dependiendo de nuestro programa, tal vez queramos tratar de manera distinta diferentes tipos de excepciones, por lo que es una buena práctica especificar que tipo de excepción que estamos gestionando.</p>
+<div id="b54320d4-b58c-44c7-a94f-1ca3c74a07f3" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'archivo_1.txt'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        read_data <span class="op">=</span> <span class="bu">file</span>.read()</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">OSError</span>:</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'OSError. No se pudo abrir'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En este otro ejemplo vemos el uso de los bloques <code>try</code>, <code>except</code>, <code>else</code> y <code>finally</code> todos juntos.</p>
+<div id="86b99eef-3c48-4270-991c-f3699f49f65c" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'sample_data.csv'</span>, mode<span class="op">=</span><span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        reader <span class="op">=</span> csv.reader(<span class="bu">file</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> [row <span class="cf">for</span> row <span class="kw">in</span> reader]</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'El archivo no fue encontrado.'</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">PermissionError</span>:</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'No tienes permiso para leer este archivo.'</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Ocurrió un error inesperado: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'El archivo se leyó correctamente.'</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Contenido del archivo:'</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> data:</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(row)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Proceso de lectura del archivo CSV completado.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+            </section>
+
+            <!-- /5.1 -->
+
+            <!-- 5.2 -->
+
+            <section id="py-read-files" class="level2" data-number="5.2">
+                <h2 data-number="5.2" class="anchored" data-anchor-id="py-read-files"><span
+                        class="header-section-number">5.2</span> Lectura de archivos en Python </h2>
+<p>Al igual que en otros lenguajes de programación, en Python es posible abrir archivos y leer su contenido. Los archivos pueden ser de lo más variado, desde un simple texto a contenido binario.</p>
+<p>Imagínate entonces que tienes un archivo de texto con unos datos, como podría ser un <code>.txt</code> o un <code>.csv</code>, y quieres leer su contenido para realizar algún tipo de procesado sobre el mismo.</p>
+<p>Podemos abrir el archivo con la función <code>open()</code> pasando como argumento el nombre del archivo que queremos abrir.</p>
+<div id="1617b8ed-4964-46ac-a14f-4c8da1e691c6" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">open</span>(<span class="st">'sample_data.txt'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>                       
+		
+                <section id="py-read-close" class="level3" data-number="5.2.1">
+                    <h3 data-number="5.2.1" class="anchored" data-anchor-id="py-read-close"><span
+                            class="header-section-number">5.2.1 </span> Métodos <code>read</code> y <code>close</code> </h3>
+<p>Con <code>open()</code> tendremos ya en el contenido del documento listo para usar y podemos imprimir su contenido con <code>read()</code>. El siguiente código imprime todo el contenido del archivo.</p>
+<div id="64beeae7-f033-44b1-8535-2aa3a67928fd" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.read())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El método <code>close</code> se utiliza para cerrar un archivo que ha sido abierto previamente con la función <code>open()</code>. Cuando trabajas con archivos en Python, es importante cerrarlos después de haber terminado de leer o escribir en ellos. Esto libera recursos y asegura que cualquier operación pendiente se termine correctamente antes de cerrar el archivo.</p>
+<div id="a1e66a44-a1e1-4c2f-bda5-1a58962fbe4c" class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+				<section id="py-readline" class="level3" data-number="5.2.2">
+                    <h3 data-number="5.2.2" class="anchored" data-anchor-id="py-readline"><span
+                            class="header-section-number">5.2.2 </span> Método <code>readline</code> </h3>
+<p>Es posible también leer un número de líneas determinado y no todo el archivo de golpe. Para ello hacemos uso del método <code>readline()</code>. Cada vez que se llama a la función, se lee una línea.</p>
+<div id="b6382562-043b-4b91-8472-5d497f12a6d2" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">open</span>(<span class="st">'sample_data.txt'</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.readline())</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.readline())</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.readline())</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>data.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+				<section id="py-readlines" class="level3" data-number="5.2.3">
+                    <h3 data-number="5.2.3" class="anchored" data-anchor-id="py-readlines"><span
+                            class="header-section-number">5.2.3 </span> Método <code>readlines</code> </h3>
+<p>Existe otro método llamado <code>readlines()</code>, que devuelve una lista donde cada elemento es una línea del archivo.</p>
+<div id="d5cbf1c3-8de3-42f5-8b11-d129a89b77f9" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">open</span>(<span class="st">'sample_data.txt'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>lineas <span class="op">=</span> data.readlines()</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lineas)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>data.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+				
+				<section id="py-open-args" class="level3" data-number="5.2.4">
+                    <h3 data-number="5.2.4" class="anchored" data-anchor-id="py-open-args"><span
+                            class="header-section-number">5.2.4 </span> Argumentos de <code>open</code> </h3>
+<p>Hasta ahora hemos visto la función <code>open()</code> con tan sólo un argumento de entrada, el nombre del archivo. Lo cierto es que existe un segundo argumento que es importante especificar. Se trata del modo de apertura del archivo. En la <a href="https://docs.python.org/3/library/functions.html#open">documentación oficial</a> se explica en detalle.</p>
+<ul>
+<li>'r': Por defecto, para leer el archivo.</li>
+<li>'w': Para escribir en el archivo.</li>
+<li>'x': Para la creación del archivo, fallando si ya existe.</li>
+<li>'a': Para añadir contenido a un archivo existente.</li>
+<li>'b': Para abrir en modo binario.</li>
+</ul>
+<p>Por lo tanto lo estrictamete correcto si queremos leer el archivo sería hacer lo siguiente. Aunque el modo 'r' sea por defecto, es una buena práctica indicarlo para darle a entender a otras personas que lean nuestro código que no queremos modificarlo, tan solo leerlo.</p>
+<div id="7205ee83-7bd6-4268-b732-99b4e0ff495d" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="bu">open</span>(<span class="st">'sample_data.txt'</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    data.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Además, existe otra forma de cerrar el archivo automáticamente. Si hacemos uso se <code>with()</code>, el archivo se cerrará automáticamente una vez se salga de ese bloque de código.</p>
+<div id="23ead8a3-3b4d-4b5a-a483-e5954a2e9a4e" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'sample_data.txt'</span>) <span class="im">as</span> data:</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> linea <span class="kw">in</span> data.readlines():</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(linea, end<span class="op">=</span><span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+            </section>
+
+            <!-- /5.2 -->
+
+            <!-- 5.3 -->
+
+            <section id="py-write-files" class="level2" data-number="5.3">
+                <h2 data-number="5.3" class="anchored" data-anchor-id="py-write-files"><span
+                        class="header-section-number">5.3</span> Escritura de archivos en Python </h2>
+
+<p>Lo primero que debemos de hacer para escribir en un archivo es crear un objeto para el este, con el nombre que queramos. Por lo tanto, con la siguiente línea estamos creando un archivo con el nombre <code>datos_guardados.txt</code> y, en caso de que exista, borra el contenido del mismo.</p>
+<div id="a24cf746-e602-4c1b-86d2-de36c0267090" class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span> <span class="op">=</span> <span class="bu">open</span>(<span class="st">'datos_guardados.txt'</span>, <span class="st">'w'</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si por el contrario queremos añadir el contenido al ya existente en un archivo de antes, podemos hacerlo en el modo <code>append</code> como hemos indicado.</p>                    
+						
+                <section id="py-write" class="level3" data-number="5.3.1">
+                    <h3 data-number="5.3.1" class="anchored" data-anchor-id="py-write"><span
+                            class="header-section-number">5.3.1 </span> Método <code>write</code> </h3>
+<p>Veamos ahora como podemos añadir contenido. Empecemos escribiendo un texto.</p>
+<div id="5cde75d9-cc53-4a00-bb98-39ea7fda3123" class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span> <span class="op">=</span> <span class="bu">open</span>(<span class="st">'datos_guardados.txt'</span>, <span class="st">'w'</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.write(<span class="st">'Contenido a escribir'</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por lo tanto si ahora abrimos el archivo <code>datos_guardados.txt</code>, veremos como efectivamente contiene una línea con <em>Contenido a escribir</em>.</p>
+<p>Es <strong>muy importante</strong> el uso de <code>close()</code>, ya que si dejamos el archivo abierto, podríamos llegar a tener un comportamiento inesperado que queremos evitar. Por lo tanto, siempre que se abre un archivo es necesario cerrarlo cuando hayamos acabado. Recuerda que usando el entorno <code>with</code>, se hace esta operación automáticamente.</p>
+<p>Compliquemos un poco más las cosas. Ahora vamos a guardar una lista de elementos en el archivo, donde cada elemento de la lista se almacenará en una línea distinta.</p>
+<div id="4d46ab65-ce0e-4bdb-afaa-d0f87aa8e6f2" class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span> <span class="op">=</span> <span class="bu">open</span>(<span class="st">"datos_guardados.txt"</span>, <span class="st">'w'</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="st">'Manzana'</span>, <span class="st">'Pera'</span>, <span class="st">'Banano'</span>]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> linea <span class="kw">in</span> lista:</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.write(linea <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es importante añadir el salto de línea porque, por defecto, no se añade. Además, si queremos que cada elemento de la lista se almacena en una línea distinta, será necesario su uso.</p>
+                    </section>
+					
+				<section id="py-writelines" class="level3" data-number="5.3.2">
+                    <h3 data-number="5.3.2" class="anchored" data-anchor-id="py-writelines"><span
+                            class="header-section-number">5.3.2 </span> Método <code>writelines</code> </h3>
+<p>También podemos usar el método <code>writelines()</code> y pasarle una lista. Dicho método se encargará de guardar todos los elementos de la lista en el archivo.</p>
+<div id="96799a66-a328-4a36-82a6-8d76626f9c88" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span> <span class="op">=</span> <span class="bu">open</span>(<span class="st">'datos_guardados.txt'</span>, <span class="st">'w'</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="st">'Manzana'</span>, <span class="st">'Pera'</span>, <span class="st">'Banano'</span>]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.writelines(lista)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Al abrir el arcvhivo, nos daremos cuenta de que en realidad lo que se guarda es <em>ManzanaPeraBanano</em>, todo junto. Si queremos que cada elemento se almacene en una línea distinta, deberíamos añadir el salto de línea en cada elemento de la lista como se muestra a continuación.</p>
+<div id="430ccc50-c711-4201-8e03-cde2e3d14039" class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span> <span class="op">=</span> <span class="bu">open</span>(<span class="st">'datos_guardados.txt'</span>, <span class="st">'w'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="st">'Manzana</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">'Pera</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">'Banano</span><span class="ch">\n</span><span class="st">'</span>]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.writelines(lista)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+            </section>
+
+            <!-- /5.3 -->
+
+            <!-- 5.4 -->
+
+            <section id="py-json" class="level2" data-number="5.4">
+                <h2 data-number="5.4" class="anchored" data-anchor-id="py-json"><span
+                        class="header-section-number">5.4</span> Manejo de archivos .json con Python </h2>
+<p>El formato <a href="https://www.json.org/json-es.html">JSON</a> fue inspirado por la sintaxis de JavaScript (un lenguaje de programación usado para desarrollo web). Pero desde entonces se ha convertido en un formato de datos independiente del lenguaje de programación. JSON es un formato usado para almacenar o representar datos.</p>                       
+						
+                <section id="py-json-struct" class="level3" data-number="5.4.1">
+                    <h3 data-number="5.4.1" class="anchored" data-anchor-id="py-json-struct"><span
+                            class="header-section-number">5.4.1 </span> Estructura JSON </h3>
+<p>Veamos su estructura básica con un ejemplo que representa una orden de pizza:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tamano"</span><span class="fu">:</span> <span class="st">"mediana"</span><span class="fu">,</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"precio"</span><span class="fu">:</span> <span class="fl">15.67</span><span class="fu">,</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"toppings"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"champinones"</span><span class="ot">,</span> <span class="st">"pepperoni"</span><span class="ot">,</span> <span class="st">"albahaca"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"queso_extra"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"delivery"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cliente"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Jane Doe"</span><span class="fu">,</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"telefono"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"correo"</span><span class="fu">:</span> <span class="st">"janedoe@email.com"</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Como podemos observar, la estructura se conforma mediante pares de claves-valores, parecido a un diccionario de Python. Cada clave tiene la posibilidad de almacenar deferentes tipos de datos: ya sean cadenas, enteros, flotantes, booleanos, listas, etc. Y en caso de que la estructura posea dos o más pares clave-valor estos deberán encontrarse separados mediante una coma (<code>,</code>).</p>
+<p>En la página oficial de <a href="https://www.json.org/json-es.html">JSON</a> y en la <a href="https://google.github.io/styleguide/jsoncstyleguide.xml">guía de estilos</a> de Google se puede encontrar información adicional.</p>
+                    </section>
+					
+				<section id="py-json-module" class="level3" data-number="5.4.2">
+                    <h3 data-number="5.4.2" class="anchored" data-anchor-id="py-json-module"><span
+                            class="header-section-number">5.4.2 </span> Módulo <code>json</code> </h3>
+<p>En Python existe el módulo <code>json</code> que nos permite convertir objetos JSON a diccionarios de una forma muy sencilla. Veamos un par de ejemplos.</p>
+<p>Comencemos con algo sencillo. Por ejemplo, generemos un diccionario utilizando un string con formato JSON. Para esto haremos uso de la función <code>loads</code>.</p>
+<div id="afc7bd3e-6c25-494c-964b-4bf13656e9f9" class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>json_object <span class="op">=</span>  <span class="st">'''{</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="st">    "nombre": "Eduardo",</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="st">    "edad": 27,</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="st">    "correo": "eduardo78d@gmail.com",</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="st">    "cursos": ["Python", "MongoDB", "Flask"]</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="st">}'''</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(json_object)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(json_object))</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">=================================</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>user <span class="op">=</span> json.loads(json_object)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(user)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(user))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora, si quisiéramos hacer lo inverso, usaremos la función <code>dumps</code>, que nos permite serializar un objeto Python a un objeto JSON.</p>
+<div id="e9b4309a-6d9a-4aa1-a5a9-4203aac54da6" class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>user <span class="op">=</span> {</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nombre"</span>: <span class="st">"Eduardo"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"edad"</span>: <span class="dv">27</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"correo"</span>: <span class="st">"eduardo78d@gmail.com"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cursos"</span>: [<span class="st">"Python"</span>, <span class="st">"MongoDB"</span>, <span class="st">"Flask"</span>]</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(user)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(user))</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">=================================</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>json_object <span class="op">=</span> json.dumps(user)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(json_object)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(json_object))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+				<section id="py-json-files" class="level3" data-number="5.4.3">
+                    <h3 data-number="5.4.3" class="anchored" data-anchor-id="py-json-files"><span
+                            class="header-section-number">5.4.3 </span> Archivos .json </h3>
+<p>Ya sabemos tanto crear diccionarios a partir de objetos JSON, como crear objetos JSON a partir de diccionarios. Ahora aprenderemos tanto leer como crear archivos .json.</p>
+<p>Que te parece si comenzamos con la lectura. Para esto, el código pudiera quedar de la siguiente manera:</p>
+<div id="7e402d72-66d1-44d3-9e70-3bdeb37c6617" class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'sample_data.json'</span>) <span class="im">as</span> f:</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    instance <span class="op">=</span> json.load(f)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> movie <span class="kw">in</span> instance[<span class="st">'movies'</span>]:</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'* </span><span class="sc">{</span>movie<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora, hagamos lo inverso. Creemos un archivo .json a partir de un objeto Python. Para ello me apoyaré del siguiente listado de usuarios.</p>
+<div id="8d084017-8e2d-488f-a20d-f850873489d2" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>users <span class="op">=</span> [</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"nombre"</span>: <span class="st">"Eduardo"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"edad"</span>: <span class="dv">27</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>      },</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"nombre"</span>: <span class="st">"Raquel"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"edad"</span>: <span class="dv">29</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>      },</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"nombre"</span>: <span class="st">"Fernando"</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"edad"</span>: <span class="dv">25</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>      },</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"nombre"</span>: <span class="st">"Guadalupe"</span>,</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"edad"</span>: <span class="dv">30</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nuestro código debería quedar quedar de la siguiente forma:</p>
+<div id="f47c8feb-4b1d-48e0-9029-5ab2ef9ad770" class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'users.json'</span>, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  json.dump(users, f, indent<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lo interesante de la función dumps es que, en caso deseemos serializar el objeto utilizando un orden alfabético en las claves, podemos hacer uso del parámetro <code>sort_keys</code>.</p>
+<div id="e5b66de1-8169-40b2-9458-17a9c6113145" class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>usuario <span class="op">=</span> {</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'username'</span>: <span class="st">'eduardo_gpg'</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'nombre'</span>: <span class="st">'Eduardo Ismael'</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'edad'</span>: <span class="dv">27</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'correo'</span>: <span class="st">'eduardo78d@gmail.com'</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> json.dumps(usuario, indent<span class="op">=</span><span class="dv">4</span>, sort_keys<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+                    </section>
+					
+            </section>
+
+            <!-- /5.4 -->
+
+            <!-- 5.5 -->
+
+            <section id="practice-exercises" class="level2" data-number="5.5">
+                <h2 data-number="5.5" class="anchored" data-anchor-id="practice-exercises"><span
+                        class="header-section-number">5.5</span> Ejercicios prácticos</h2>
+                <ol type="1">
+                    <li>Cree un nuevo Notebook.</li>
+                    <li>Guarde el archivo como <strong>Ejercicios_practicos_clase_5.ipynb</strong>.</li>
+                    <li>Asigne un título <strong>H1</strong> con su nombre.</li>
+                </ol>
+                <section id="practice-exercise-1" class="level3" data-number="5.5.1">
+                    <h3 data-number="5.5.1" class="anchored" data-anchor-id="practice-exercise-1"><span
+                            class="header-section-number">5.5.1</span> Ejercicio práctico 1</h3>
+<p>Escribe un programa en Python que lea un archivo CSV llamado <code>estudiantes.csv</code> y guarde la información de cada estudiante en un archivo de texto <code>resultados.txt</code>. El archivo CSV contiene tres columnas: <strong>Nombre</strong>, <strong>Edad</strong> y <strong>Calificación</strong>. Si el archivo <code>estudiantes.csv</code> no existe, el programa debe manejar esta excepción adecuadamente y mostrar un mensaje al usuario. Si la calificación de un estudiante es menor a 0 o mayor a 5, el programa debe levantar una excepción personalizada llamada <code>CalificacionInvalidaError</code> e incluir un manejo adecuado de la excepción, avisando al usaurio y cambiando la nota por <code>NaN</code>.</p>
+<ol type="1">
+<li>Crea el archivo <code>estudiantes.csv</code> con datos ficticios.</li>
+<li>Lee el archivo CSV y extrae la información. No use el entorno <code>with</code>.</li>
+<li>Escribe los datos en el archivo de texto <code>resultados.txt</code> en el siguiente formato: Nombre: &lt;nombre&gt;, Edad: &lt;edad&gt;, Calificación: &lt;calificacion&gt;.</li>
+<li>Implementa un bloque <code>try-except-else-finally</code> para manejar los posibles errores:
+<ul>
+<li><code>FileNotFoundError</code> si el archivo <code>estudiantes.csv</code> no existe.</li>
+<li><code>CalificacionInvalidaError</code> si una calificación es inválida.</li>
+</ul></li>
+<li>El bloque <code>finally</code> debe cerrar cualquier archivo abierto.</li>
+</ol>
+                </section>
+                <section id="practice-exercise-2" class="level3" data-number="5.5.2">
+                    <h3 data-number="5.5.2" class="anchored" data-anchor-id="practice-exercise-2"><span
+                            class="header-section-number">5.5.2</span> Ejercicio práctico 2</h3>
+<p>Escribe un programa en Python que lea el archivo JSON <code>sample_data.json</code> usado en clase y luego los guarde en otro archivo llamado <code>sample_data_cipher.json</code>, en el que los valores de cada clave en el archivo deben estar cifrados usando el <a href="https://es.wikipedia.org/wiki/Cifrado_C%C3%A9sar">cifrado César</a> con desplazamiento de 3 posiciones en el alfabeto, aplique igual procedimiento a cada dígito de los números. El nombre de las claves no debe cifrarse. Por ejemplo, si en el archivo JSON de entrada existe la entrada</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>    <span class="er">"Title"</span> <span class="er">:</span> <span class="er">"The</span> <span class="er">Shawshank</span> <span class="er">Redemption",</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">"US</span> <span class="er">Gross"</span> <span class="er">:</span> <span class="er">28241469</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>en el archivo de salida debe estar:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>    <span class="er">"Title"</span> <span class="er">:</span> <span class="er">"Wkh</span> <span class="er">Vkdzvkdqn</span> <span class="er">Uhghpswlrq",</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">"US</span> <span class="er">Gross"</span> <span class="er">:</span> <span class="er">51574792</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Si el archivo JSON no existe o tiene un formato incorrecto, el programa debe manejar estas excepciones.</p>
+                </section>
+            </section>
+            
+            <!-- /5.5 -->
+        </main> <!-- /main -->
+        <script id="quarto-html-after-body" type="application/javascript">
+            window.document.addEventListener("DOMContentLoaded", function (event) {
+                const toggleBodyColorMode = (bsSheetEl) => {
+                    const mode = bsSheetEl.getAttribute("data-mode");
+                    const bodyEl = window.document.querySelector("body");
+                    if (mode === "dark") {
+                        bodyEl.classList.add("quarto-dark");
+                        bodyEl.classList.remove("quarto-light");
+                    } else {
+                        bodyEl.classList.add("quarto-light");
+                        bodyEl.classList.remove("quarto-dark");
+                    }
+                }
+                const toggleBodyColorPrimary = () => {
+                    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+                    if (bsSheetEl) {
+                        toggleBodyColorMode(bsSheetEl);
+                    }
+                }
+                toggleBodyColorPrimary();
+                const icon = "";
+                const anchorJS = new window.AnchorJS();
+                anchorJS.options = {
+                    placement: 'right',
+                    icon: icon
+                };
+                anchorJS.add('.anchored');
+                const isCodeAnnotation = (el) => {
+                    for (const clz of el.classList) {
+                        if (clz.startsWith('code-annotation-')) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                const clipboard = new window.ClipboardJS('.code-copy-button', {
+                    text: function (trigger) {
+                        const codeEl = trigger.previousElementSibling.cloneNode(true);
+                        for (const childEl of codeEl.children) {
+                            if (isCodeAnnotation(childEl)) {
+                                childEl.remove();
+                            }
+                        }
+                        return codeEl.innerText;
+                    }
+                });
+                clipboard.on('success', function (e) {
+                    // button target
+                    const button = e.trigger;
+                    // don't keep focus
+                    button.blur();
+                    // flash "checked"
+                    button.classList.add('code-copy-button-checked');
+                    var currentTitle = button.getAttribute("title");
+                    button.setAttribute("title", "Copied!");
+                    let tooltip;
+                    if (window.bootstrap) {
+                        button.setAttribute("data-bs-toggle", "tooltip");
+                        button.setAttribute("data-bs-placement", "left");
+                        button.setAttribute("data-bs-title", "Copied!");
+                        tooltip = new bootstrap.Tooltip(button,
+                            {
+                                trigger: "manual",
+                                customClass: "code-copy-button-tooltip",
+                                offset: [0, -8]
+                            });
+                        tooltip.show();
+                    }
+                    setTimeout(function () {
+                        if (tooltip) {
+                            tooltip.hide();
+                            button.removeAttribute("data-bs-title");
+                            button.removeAttribute("data-bs-toggle");
+                            button.removeAttribute("data-bs-placement");
+                        }
+                        button.setAttribute("title", currentTitle);
+                        button.classList.remove('code-copy-button-checked');
+                    }, 1000);
+                    // clear code selection
+                    e.clearSelection();
+                });
+                function tippyHover(el, contentFn) {
+                    const config = {
+                        allowHTML: true,
+                        content: contentFn,
+                        maxWidth: 500,
+                        delay: 100,
+                        arrow: false,
+                        appendTo: function (el) {
+                            return el.parentElement;
+                        },
+                        interactive: true,
+                        interactiveBorder: 10,
+                        theme: 'quarto',
+                        placement: 'bottom-start'
+                    };
+                    window.tippy(el, config);
+                }
+                const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+                for (var i = 0; i < noterefs.length; i++) {
+                    const ref = noterefs[i];
+                    tippyHover(ref, function () {
+                        // use id or data attribute instead here
+                        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+                        try { href = new URL(href).hash; } catch { }
+                        const id = href.replace(/^#\/?/, "");
+                        const note = window.document.getElementById(id);
+                        return note.innerHTML;
+                    });
+                }
+                let selectedAnnoteEl;
+                const selectorForAnnotation = (cell, annotation) => {
+                    let cellAttr = 'data-code-cell="' + cell + '"';
+                    let lineAttr = 'data-code-annotation="' + annotation + '"';
+                    const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+                    return selector;
+                }
+                const selectCodeLines = (annoteEl) => {
+                    const doc = window.document;
+                    const targetCell = annoteEl.getAttribute("data-target-cell");
+                    const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+                    const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                    const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+                    const lineIds = lines.map((line) => {
+                        return targetCell + "-" + line;
+                    })
+                    let top = null;
+                    let height = null;
+                    let parent = null;
+                    if (lineIds.length > 0) {
+                        //compute the position of the single el (top and bottom and make a div)
+                        const el = window.document.getElementById(lineIds[0]);
+                        top = el.offsetTop;
+                        height = el.offsetHeight;
+                        parent = el.parentElement.parentElement;
+                        if (lineIds.length > 1) {
+                            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                            height = bottom - top;
+                        }
+                        if (top !== null && height !== null && parent !== null) {
+                            // cook up a div (if necessary) and position it 
+                            let div = window.document.getElementById("code-annotation-line-highlight");
+                            if (div === null) {
+                                div = window.document.createElement("div");
+                                div.setAttribute("id", "code-annotation-line-highlight");
+                                div.style.position = 'absolute';
+                                parent.appendChild(div);
+                            }
+                            div.style.top = top - 2 + "px";
+                            div.style.height = height + 4 + "px";
+                            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                            if (gutterDiv === null) {
+                                gutterDiv = window.document.createElement("div");
+                                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                                gutterDiv.style.position = 'absolute';
+                                const codeCell = window.document.getElementById(targetCell);
+                                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                                gutter.appendChild(gutterDiv);
+                            }
+                            gutterDiv.style.top = top - 2 + "px";
+                            gutterDiv.style.height = height + 4 + "px";
+                        }
+                        selectedAnnoteEl = annoteEl;
+                    }
+                };
+                const unselectCodeLines = () => {
+                    const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+                    elementsIds.forEach((elId) => {
+                        const div = window.document.getElementById(elId);
+                        if (div) {
+                            div.remove();
+                        }
+                    });
+                    selectedAnnoteEl = undefined;
+                };
+                // Attach click handler to the DT
+                const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+                for (const annoteDlNode of annoteDls) {
+                    annoteDlNode.addEventListener('click', (event) => {
+                        const clickedEl = event.target;
+                        if (clickedEl !== selectedAnnoteEl) {
+                            unselectCodeLines();
+                            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+                            if (activeEl) {
+                                activeEl.classList.remove('code-annotation-active');
+                            }
+                            selectCodeLines(clickedEl);
+                            clickedEl.classList.add('code-annotation-active');
+                        } else {
+                            // Unselect the line
+                            unselectCodeLines();
+                            clickedEl.classList.remove('code-annotation-active');
+                        }
+                    });
+                }
+                const findCites = (el) => {
+                    const parentEl = el.parentElement;
+                    if (parentEl) {
+                        const cites = parentEl.dataset.cites;
+                        if (cites) {
+                            return {
+                                el,
+                                cites: cites.split(' ')
+                            };
+                        } else {
+                            return findCites(el.parentElement)
+                        }
+                    } else {
+                        return undefined;
+                    }
+                };
+                var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+                for (var i = 0; i < bibliorefs.length; i++) {
+                    const ref = bibliorefs[i];
+                    const citeInfo = findCites(ref);
+                    if (citeInfo) {
+                        tippyHover(citeInfo.el, function () {
+                            var popup = window.document.createElement('div');
+                            citeInfo.cites.forEach(function (cite) {
+                                var citeDiv = window.document.createElement('div');
+                                citeDiv.classList.add('hanging-indent');
+                                citeDiv.classList.add('csl-entry');
+                                var biblioDiv = window.document.getElementById('ref-' + cite);
+                                if (biblioDiv) {
+                                    citeDiv.innerHTML = biblioDiv.innerHTML;
+                                }
+                                popup.appendChild(citeDiv);
+                            });
+                            return popup.innerHTML;
+                        });
+                    }
+                }
+            });
+        </script>
+        <nav class="page-navigation">
+            <div class="nav-page nav-page-previous">
+                <a href="./04_Estructura_datos.html" class="pagination-link">
+                    <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span
+                            class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estructuras de datos avanzadas
+                                </span></span>
+                </a>
+            </div>
+            <div class="nav-page nav-page-next">
+                <a href="./06_Numpy.html" class="pagination-link">
+                    <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span
+                            class="chapter-title">Introducción a Numpy</span></span> <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- /content -->
+
+
+
+</body>
+
+</html>
