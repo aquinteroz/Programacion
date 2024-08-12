@@ -1,0 +1,134 @@
+{
+  "movies": [
+	{
+		"Title": "The Shawshank Redemption",
+		"US Gross": 28241469,
+		"Production Budget": 25000000,
+		"Release Date": "Sep 23 1994",
+		"Major Genre": "Drama",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 88,
+		"IMDB Rating": 9.2
+	},
+	{
+		"Title": "Inception",
+		"US Gross": 285630280,
+		"Production Budget": 160000000,
+		"Release Date": "Jul 16 2010",
+		"Major Genre": "Horror/Thriller",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 87,
+		"IMDB Rating": 9.1
+	},
+	{
+		"Title": "One Flew Over the Cuckoo's Nest",
+		"US Gross": 108981275,
+		"Production Budget": 4400000,
+		"Release Date": "Nov 19 1975",
+		"Major Genre": "Comedy",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 96,
+		"IMDB Rating": 8.9
+	},
+	{
+		"Title": "The Dark Knight",
+		"US Gross": 533345358,
+		"Production Budget": 185000000,
+		"Release Date": "Jul 18 2008",
+		"Major Genre": "Action/Adventure",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 93,
+		"IMDB Rating": 8.9
+	},
+	{
+		"Title": "Schindler's List",
+		"US Gross": 96067179,
+		"Production Budget": 25000000,
+		"Release Date": "Dec 15 1993",
+		"Major Genre": "Drama",
+		"Creative Type": "Non-Fiction",
+		"Rotten Tomatoes Rating": 97,
+		"IMDB Rating": 8.9
+	},
+	{
+		"Title": "Pulp Fiction",
+		"US Gross": 107928762,
+		"Production Budget": 8000000,
+		"Release Date": "Oct 14 1994",
+		"Major Genre": "Drama",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 94,
+		"IMDB Rating": 8.9
+	},
+	{
+		"Title": "Toy Story 3",
+		"US Gross": 410640665,
+		"Production Budget": 200000000,
+		"Release Date": "Jun 18 2010",
+		"Major Genre": "Action/Adventure",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 99,
+		"IMDB Rating": 8.9
+	},
+	{
+		"Title": "Casablanca",
+		"US Gross": 10462500,
+		"Production Budget": 950000,
+		"Release Date": "Dec 31 1941",
+		"Major Genre": "Drama",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 97,
+		"IMDB Rating": 8.8
+	},
+	{
+		"Title": "The Silence of the Lambs",
+		"US Gross": 130726716,
+		"Production Budget": 20000000,
+		"Release Date": "Feb 14 1991",
+		"Major Genre": "Horror/Thriller",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 96,
+		"IMDB Rating": 8.7
+	},
+	{
+		"Title": "The Usual Suspects",
+		"US Gross": 23341568,
+		"Production Budget": 6000000,
+		"Release Date": "Aug 16 1995",
+		"Major Genre": "Drama",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 87,
+		"IMDB Rating": 8.7
+	},
+	{
+		"Title": "The Matrix",
+		"US Gross": 171479930,
+		"Production Budget": 65000000,
+		"Release Date": "Mar 31 1999",
+		"Major Genre": "Action/Adventure",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 86,
+		"IMDB Rating": 8.7
+	},
+	{
+		"Title": "Lawrence of Arabia",
+		"US Gross": 37495385,
+		"Production Budget": 15000000,
+		"Release Date": "Dec 16 1962",
+		"Major Genre": "Action/Adventure",
+		"Creative Type": "Non-Fiction",
+		"Rotten Tomatoes Rating": 98,
+		"IMDB Rating": 8.6
+	},
+	{
+		"Title": "Forrest Gump",
+		"US Gross": 329694499,
+		"Production Budget": 55000000,
+		"Release Date": "Jul 06 1994",
+		"Major Genre": "Drama",
+		"Creative Type": "Fiction",
+		"Rotten Tomatoes Rating": 70,
+		"IMDB Rating": 8.6
+	}
+  ]
+}
