@@ -686,8 +686,9 @@
                         class="header-section-number">7.3</span>   Indexación y selección de datos</h2>
 <p>Ya concoemos los métodos y herramientas para acceder, establecer y modificar valores en matrices NumPy. Aquí veremos medios similares para acceder y modificar valores en los objetos <code>Series</code> y <code>DataFrame</code> de Pandas. Si ha utilizado los patrones NumPy, los patrones correspondientes en Pandas le resultarán muy familiares, aunque hay algunas peculiaridades que debe tener en cuenta.</p>
 <p>Comenzaremos con el caso simple del objeto unidimensional <code>Series</code> y luego pasaremos al objeto bidimensional más complicado <code>DataFrame</code>.</p>
-<section id="selección-de-datos-en-objetos-series" class="level3">
-<h3 class="anchored" data-anchor-id="selección-de-datos-en-objetos-series">7.3.1 Selección de datos en objetos <code>Series</code></h3>
+<section id="py-pandas-sselect" class="level3" data-number="7.3.1">
+                    <h3 data-number="7.3.1" class="anchored" data-anchor-id="py-pandas-sselect"><span
+                            class="header-section-number">7.3.1 </span> Selección de datos en objetos <code>Series</code></h3>
 <p>Como vimos en la sección anterior, un objeto <code>Series</code> actúa en un sentido como una matriz NumPy unidimensional y, en otro sentido, como un diccionario Python estándar. Si tenemos en cuenta estas dos analogías superpuestas, nos ayudará a comprender los patrones de indexación y selección de datos en estas matrices.</p>
 <section id="serie-como-diccionario" class="level4">
 <h4 class="anchored" data-anchor-id="serie-como-diccionario">Serie como diccionario</h4>
@@ -773,8 +774,9 @@
 <p>La naturaleza explícita de <code>loc</code> e <code>iloc</code> los hace muy útiles para mantener un código limpio y legible; especialmente en el caso de índices enteros, recomiendo utilizar ambos para hacer que el código sea más fácil de leer y entender y para evitar errores sutiles debido a la convención mixta de indexación/segmentación.</p>
 </section>
 </section>
-<section id="selección-de-datos-en-dataframe" class="level3">
-<h3 class="anchored" data-anchor-id="selección-de-datos-en-dataframe">7.3.2 Selección de datos en DataFrame</h3>
+<section id="py-pandas-dfselect" class="level3" data-number="7.3.2">
+                    <h3 data-number="7.3.2" class="anchored" data-anchor-id="py-pandas-dfselect"><span
+                            class="header-section-number">7.3.2 </span> Selección de datos en DataFrame</h3>
 <p>Recuerde que un <code>DataFrame</code> actúa en muchos sentidos como una matriz bidimensional o estructurada, y en otros sentidos como un diccionario de estructuras <code>Series</code> que comparten el mismo índice. Puede resultar útil tener en cuenta estas analogías a medida que exploramos la selección de datos dentro de esta estructura.</p>
 <section id="dataframe-como-diccionario" class="level4">
 <h4 class="anchored" data-anchor-id="dataframe-como-diccionario"><code>DataFrame</code> como diccionario</h4>
@@ -849,8 +851,9 @@
 </div>
 </section>
 </section>
-<section id="convenciones-de-indexación-adicionales" class="level3">
-<h3 class="anchored" data-anchor-id="convenciones-de-indexación-adicionales">7.3.3 Convenciones de indexación adicionales</h3>
+<section id="py-pandas-idxconv" class="level3" data-number="7.3.3">
+                    <h3 data-number="7.3.3" class="anchored" data-anchor-id="py-pandas-idxconv"><span
+                            class="header-section-number">7.3.3 </span> Convenciones de indexación adicionales</h3>
 <p>Hay un par de convenciones de indexación adicionales que pueden parecer contrarias a la discusión anterior, pero sin embargo pueden resultar muy útiles en la práctica. En primer lugar, mientras que <em>indexación</em> se refiere a columnas, <em>segmentación</em> se refiere a filas:</p>
 <div id="8936cb0b" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Florida'</span>:<span class="st">'Illinois'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -868,12 +871,14 @@
 </section>
 
 <!-- 7.4 -->
-<section id="operando-con-datos-en-pandas" class="level2">
-<h2 class="anchored" data-anchor-id="operando-con-datos-en-pandas">7.4 Operando con datos en Pandas</h2>
+<section id="py-pandas-oper" class="level2" data-number="7.4">
+                <h2 data-number="7.4" class="anchored" data-anchor-id="py-pandas-oper"><span
+                        class="header-section-number">7.4</span> Operando con datos en Pandas</h2>
 <p>Una de las piezas esenciales de NumPy es la capacidad de realizar operaciones rápidas elemento por elemento, tanto con aritmética básica (suma, resta, multiplicación, etc.) como con operaciones más sofisticadas (funciones trigonométricas, funciones exponenciales y logarítmicas, etc.). Pandas hereda gran parte de esta funcionalidad de NumPy, y las ufuncs que presentamos en <a href="02.03-Computation-on-arrays-ufuncs.ipynb">Computation on NumPy Arrays: Universal Functions</a> son clave para esto.</p>
 <p>Sin embargo, Pandas incluye un par de cambios útiles: para operaciones unarias como la negación y las funciones trigonométricas, estas ufuncs <em>preservarán las etiquetas de índice y columna</em> en la salida, y para operaciones binarias como la suma y la multiplicación, Pandas <em>alineará automáticamente los índices</em> al pasar los objetos a la ufunc. Esto significa que mantener el contexto de los datos y combinar datos de diferentes fuentes (ambas tareas potencialmente propensas a errores con matrices NumPy sin procesar) se vuelven esencialmente tareas infalibles con Pandas. Además, veremos que existen operaciones bien definidas entre estructuras unidimensionales tipo «Series» y estructuras bidimensionales tipo «DataFrame».</p>
-<section id="ufuncs-preservación-de-índice" class="level3">
-<h3 class="anchored" data-anchor-id="ufuncs-preservación-de-índice">7.4.1 Ufuncs: Preservación de índice</h3>
+<section id="py-pandas-ufpre" class="level3" data-number="7.4.1">
+                    <h3 data-number="7.4.1" class="anchored" data-anchor-id="py-pandas-ufpre"><span
+                            class="header-section-number">7.4.1 </span>  Ufuncs: Preservación de índice</h3>
 <p>Debido a que Pandas está diseñado para trabajar con NumPy, cualquier ufunc de NumPy funcionará en objetos <code>Series</code> y <code>DataFrame</code> de Pandas. Comencemos por definir una <code>Serie</code> y un <code>DataFrame</code> simples sobre los cuales demostrar esto:</p>
 <div id="84281604" class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -899,8 +904,9 @@
 </div>
 <p>Cualquiera de las ufuncs discutidas en <a href="02.03-Computation-on-arrays-ufuncs.ipynb">Computation on NumPy Arrays: Universal Functions</a> se puede utilizar de manera similar.</p>
 </section>
-<section id="ufuncs-alineación-de-índice" class="level3">
-<h3 class="anchored" data-anchor-id="ufuncs-alineación-de-índice">7.4.2 UFuncs: Alineación de índice</h3>
+<section id="py-pandas-ufalg" class="level3" data-number="7.4.2">
+                    <h3 data-number="7.4.2" class="anchored" data-anchor-id="py-pandas-ufalg"><span
+                            class="header-section-number">7.4.2 </span> UFuncs: Alineación de índice</h3>
 <p>Para operaciones binarias en dos objetos <code>Series</code> o <code>DataFrame</code>, Pandas alineará los índices en el proceso de realización de la operación. Esto es muy conveniente cuando trabajamos con datos incompletos, como veremos en algunos de los ejemplos que siguen.</p>
 <section id="alineación-de-índices-en-la-serie" class="level4">
 <h4 class="anchored" data-anchor-id="alineación-de-índices-en-la-serie">Alineación de índices en la serie</h4>
@@ -948,13 +954,11 @@
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>fill <span class="op">=</span> A.stack().mean()</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>A.add(B, fill_value<span class="op">=</span>fill)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>La siguiente tabla enumera los operadores de Python y sus métodos de objetos Pandas equivalentes:</p>
-<div class="line-block">Operador Python | Método(s) Pandas |</div>
-<p>|—————–|——————————- ——–| | <code>+</code> | <code>agregar()</code> | | <code>-</code> | <code>sub()</code>, <code>restar()</code> | | <code>*</code> | <code>mul()</code>, <code>multiplicar()</code> | | <code>/</code> | <code>truediv()</code>, <code>div()</code>, <code>divide()</code>| | <code>//</code> | <code>floordiv()</code> | | <code>%</code> | <code>mod()</code> | | <code>**</code> | <code>pow()</code> |</p>
 </section>
 </section>
-<section id="ufuncs-operaciones-entre-dataframe-y-series" class="level3">
-<h3 class="anchored" data-anchor-id="ufuncs-operaciones-entre-dataframe-y-series">7.4.3 Ufuncs: Operaciones entre DataFrame y Series</h3>
+<section id="py-pandas-ufoper" class="level3" data-number="7.4.3">
+                    <h3 data-number="7.4.3" class="anchored" data-anchor-id="py-pandas-ufoper"><span
+                            class="header-section-number">7.4.3 </span>Ufuncs: Operaciones entre DataFrame y Series</h3>
 <p>Al realizar operaciones entre un <code>DataFrame</code> y una <code>Serie</code>, la alineación del índice y de la columna se mantiene de manera similar. Las operaciones entre un <code>DataFrame</code> y una <code>Serie</code> son similares a las operaciones entre una matriz NumPy bidimensional y unidimensional. Consideremos una operación común, donde encontramos la diferencia de una matriz bidimensional y una de sus filas:</p>
 <div id="8dc3feb6" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> rng.randint(<span class="dv">10</span>, size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span>
@@ -986,20 +990,23 @@
 </section>
 
 <!-- 7.5 -->
-<section id="manejo-de-datos-faltantes" class="level2">
-<h2 class="anchored" data-anchor-id="manejo-de-datos-faltantes">7.5 Manejo de datos faltantes</h2>
+<section id="py-pandas-nodata" class="level2" data-number="7.5">
+                <h2 data-number="7.5" class="anchored" data-anchor-id="py-pandas-nodata"><span
+                        class="header-section-number">7.5</span> Manejo de datos faltantes</h2>
 <p>La diferencia entre los datos que se encuentran en muchos tutoriales y los datos del mundo real es que los datos del mundo real rara vez son limpios y homogéneos. En particular, en muchos conjuntos de datos interesantes faltará cierta cantidad de datos. Para complicar aún más las cosas, diferentes fuentes de datos pueden indicar datos faltantes de diferentes maneras.</p>
 <p>En esta sección, analizaremos algunas consideraciones generales sobre los datos faltantes, analizaremos cómo Pandas elige representarlos y demostraremos algunas herramientas integradas de Pandas para manejar datos faltantes en Python. Aquí y a lo largo del libro, nos referiremos a los datos faltantes en general como valores <em>nulos</em>, <em>NaN</em> o <em>NA</em>.</p>
-<section id="convenciones-de-datos-faltantes" class="level3">
-<h3 class="anchored" data-anchor-id="convenciones-de-datos-faltantes">7.5.1 Convenciones de datos faltantes</h3>
+<section id="py-pandas-conv" class="level3" data-number="7.5.1">
+                    <h3 data-number="7.5.1" class="anchored" data-anchor-id="py-pandas-conv"><span 
+                            class="header-section-number">7.5.1 </span> Convenciones de datos faltantes</h3>
 <p>Hay una serie de esquemas que se han desarrollado para indicar la presencia de datos faltantes en una tabla o DataFrame. Generalmente, giran en torno a una de dos estrategias: utilizar una <em>máscara</em> que indica globalmente los valores faltantes o elegir un <em>valor centinela</em> que indica una entrada faltante.</p>
 <p>En el enfoque de enmascaramiento, la máscara puede ser una matriz booleana completamente separada o puede implicar la apropiación de un bit en la representación de datos para indicar localmente el estado nulo de un valor.</p>
 <p>En el enfoque centinela, el valor centinela podría ser alguna convención específica de los datos, como indicar un valor entero faltante con -9999 o algún patrón de bits raro, o podría ser una convención más global, como indicar un valor de punto flotante faltante con NaN (No es un número), un valor especial que es parte de la especificación de punto flotante IEEE.</p>
 <p>Ninguno de estos enfoques está exento de desventajas: el uso de una matriz de máscaras independiente requiere la asignación de una matriz booleana adicional, lo que agrega sobrecarga tanto en almacenamiento como en computación. Un valor centinela reduce el rango de valores válidos que se pueden representar y puede requerir lógica adicional (a menudo no optimizada) en la aritmética de CPU y GPU. Los valores especiales comunes como NaN no están disponibles para todos los tipos de datos.</p>
 <p>Como en la mayoría de los casos en los que no existe una opción universalmente óptima, los distintos idiomas y sistemas utilizan convenciones diferentes. Por ejemplo, el lenguaje R utiliza patrones de bits reservados dentro de cada tipo de datos como valores centinela que indican datos faltantes, mientras que el sistema SciDB utiliza un byte adicional adjunto a cada celda que indica un estado NA.</p>
 </section>
-<section id="datos-faltantes-en-pandas" class="level3">
-<h3 class="anchored" data-anchor-id="datos-faltantes-en-pandas">7.5.2 Datos faltantes en Pandas</h3>
+<section id="py-pandas-ndpandas" class="level3" data-number="7.5.2">
+                    <h3 data-number="7.5.2" class="anchored" data-anchor-id="py-pandas-ndpandas"><span 
+                            class="header-section-number">7.5.2 </span> Datos faltantes en Pandas</h3>
 <p>La forma en que Pandas maneja los valores faltantes está limitada por su dependencia del paquete NumPy, que no tiene una noción incorporada de valores NA para tipos de datos que no sean de punto flotante.</p>
 <p>Pandas podría haber seguido el ejemplo de R y especificar patrones de bits para cada tipo de datos individual para indicar la nulidad, pero este enfoque resulta bastante complicado de manejar. Si bien R contiene cuatro tipos de datos básicos, NumPy admite <em>mucho</em> más que esto: por ejemplo, mientras que R tiene un solo tipo de entero, NumPy admite <em>catorce</em> tipos de enteros básicos una vez que se tienen en cuenta las precisiones disponibles, el signo y el endianismo de la codificación. Reservar un patrón de bits específico en todos los tipos NumPy disponibles generaría una cantidad de sobrecarga inmanejable en la conversión especial de varias operaciones en casos especiales para varios tipos, lo que probablemente requeriría incluso una nueva bifurcación del paquete NumPy. Además, para los tipos de datos más pequeños (como los números enteros de 8 bits), sacrificar un bit para usarlo como máscara reducirá significativamente el rango de valores que puede representar.</p>
 <p>NumPy tiene soporte para matrices enmascaradas, es decir, matrices que tienen una matriz de máscara booleana separada adjunta para marcar datos como “buenos” o “malos”. Pandas podría haber derivado de esto, pero la sobrecarga en almacenamiento, computación y mantenimiento del código hace que sea una opción poco atractiva.</p>
@@ -1104,8 +1111,9 @@
 <p>Tenga en cuenta que en Pandas, los datos de cadena siempre se almacenan con un tipo de datos “objeto”.</p>
 </section>
 </section>
-<section id="operando-con-valores-nulos" class="level3">
-<h3 class="anchored" data-anchor-id="operando-con-valores-nulos">7.5.3 Operando con valores nulos</h3>
+<section id="py-pandas-ndoper" class="level3" data-number="7.5.3">
+                    <h3 data-number="7.5.3" class="anchored" data-anchor-id="py-pandas-ndoper"><span 
+                            class="header-section-number">7.5.3 </span> Operando con valores nulos</h3>
 <p>Como hemos visto, Pandas trata a <code>None</code> y <code>NaN</code> como esencialmente intercambiables para indicar valores faltantes o nulos. Para facilitar esta convención, existen varios métodos útiles para detectar, eliminar y reemplazar valores nulos en las estructuras de datos de Pandas. Ellos son:</p>
 <ul>
 <li><code>isnull()</code>: Genera una máscara booleana que indica los valores faltantes</li>
@@ -1201,8 +1209,9 @@
 </section>
 
 <!-- 7.6 -->
-<section id="combinación-de-conjuntos-de-datos-concatenación-y-anexión" class="level2">
-<h2 class="anchored" data-anchor-id="combinación-de-conjuntos-de-datos-concatenación-y-anexión">7.6 Combinación de conjuntos de datos: concatenación y anexión</h2>
+<section id="py-pandas-conanex" class="level2" data-number="7.6">
+                <h2 data-number="7.6" class="anchored" data-anchor-id="py-pandas-conanex"><span
+                        class="header-section-number">7.6</span> Combinación de conjuntos de datos: concatenación y anexión</h2>
 <p>Algunos de los estudios de datos más interesantes surgen de la combinación de diferentes fuentes de datos. Estas operaciones pueden implicar cualquier cosa, desde una concatenación muy sencilla de dos conjuntos de datos diferentes hasta uniones y fusiones de estilo de base de datos más complicadas que manejan correctamente cualquier superposición entre los conjuntos de datos. Las «Series» y «DataFrame» se construyen con este tipo de operación en mente, y Pandas incluye funciones y métodos que hacen que este tipo de manejo de datos sea rápido y sencillo.</p>
 <p>Aquí veremos la concatenación simple de <code>Series</code> y <code>DataFrame</code> con la función <code>pd.concat</code>; más adelante profundizaremos en fusiones y uniones en memoria más sofisticadas implementadas en Pandas.</p>
 <p>Comenzamos con las importaciones estándar:</p>
@@ -1241,8 +1250,9 @@
 <span id="cb111-16"><a href="#cb111-16" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>El uso de esto quedará más claro a medida que continuemos nuestra discusión en la siguiente sección.</p>
-<section id="concatenación-simple-con-pd.concat" class="level3">
-<h3 class="anchored" data-anchor-id="concatenación-simple-con-pd.concat">7.6.1 Concatenación simple con <code>pd.concat</code></h3>
+<section id="py-pandas-concat" class="level3" data-number="7.6.1">
+                    <h3 data-number="7.6.1" class="anchored" data-anchor-id="py-pandas-concat"><span 
+                            class="header-section-number">7.6.1 </span> Concatenación simple con <code>pd.concat</code></h3>
 <p>Pandas tiene una función, <code>pd.concat()</code>, que tiene una sintaxis similar a <code>np.concatenate</code> pero contiene una serie de opciones que discutiremos en breve:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Signature in Pandas v0.18</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>pd.concat(objs, axis<span class="op">=</span><span class="dv">0</span>, join<span class="op">=</span><span class="st">'outer'</span>, join_axes<span class="op">=</span><span class="va">None</span>, ignore_index<span class="op">=</span><span class="va">False</span>,</span>
@@ -1296,8 +1306,9 @@
 </div>
 </section>
 </section>
-<section id="concatenación-con-uniones" class="level3">
-<h3 class="anchored" data-anchor-id="concatenación-con-uniones">7.6.2 Concatenación con uniones</h3>
+<section id="py-pandas-join" class="level3" data-number="7.6.2">
+                    <h3 data-number="7.6.2" class="anchored" data-anchor-id="py-pandas-join"><span 
+                            class="header-section-number">7.6.2 </span> Concatenación con uniones</h3>
 <p>En los ejemplos simples que acabamos de ver, estábamos principalmente concatenando <code>DataFrame</code> con nombres de columnas compartidos. En la práctica, los datos de diferentes fuentes pueden tener diferentes conjuntos de nombres de columnas, y <code>pd.concat</code> ofrece varias opciones en este caso. Considere la concatenación de los siguientes dos “DataFrame”, que tienen algunas (¡pero no todas!) columnas en común:</p>
 <div id="7354d975" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> make_df(<span class="st">'ABC'</span>, [<span class="dv">1</span>, <span class="dv">2</span>])</span>
@@ -1318,8 +1329,9 @@
 </section>
 
 <!-- 7.7 -->
-<section id="combinación-de-conjuntos-de-datos-fusionar-y-unir" class="level2">
-<h2 class="anchored" data-anchor-id="combinación-de-conjuntos-de-datos-fusionar-y-unir">7.7 Combinación de conjuntos de datos: fusionar y unir</h2>
+<section id="py-pandas-fusun" class="level2" data-number="7.7">
+                <h2 data-number="7.7" class="anchored" data-anchor-id="py-pandas-fusun"><span
+                        class="header-section-number">7.7</span> Combinación de conjuntos de datos: fusionar y unir</h2>
 <p>Una característica esencial que ofrece Pandas son sus operaciones de unión y fusión en memoria de alto rendimiento. Si alguna vez ha trabajado con bases de datos, debería estar familiarizado con este tipo de interacción de datos. La interfaz principal para esto es la función <code>pd.merge</code>, y veremos algunos ejemplos de cómo puede funcionar en la práctica.</p>
 <p>Para mayor comodidad, comenzaremos redefiniendo la funcionalidad <code>display()</code> de la sección anterior:</p>
 <div id="9c3f779a" class="cell">
@@ -1342,13 +1354,15 @@
 <span id="cb122-17"><a href="#cb122-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'</span><span class="ch">\n\n</span><span class="st">'</span>.join(a <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span> <span class="op">+</span> <span class="bu">repr</span>(<span class="bu">eval</span>(a))</span>
 <span id="cb122-18"><a href="#cb122-18" aria-hidden="true" tabindex="-1"></a>                           <span class="cf">for</span> a <span class="kw">in</span> <span class="va">self</span>.args)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="algebra-relacional" class="level3">
-<h3 class="anchored" data-anchor-id="algebra-relacional">7.7.1 Algebra relacional</h3>
+<section id="py-pandas-algrel" class="level3" data-number="7.7.1">
+                    <h3 data-number="7.7.1" class="anchored" data-anchor-id="py-pandas-algrel"><span 
+                            class="header-section-number">7.7.1 </span> Algebra relacional</h3>
 <p>El comportamiento implementado en <code>pd.merge()</code> es un subconjunto de lo que se conoce como <em>álgebra relacional</em>, que es un conjunto formal de reglas para manipular datos relacionales y forma la base conceptual de las operaciones disponibles en la mayoría de las bases de datos. La fortaleza del enfoque del álgebra relacional es que propone varias operaciones primitivas, que se convierten en los componentes básicos de operaciones más complicadas en cualquier conjunto de datos. Con este léxico de operaciones fundamentales implementado eficientemente en una base de datos u otro programa, se pueden realizar una amplia gama de operaciones compuestas bastante complicadas.</p>
 <p>Pandas implementa varios de estos bloques de construcción fundamentales en la función <code>pd.merge()</code> y el método <code>join()</code> relacionado de <code>Series</code> y <code>Dataframe</code>. Como veremos, estos le permiten vincular de manera eficiente datos de diferentes fuentes.</p>
 </section>
-<section id="categorías-de-uniones" class="level3">
-<h3 class="anchored" data-anchor-id="categorías-de-uniones">7.7.2 Categorías de uniones</h3>
+<section id="py-pandas-uncat" class="level3" data-number="7.7.2">
+                    <h3 data-number="7.7.2" class="anchored" data-anchor-id="py-pandas-uncat"><span 
+                            class="header-section-number">7.7.2 </span> Categorías de uniones</h3>
 <p>La función <code>pd.merge()</code> implementa varios tipos de uniones: uniones <em>uno a uno</em>, <em>muchos a uno</em> y <em>muchos a muchos</em>. Se accede a los tres tipos de uniones mediante una llamada idéntica a la interfaz <code>pd.merge()</code>; el tipo de unión realizada depende de la forma de los datos de entrada. Aquí mostraremos ejemplos simples de los tres tipos de fusiones y analizaremos opciones detalladas más adelante.</p>
 <section id="uniones-uno-a-uno" class="level4">
 <h4 class="anchored" data-anchor-id="uniones-uno-a-uno">Uniones uno a uno</h4>
@@ -1390,8 +1404,9 @@
 <p>Estos tres tipos de uniones se pueden utilizar con otras herramientas Pandas para implementar una amplia gama de funcionalidades. Pero en la práctica, los conjuntos de datos rara vez son tan limpios como aquel con el que estamos trabajando aquí. En la siguiente sección, consideraremos algunas de las opciones proporcionadas por <code>pd.merge()</code> que le permiten ajustar el funcionamiento de las operaciones de unión.</p>
 </section>
 </section>
-<section id="especificación-de-la-clave-de-fusión" class="level3">
-<h3 class="anchored" data-anchor-id="especificación-de-la-clave-de-fusión">7.7.3 Especificación de la clave de fusión</h3>
+<section id="py-pandas-fuskey" class="level3" data-number="7.7.3">
+                    <h3 data-number="7.7.3" class="anchored" data-anchor-id="py-pandas-fuskey"><span 
+                            class="header-section-number">7.7.3 </span> Especificación de la clave de fusión</h3>
 <p>Ya hemos visto el comportamiento predeterminado de <code>pd.merge()</code>: busca uno o más nombres de columna coincidentes entre las dos entradas y los usa como clave. Sin embargo, a menudo los nombres de las columnas no coinciden tan bien y <code>pd.merge()</code> proporciona una variedad de opciones para manejar esto.</p>
 <section id="la-palabra-clave-on" class="level4">
 <h4 class="anchored" data-anchor-id="la-palabra-clave-on">La palabra clave <code>on</code></h4>
@@ -1438,8 +1453,9 @@
 <p>Todas estas opciones también funcionan con múltiples Indices y/o múltiples columnas; la interfaz para este comportamiento es muy intuitiva. Para obtener más información sobre esto, consulte <a href="http://pandas.pydata.org/pandas-docs/stable/merging.html">“Merge, Join, and Concatenate” section</a> de la documentación de Pandas.</p>
 </section>
 </section>
-<section id="especificación-de-la-aritmética-de-conjuntos-para-uniones" class="level3">
-<h3 class="anchored" data-anchor-id="especificación-de-la-aritmética-de-conjuntos-para-uniones">7.7.4 Especificación de la aritmética de conjuntos para uniones</h3>
+<section id="py-pandas-arit" class="level3" data-number="7.7.4">
+                    <h3 data-number="7.7.4" class="anchored" data-anchor-id="py-pandas-arit"><span 
+                            class="header-section-number">7.7.4 </span>  Especificación de la aritmética de conjuntos para uniones</h3>
 <p>En todos los ejemplos anteriores hemos pasado por alto una consideración importante a la hora de realizar una unión: el tipo de aritmética de conjuntos utilizada en la unión. Esto ocurre cuando un valor aparece en una columna clave pero no en la otra. Considere este ejemplo:</p>
 <div id="447e7302" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>df6 <span class="op">=</span> pd.DataFrame({<span class="st">'name'</span>: [<span class="st">'Peter'</span>, <span class="st">'Paul'</span>, <span class="st">'Mary'</span>],</span>
@@ -1465,8 +1481,9 @@
 <p>Las filas de salida ahora corresponden a las entradas en la entrada izquierda. <code>how='right'</code> funciona de manera similar.</p>
 <p>Todas estas opciones se pueden aplicar directamente a cualquiera de los tipos de unión anteriores.</p>
 </section>
-<section id="nombres-de-columnas-superpuestos-la-palabra-clave-suffixes" class="level3">
-<h3 class="anchored" data-anchor-id="nombres-de-columnas-superpuestos-la-palabra-clave-suffixes">7.7.5 Nombres de columnas superpuestos: la palabra clave <code>suffixes</code></h3>
+<section id="py-pandas-suffixes" class="level3" data-number="7.7.5">
+                    <h3 data-number="7.7.5" class="anchored" data-anchor-id="py-pandas-suffixes"><span 
+                            class="header-section-number">7.7.5 </span> Nombres de columnas superpuestos: la palabra clave <code>suffixes</code></h3>
 <p>Finalmente, puede terminar en un caso donde sus dos “DataFrame” de entrada tengan nombres de columna en conflicto. Considere este ejemplo:</p>
 <div id="63b7a725" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>df8 <span class="op">=</span> pd.DataFrame({<span class="st">'name'</span>: [<span class="st">'Bob'</span>, <span class="st">'Jake'</span>, <span class="st">'Lisa'</span>, <span class="st">'Sue'</span>],</span>
@@ -1482,8 +1499,9 @@
 <p>Estos sufijos funcionan en cualquiera de los patrones de unión posibles y también funcionan si hay varias columnas superpuestas.</p>
 <p>Para obtener más información sobre estos patrones, consulte <a href="03.08-Aggregation-and-Grouping.ipynb">Aggregation and Grouping</a>, donde profundizamos un poco más en el álgebra relacional. Consulte también <a href="http://pandas.pydata.org/pandas-docs/stable/merging.html">Pandas “Merge, Join and Concatenate” documentation</a> para obtener más información sobre estos temas.</p>
 </section>
-<section id="ejemplo" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo">7.7.6 Ejemplo</h3>
+<section id="py-pandas-exfus" class="level3" data-number="7.7.6">
+                    <h3 data-number="7.7.6" class="anchored" data-anchor-id="py-pandas-exfus"><span 
+                            class="header-section-number">7.7.6 </span> Ejemplo</h3>
 <p>Las operaciones de fusión y unión surgen con mayor frecuencia cuando se combinan datos de diferentes fuentes. Aquí consideraremos un ejemplo de algunos datos sobre los estados de EE. UU. y sus poblaciones. Los archivos de datos se pueden encontrar en http://github.com/jakevdp/data-USstates/:</p>
 <div id="89c426d5" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A continuación se muestran los comandos de shell para descargar los datos.</span></span>
@@ -1570,8 +1588,9 @@
 </section>
 
 <!-- 7.8 -->
-<section id="agregación-y-agrupación" class="level2">
-<h2 class="anchored" data-anchor-id="agregación-y-agrupación">7.8 Agregación y agrupación</h2>
+<section id="py-pandas-agg" class="level2" data-number="7.8">
+                <h2 data-number="7.8" class="anchored" data-anchor-id="py-pandas-agg"><span
+                        class="header-section-number">7.8</span> Agregación y agrupación</h2>
 <p>Una parte esencial del análisis de datos grandes es el resumen eficiente: calcular agregaciones como <code>sum()</code>, <code>mean()</code>, <code>median()</code>, <code>min()</code> y <code>max()</code>, en las que un solo número brinda información sobre la naturaleza de un conjunto de datos potencialmente grande. En esta sección, exploraremos las agregaciones en Pandas, desde operaciones simples similares a las que hemos visto en las matrices NumPy, hasta operaciones más sofisticadas basadas en el concepto de “groupby”.</p>
 <p>Para mayor comodidad, utilizaremos la misma función mágica <code>display</code> que hemos visto en secciones anteriores:</p>
 <div id="2a2b8a7d" class="cell">
@@ -1594,8 +1613,9 @@
 <span id="cb155-17"><a href="#cb155-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'</span><span class="ch">\n\n</span><span class="st">'</span>.join(a <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span> <span class="op">+</span> <span class="bu">repr</span>(<span class="bu">eval</span>(a))</span>
 <span id="cb155-18"><a href="#cb155-18" aria-hidden="true" tabindex="-1"></a>                           <span class="cf">for</span> a <span class="kw">in</span> <span class="va">self</span>.args)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="datos-de-los-planetas" class="level3">
-<h3 class="anchored" data-anchor-id="datos-de-los-planetas">7.8.1 Datos de los planetas</h3>
+<section id="py-pandas-planets" class="level3" data-number="7.8.1">
+                    <h3 data-number="7.8.1" class="anchored" data-anchor-id="py-pandas-planets"><span
+                            class="header-section-number">7.8.1 </span>  Datos de los planetas</h3>
 <p>Aquí utilizaremos el conjunto de datos Planetas, disponible a través de <a href="http://seaborn.pydata.org/">Seaborn package</a> (ver <a href="http://seaborn.pydata.org/">Seaborn package</a>). Proporciona información sobre planetas que los astrónomos han descubierto alrededor de otras estrellas (conocidos como <em>planetas extrasolares</em> o <em>exoplanetas</em> para abreviar). Se puede descargar con un simple comando Seaborn:</p>
 <div id="c5dd0733" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb156"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -1607,8 +1627,9 @@
 </div>
 <p>Aquí encontrará algunos detalles sobre los más de 1.000 planetas extrasolares descubiertos hasta 2014.</p>
 </section>
-<section id="agregación-simple-en-pandas" class="level3">
-<h3 class="anchored" data-anchor-id="agregación-simple-en-pandas">7.8.2 Agregación simple en Pandas</h3>
+<section id="py-pandas-aggsimple" class="level3" data-number="7.8.2">
+                    <h3 data-number="7.8.2" class="anchored" data-anchor-id="py-pandas-aggsimple"><span
+                            class="header-section-number">7.8.2 </span>  Agregación simple en Pandas</h3>
 <p>Anteriormente, exploramos algunas de las agregaciones de datos disponibles para las matrices NumPy (<a href="02.04-Computation-on-arrays-aggregates.ipynb">“Aggregations: Min, Max, and Everything In Between”</a>). Al igual que con una matriz NumPy unidimensional, para una «Serie» de Pandas los agregados devuelven un único valor:</p>
 <div id="92f5eb33" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
 <div class="sourceCode cell-code" id="cb158"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.RandomState(<span class="dv">42</span>)</span>
@@ -1685,8 +1706,9 @@
 <p>Todos estos son métodos de objetos <code>DataFrame</code> y <code>Series</code>.</p>
 <p>Sin embargo, para profundizar en los datos, a menudo los agregados simples no son suficientes. El siguiente nivel de resumen de datos es la operación “groupby”, que permite calcular de forma rápida y eficiente agregados en subconjuntos de datos.</p>
 </section>
-<section id="groupby" class="level3">
-<h3 class="anchored" data-anchor-id="groupby">7.8.3 GroupBy</h3>
+<section id="py-pandas-gruopby" class="level3" data-number="7.8.3">
+                    <h3 data-number="7.8.3" class="anchored" data-anchor-id="py-pandas-gruopby"><span
+                            class="header-section-number">7.8.3 </span> GroupBy</h3>
 <p>Las agregaciones simples pueden darle una idea de su conjunto de datos, pero a menudo preferiríamos agregar condicionalmente en alguna etiqueta o índice: esto se implementa en la llamada operación “groupby”. El nombre “agrupar por” proviene de un comando en el lenguaje de base de datos SQL, pero tal vez sea más esclarecedor pensar en él en los términos acuñados por primera vez por Hadley Wickham, de Rstats: <em>dividir, aplicar, combinar</em>.</p>
 <section id="dividir-aplicar-combinar" class="level4">
 <h4 class="anchored" data-anchor-id="dividir-aplicar-combinar">Dividir, aplicar, combinar</h4>
@@ -1891,7 +1913,7 @@
 <section id="practice-exercise-2" class="level3" data-number="7.9.2">
                     <h3 data-number="7.9.2" class="anchored" data-anchor-id="practice-exercise-2"><span
                             class="header-section-number">7.9.2 </span> Ejercicio práctico 2 </h3>
-<p>Se tiene el archivo Excel <a href="Datasets/empleados.csv">empleados.csv</a> con la información de empleados de una empresa. El archivo contiene las siguientes columnas: ID, Nombre, Departamento, Salario, Edad, AñosEnLaEmpresa.</p>
+<p>Se tiene el archivo Excel <a href="Datasets/empleados.xlsx">empleados.csv</a> con la información de empleados de una empresa. El archivo contiene las siguientes columnas: ID, Nombre, Departamento, Salario, Edad, AñosEnLaEmpresa.</p>
 <ol type="1">
 <li>Cargar el archivo Excel en un DataFrame.</li>
 <li>Mostrar las columnas Nombre, Salario y Departamento de todos los empleados.</li>
