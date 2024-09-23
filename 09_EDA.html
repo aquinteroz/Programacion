@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.3.450">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="author" content="Andrés Quintero-Zea">
+    <meta name="dcterms.date" content="2024-09-09">
+
+    <title>Análisis exploratorio de datos</title>
+    <style>
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        div.hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        ul.task-list {
+            list-style: none;
+        }
+
+        ul.task-list li input[type="checkbox"] {
+            width: 0.8em;
+            margin: 0 0.8em 0.2em -1em;
+            /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+            vertical-align: middle;
+        }
+
+        /* CSS for syntax highlighting */
+        pre>code.sourceCode {
+            white-space: pre;
+            position: relative;
+        }
+
+        pre>code.sourceCode>span {
+            display: inline-block;
+            line-height: 1.25;
+        }
+
+        pre>code.sourceCode>span:empty {
+            height: 1.2em;
+        }
+
+        .sourceCode {
+            overflow: visible;
+        }
+
+        code.sourceCode>span {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        div.sourceCode {
+            margin: 1em 0;
+        }
+
+        pre.sourceCode {
+            margin: 0;
+        }
+
+        @media screen {
+            div.sourceCode {
+                overflow: auto;
+            }
+        }
+
+        @media print {
+            pre>code.sourceCode {
+                white-space: pre-wrap;
+            }
+
+            pre>code.sourceCode>span {
+                text-indent: -5em;
+                padding-left: 5em;
+            }
+        }
+
+        pre.numberSource code {
+            counter-reset: source-line 0;
+        }
+
+        pre.numberSource code>span {
+            position: relative;
+            left: -4em;
+            counter-increment: source-line;
+        }
+
+        pre.numberSource code>span>a:first-child::before {
+            content: counter(source-line);
+            position: relative;
+            left: -1em;
+            text-align: right;
+            vertical-align: baseline;
+            border: none;
+            display: inline-block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 0 4px;
+            width: 4em;
+        }
+
+        pre.numberSource {
+            margin-left: 3em;
+            padding-left: 4px;
+        }
+
+
+        @media screen {
+            pre>code.sourceCode>span>a:first-child::before {
+                text-decoration: underline;
+            }
+        }
+    </style>
+
+    <script src="assets/quarto-nav/quarto-nav.js"></script>
+    <script src="assets/quarto-nav/headroom.min.js"></script>
+    <script src="assets/clipboard/clipboard.min.js"></script>
+    <script src="assets/quarto-search/autocomplete.umd.js"></script>
+    <script src="assets/quarto-search/fuse.min.js"></script>
+    <script src="assets/quarto-search/quarto-search.js"></script>
+    <meta name="quarto:offset" content="./">
+    <link href="./08_Matplotlib.html" rel="next">
+    <link href="./10_Intro_DS.html" rel="prev">
+    <script src="assets/quarto-html/quarto.js"></script>
+    <script src="assets/quarto-html/popper.min.js"></script>
+    <script src="assets/quarto-html/tippy.umd.min.js"></script>
+    <script src="assets/quarto-html/anchor.min.js"></script>
+    <link href="assets/quarto-html/tippy.css" rel="stylesheet">
+    <link href="assets/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet"
+        id="quarto-text-highlighting-styles">
+    <script src="assets/bootstrap/bootstrap.min.js"></script>
+    <link href="assets/bootstrap/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+    <script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"
+        integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script type="application/javascript">define('jquery', [], function () { return window.jQuery; })</script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+    <!-- content -->
+    <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+        <!-- sidebar -->
+        <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+            <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+                <img src="./LogoNuevo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+                <div class="sidebar-title mb-0 py-0">
+                    <a href="./index.html">Programación PRE2013A45</a>
+                </div>
+            </div>
+            <div class="sidebar-menu-container">
+                <ul class="list-unstyled mt-1">
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+                                <span class="menu-text">Python</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./01_Intro_Python.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Python</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./02_Estructuras_control.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de control</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./03_Funciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span
+                                                class="chapter-title">Funciones</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./04_Estructura_datos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span
+                                                class="chapter-title">Estructuras de datos avanzadas</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./05_Archivos_excepciones.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span
+                                                class="chapter-title">Manejo de archivos y excepciones</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+                                <span class="menu-text">Análisis de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./06_Numpy.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span
+                                                class="chapter-title">Introducción a Numpy</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./07_Pandas.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span
+                                                class="chapter-title">Manipulación de datos con Pandas</span></span></a>
+                                </div>
+                            </li>
+                                                        <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./08_Matplotlib.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span
+                                                class="chapter-title">Visualización de datos con
+                                                Matplotlib y Seaborn</span></span></a>
+                                </div>
+                            </li>
+							<li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./09_EDA.html" class="sidebar-item-text sidebar-link active">
+                                        <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span
+                                                class="chapter-title">Análisis exploratorio de datos</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item sidebar-item-section">
+                        <div class="sidebar-item-container">
+                            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+                                <span class="menu-text">Ciencia de Datos</span></a>
+                            <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                                data-bs-target="#quarto-sidebar-section-3" aria-expanded="true"
+                                aria-label="Toggle section">
+                                <i class="bi bi-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                        <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./10_Intro_DS.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span
+                                                class="chapter-title">Introducción a la ciencia de
+                                                datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./11_Estadistica.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span
+                                                class="chapter-title">Fundamentos de estadística para ciencia de
+                                                datos</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./12_Preparacion_modelos.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span
+                                                class="chapter-title">Preparación de datos para
+                                                modelado</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./13_Scikit_learn.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span
+                                                class="chapter-title">Introducción al Machine Learning con
+                                                scikit-Learn</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./14_Clasificacion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span
+                                                class="chapter-title">Modelos de clasificación</span></span></a>
+                                </div>
+                            </li>
+                            <li class="sidebar-item">
+                                <div class="sidebar-item-container">
+                                    <a href="./15_Regresion.html" class="sidebar-item-text sidebar-link">
+                                        <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span
+                                                class="chapter-title">Modelos de regresión</span></span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass">
+        </div>
+        <!-- margin-sidebar -->
+        <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+            <nav id="TOC" role="doc-toc" class="toc-active">
+                <h2 id="toc-title">Tabla de contenidos</h2>
+
+                <ul>
+                    <li><a href="#objetivo" id="toc-objetivo" class="nav-link active"
+                            data-scroll-target="#objetivo">Objetivo</a></li>
+                    <li><a href="#consejos-generales-sobre-matplotlib" id="toc-consejos-generales-sobre-matplotlib" class="nav-link"
+                            data-scroll-target="#consejos-generales-sobre-matplotlib"><span class="header-section-number"> 8.1 </span> Consejos generales sobre Matplotlib </a></li>				
+					<li><a href="#dos-interfaces-por-el-precio-de-una" id="toc-dos-interfaces-por-el-precio-de-una" class="nav-link"
+                            data-scroll-target="#dos-interfaces-por-el-precio-de-una"><span class="header-section-number"> 8.2 </span> Dos interfaces por el precio de una </a>
+                    </li>
+					<li><a href="#gráficos-de-líneas-simples" id="toc-gráficos-de-líneas-simples" class="nav-link"
+                            data-scroll-target="#gráficos-de-líneas-simples"><span class="header-section-number"> 8.3 </span> Gráficos de líneas simples </a>
+                    </li>
+					
+					<li><a href="#diagramas-de-dispersión-simples" id="toc-diagramas-de-dispersión-simples" class="nav-link"
+                            data-scroll-target="#diagramas-de-dispersión-simples"><span class="header-section-number"> 8.4 </span> Diagramas de dispersión simples </a>
+                    </li>
+					
+					<li><a href="#visualizando-errores" id="toc-visualizando-errores" class="nav-link"
+                            data-scroll-target="#visualizando-errores"><span class="header-section-number"> 8.5 </span> Visualizando errores</a>
+                    </li>
+					
+					<li><a href="#gráficas-de-densidad-y-contorno" id="toc-gráficas-de-densidad-y-contorno" class="nav-link"
+                            data-scroll-target="#gráficas-de-densidad-y-contorno"><span class="header-section-number"> 8.6 </span> Gráficas de densidad y contorno </a>
+                    </li>
+					
+                    <li><a href="#histogramas-binnings-y-densidad" id="toc-histogramas-binnings-y-densidad" class="nav-link"
+                            data-scroll-target="#histogramas-binnings-y-densidad"><span class="header-section-number"> 8.7 </span> Histogramas, binnings y densidad </a>
+                    </li>
+					
+                    <li><a href="#personalización-de-leyendas" id="toc-personalización-de-leyendas" class="nav-link"
+                            data-scroll-target="#personalización-de-leyendas"><span class="header-section-number"> 8.8 </span> Personalización de leyendas </a>
+                    </li>
+					
+					<li><a href="#varias-subgráficas" id="toc-varias-subgráficas" class="nav-link"
+                            data-scroll-target="#varias-subgráficas"><span class="header-section-number"> 8.9 </span> Varias subgráficas </a>
+                    </li>
+					
+					<li><a href="#texto-y-anotaciones" id="toc-texto-y-anotaciones" class="nav-link"
+                            data-scroll-target="#texto-y-anotaciones"><span class="header-section-number"> 8.10 </span> Texto y anotaciones </a>
+                    </li>
+					
+					<li><a href="#personalización-de-ticks" id="toc-personalización-de-ticks" class="nav-link"
+                            data-scroll-target="#personalización-de-ticks"><span class="header-section-number"> 8.11 </span> Personalización de ticks </a>
+                    </li>
+					
+					<li><a href="#personalización-de-matplotlib" id="toc-personalización-de-matplotlib" class="nav-link"
+                            data-scroll-target="#personalización-de-matplotlib"><span class="header-section-number"> 8.12 </span> Personalización de Matplotlib </a>
+                    </li>
+					
+					<li><a href="#visualización-con-seaborn" id="toc-visualización-con-seaborn" class="nav-link"
+                            data-scroll-target="#visualización-con-seaborn"><span class="header-section-number"> 8.13 </span> Visualización con Seaborn </a>
+                    </li>
+										
+                    <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link"
+                            data-scroll-target="#practice-exercises"><span class="header-section-number">8.14</span>
+                            Ejercicios prácticos</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- main -->
+        <main class="content" id="quarto-document-content">
+
+            <header id="title-block-header" class="quarto-title-block default">
+                <div class="quarto-title">
+                    <h1 class="title"><span class="chapter-number">9</span>&nbsp; <span
+                            class="chapter-title">Análisis exploratorio de datos</span></h1>
+                </div>
+                <div class="quarto-title-meta"> </div>
+            </header>
+
+            <section id="objetivo" class="level1">
+                <h1 class="anchored" data-anchor-id="objetivo">Objetivo</h1>
+                <p>
+
+El objetivo de esta clase es que los estudiantes aprendan a aplicar técnicas de análisis exploratorio de datos en Python, utilizando herramientas como pandas, matplotlib y seaborn, para identificar patrones y relaciones clave en los datos.</p>
+            </section>
+
+
+<p>El estudio previo de los datos o EDA (Exploratory Data Analysis) es una etapa crítica en la ciencia de datos y sin duda la que consume más tiempo.</p>
+<p>Seguiremos los pasos expuestos en el capítulo ‘<em>Examining your data</em>’ de <a href="https://github.com/aquinteroz/Programacion/blob/main/Examining%20Your%20Data.pdf">Hair et al.&nbsp;(2019)</a>, para realizar un análisis del conjunto de datos <a href="https://www.kaggle.com/datasets/shashanknecrothapa/ames-housing-dataset">Ames Housing Dataset</a> de Kaggle.</p>
+<p>Vamos a dividir el análisis en los siguientes apartados:</p>
+<ol type="1">
+<li>Comprender el problema</li>
+<li>Estudio univariable</li>
+<li>Estudio multivariable</li>
+<li>Limpieza básica de los datos</li>
+<li>Comprobación de suposiciones</li>
+</ol>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">'whitegrid'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sns.set_palette(<span class="st">'Set2'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="op">=</span> pd.read_csv(<span class="st">'Datasets/AmesHousing.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_data.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<section id="el-problema" class="level2">
+<h2 class="anchored" data-anchor-id="el-problema">9.1 El problema</h2>
+<p>Para entender realmente el conjunto de datos, veamos la descripción de cada variable:</p>
+<ul>
+<li><b>Order</b> y <b>PID</b>: identificadores de la instancia (los borraremos)</li>
+<li><b>MSSubClass</b>: clase de construcción</li>
+<li><b>MSZoning</b>: clasificación de la zona</li>
+<li><b>LotFrontage</b>: pies lineales de calle de la parcela</li>
+<li><b>LotArea</b>: tamaño de la parcela en pies cuadrados</li>
+<li><b>Street</b>: tipo de acceso por carretera</li>
+<li><b>Alley</b>: tipo de acceso al callejón</li>
+<li><b>LotShape</b>: forma de la parcela</li>
+<li><b>LandContour</b>: planitud de la parcela</li>
+<li><b>Utilities</b>: servicios públicos disponibles</li>
+<li><b>LotConfig</b>: Configuración de parcela</li>
+<li><b>LandSlope</b>: pendiente de la parcela</li>
+<li><b>Neighborhood</b>: ubicación física dentro de los límites de la ciudad de Ames</li>
+<li><b>Condition1</b>: proximidad a la carretera principal o al ferrocarril</li>
+<li><b>Condition2</b>: proximidad a la carretera principal o al ferrocarril (si hay un segundo)</li>
+<li><b>BldgType</b>: tipo de vivienda</li>
+<li><b>HouseStyle</b>: estilo de vivienda</li>
+<li><b>OverallQual</b>: calidad general del material y del acabado</li>
+<li><b>OverallCond</b>: condición general</li>
+<li><b>YearBuilt</b>: fecha original de construcción</li>
+<li><b>YearRemodAdd</b>: fecha de remodelación</li>
+<li><b>RoofStyle</b>: tipo de cubierta</li>
+<li><b>RoofMatl</b>: material del techo</li>
+<li><b>Exterior1st</b>: revestimiento exterior de la casa</li>
+<li><b>Exterior2nd</b>: revestimiento exterior de la casa (si hay más de un material)</li>
+<li><b>MasVnrType</b>: tipo de revestimiento de mampostería</li>
+<li><b>MasVnrArea</b>: área de revestimiento de mampostería en pies cuadrados</li>
+<li><b>ExterQual</b>: calidad del material exterior</li>
+<li><b>ExterCond</b>: estado del material en el exterior</li>
+<li><b>Foundation</b>: tipo de cimentación</li>
+<li><b>BsmtQual</b>: altura del sótano</li>
+<li><b>BsmtCond</b>: estado general del sótano</li>
+<li><b>BsmtExposure</b>: paredes del sótano a nivel de calle o de jardín</li>
+<li><b>BsmtFinType1</b>: calidad del área acabada del sótano</li>
+<li><b>BsmtFinSF1</b>: pies cuadrados de la superficie acabada tipo 1</li>
+<li><b>BsmtFinType2</b>: calidad de la segunda superficie acabada (si existe)</li>
+<li><b>BsmtFinSF2</b>: Pies cuadrados de la superficie acabada tipo 2</li>
+<li><b>BsmtUnfSF</b>: pies cuadrados del área sin terminar del sótano</li>
+<li><b>TotalBsmtSF</b>: pies cuadrados totales del sótano</li>
+<li><b>Heating</b>: tipo de calefacción</li>
+<li><b>HeatingQC</b>: calidad y estado de la calefacción</li>
+<li><b>CentralAir</b>: aire acondicionado central</li>
+<li><b>Electrical</b>: sistema eléctrico</li>
+<li><b>1erFlrSF</b>: área en pies cuadrados de la primera planta (o planta baja)</li>
+<li><b>2ndFlrSF</b>: área en pies cuadrados de la segunda planta</li>
+<li><b>LowQualFinSF</b>: pies cuadrados acabados de baja calidad (todos los pisos)</li>
+<li><b>GrLivArea</b>: superficie habitable por encima del nivel del suelo en pies cuadrados</li>
+<li><b>BsmtFullBath</b>: cuartos de baño completos en el sótano</li>
+<li><b>BsmtHalfBath</b>: medio baño del sótano</li>
+<li><b>FullBath</b>: baños completos sobre el nivel del suelo</li>
+<li><b>HalfBath</b>: medios baños sobre el nivel del suelo</li>
+<li><b>Bedroom</b>: número de dormitorios por encima del nivel del sótano</li>
+<li><b>Kitchen</b>: número de cocinas</li>
+<li><b>KitchenQual</b>: calidad de la cocina</li>
+<li><b>TotRmsAbvGrd</b>: total de habitaciones por encima del nivel del suelo (no incluye baños)</li>
+<li><b>Functional</b>: valoración de la funcionalidad de la vivienda</li>
+<li><b>Fireplaces</b>: número de chimeneas</li>
+<li><b>FireplaceQu</b>: calidad de la chimenea</li>
+<li><b>GarageType</b>: ubicación del garaje</li>
+<li><b>GarageYrBlt</b>: año de construcción del garaje</li>
+<li><b>GarageFinish</b>: acabado interior del garaje</li>
+<li><b>GarageCars</b>: tamaño del garaje en capacidad de coches</li>
+<li><b>GarageArea</b>: tamaño del garaje en pies cuadrados</li>
+<li><b>GarageQual</b>: calidad de garaje</li>
+<li><b>GarageCond</b>: condición de garaje</li>
+<li><b>PavedDrive</b>: calzada asfaltada</li>
+<li><b>WoodDeckSF</b>: area de plataforma de madera en pies cuadrados</li>
+<li><b>OpenPorchSF</b>: área de porche abierto en pies cuadrados</li>
+<li><b>EnclosedPorch</b>: área de porche cerrada en pies cuadrados</li>
+<li><b>3SsnPorch</b>: área de porche de tres estaciones en pies cuadrados</li>
+<li><b>ScreenPorch</b>: superficie acristalada del porche en pies cuadrados</li>
+<li><b>PoolArea</b>: área de la piscina en pies cuadrados</li>
+<li><b>PoolQC</b>: calidad de la piscina</li>
+<li><b>Fence</b>: calidad de la valla</li>
+<li><b>MiscFeature</b>: característica miscelánea no cubierta en otras categorías</li>
+<li><b>MiscVal</b>: valor en dólares de la característica miscelánea</li>
+<li><b>MoSold</b>: mes de venta</li>
+<li><b>YrSold</b>: año de venta</li>
+<li><b>SaleType</b>: tipo de venta</li>
+<li><b>SaleCondition</b>: Condiciones de venta</li>
+</ul>
+</section>
+<section id="análisis-univariable-saleprice" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-univariable-saleprice">9.2 Análisis univariable: <em>SalePrice</em></h2>
+<p>La variable ‘SalePrice’ es la variable objetivo de este conjunto de datos. En pasos posteriores a este análisis exploratorio de datos se realizaría una predicción del valor de esta variable, por lo que vamos a estudiarla con mayor detenimiento:</p>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_data[<span class="st">'SalePrice'</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[<span class="st">'SalePrice'</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>A simple vista se pueden apreciar:</p>
+<ul>
+<li>Una desviación con respecto a la distribución normal.</li>
+<li>Una asimetría positiva.</li>
+<li>Algunos picos.</li>
+</ul>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Skewness: </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> df_data[<span class="st">'SalePrice'</span>].skew())</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Kurtosis: </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> df_data[<span class="st">'SalePrice'</span>].kurt())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<section id="relación-con-variables-numéricas" class="level3">
+<h3 class="anchored" data-anchor-id="relación-con-variables-numéricas">9.2.1 Relación con variables numéricas</h3>
+<div id="cell-14" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(df_data,x<span class="op">=</span><span class="st">'GrLivArea'</span>,y<span class="op">=</span><span class="st">'SalePrice'</span>,alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(df_data,x<span class="op">=</span><span class="st">'TotalBsmtSF'</span>,y<span class="op">=</span><span class="st">'SalePrice'</span>,alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</section>
+<section id="relación-con-variables-categóricas" class="level3">
+<h3 class="anchored" data-anchor-id="relación-con-variables-categóricas">9.2.2 Relación con variables categóricas</h3>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.boxplot(df_data, x<span class="op">=</span><span class="st">'OverallQual'</span>, y<span class="op">=</span><span class="st">'SalePrice'</span>, hue<span class="op">=</span><span class="st">'OverallQual'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fig.axis(ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">800000</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">6</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.boxplot(df_data, x<span class="op">=</span><span class="st">'YearBuilt'</span>, y<span class="op">=</span><span class="st">'SalePrice'</span>, hue<span class="op">=</span><span class="st">'YearBuilt'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fig.axis(ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">800000</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(plt.MaxNLocator(<span class="dv">15</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</section>
+<section id="resumiendo" class="level3">
+<h3 class="anchored" data-anchor-id="resumiendo">Resumiendo:</h3>
+<ul>
+<li>‘GrLivArea’ y ‘TotalBsmtSF’ mantienen una relación lineal positiva con ‘SalePrice’, aumentando en el mismo sentido. En el caso de ‘TotalBsmtSF’, la pendiente de esta relación es muy acentuada.</li>
+<li>‘OverallQual’ y ‘YearBuilt’ también parecen relacionadas con ‘SalePrice’ (más fuerte en el primer caso), tal y como se puede observar en los diagramas de cajas.</li>
+</ul>
+<p>Sólo hemos explorado cuatro variables, pero hay muchas otras a analizar.</p>
+</section>
+</section>
+<section id="análisis-multivariable" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-multivariable">9.3 Análisis multivariable</h2>
+<p>Hasta ahora sólo me hemos usado la intuición para el análisis de las variables consideradas como importantes. Es hora de un análisis más objetivo.</p>
+<p>Para ello realizaremos las siguientes pruebas de correlación: * Matriz de correlación general. * Matriz de correlación centrada en la variable ‘SalePrice’. * Diagramas de dispersión entre las variables más correlacionadas.</p>
+<section id="matriz-de-correlación-en-forma-de-mapa-de-calor" class="level3">
+<h3 class="anchored" data-anchor-id="matriz-de-correlación-en-forma-de-mapa-de-calor">9.3.1 Matriz de correlación (en forma de mapa de calor)</h3>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>corrmat <span class="op">=</span> df_data.corr(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">12</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corrmat, vmax<span class="op">=</span><span class="dv">1</span>, vmin<span class="op">=-</span><span class="dv">1</span>, square<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'RdBu'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>El mapa de calor es una forma visual muy útil para para conocer las variables y sus relaciones.</p>
+</section>
+<section id="matriz-de-correlación-de-saleprice" class="level3">
+<h3 class="anchored" data-anchor-id="matriz-de-correlación-de-saleprice">9.3.2 Matriz de correlación de ‘SalePrice’</h3>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">10</span> <span class="co"># Número de variables</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> corrmat.nlargest(k, <span class="st">'SalePrice'</span>)[<span class="st">'SalePrice'</span>].index</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> df_data[cols].corr(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span> <span class="fl">0.9</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>hm <span class="op">=</span> sns.heatmap(cm, cbar <span class="op">=</span> <span class="va">True</span>, annot <span class="op">=</span> <span class="va">True</span>, square <span class="op">=</span> <span class="va">True</span>, fmt <span class="op">=</span> <span class="st">'.2f'</span>, annot_kws <span class="op">=</span> {<span class="st">'size'</span>: <span class="dv">10</span>}, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                 yticklabels <span class="op">=</span> cols.values, xticklabels <span class="op">=</span> cols.values, cmap<span class="op">=</span><span class="st">'RdBu'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div id="cell-27" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> df_data.corr(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>corr[[<span class="st">'SalePrice'</span>]].sort_values(by <span class="op">=</span> <span class="st">'SalePrice'</span>,ascending <span class="op">=</span> <span class="va">False</span>).style.background_gradient(cmap<span class="op">=</span><span class="st">'RdBu'</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                                                                                             vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="diagramas-de-dispersión-entre-saleprice-y-sus-seis-variables-más-correlacionadas" class="level3">
+<h3 class="anchored" data-anchor-id="diagramas-de-dispersión-entre-saleprice-y-sus-seis-variables-más-correlacionadas">9.3.3 Diagramas de dispersión entre ‘SalePrice’ y sus seis variables más correlacionadas</h3>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">'SalePrice'</span>,<span class="st">'OverallQual'</span>,<span class="st">'GrLivArea'</span>,<span class="st">'GarageCars'</span>,<span class="st">'GarageArea'</span>,<span class="st">'TotalBsmtSF'</span>,<span class="st">'1stFlrSF'</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sns.pairplot(df_data[cols], size <span class="op">=</span> <span class="fl">2.5</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Aunque ya habíamos visto algunas de las figuras, este diagrama nos facilita una comprensión general sobre las relaciones entre las variables.</p>
+</section>
+</section>
+<section id="limpieza-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="limpieza-de-datos">9.4. Limpieza de datos</h2>
+<section id="datos-faltantes" class="level3">
+<h3 class="anchored" data-anchor-id="datos-faltantes">9.4.1 Datos faltantes</h3>
+<p>Antes de tratar los datos faltantes, es importante determinar su prevalencia y su aleatoriedad, ya que pueden implicar una reducción del tamaño de la muestra. También hay que asegurarse que su gestión no esté sesgada .</p>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> df_data.isnull().<span class="bu">sum</span>().sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>percent <span class="op">=</span> (df_data.isnull().<span class="bu">sum</span>() <span class="op">/</span> df_data.isnull().count()).sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>missing_data <span class="op">=</span> pd.concat([total, percent], axis <span class="op">=</span> <span class="dv">1</span>, keys <span class="op">=</span> [<span class="st">'Total'</span>, <span class="st">'Percent'</span>])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>missing_data.head(<span class="dv">28</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Por razones prácticas vamos a eliminar las variables con más de un 15% de datos faltantes. Con respecto a las variables ‘Garage<em>X</em>’, se observa el mismo número de datos desaparecidos, hecho que quizás habría que estudiar con más detenimiento. Pero, dado que la información más relevante en cuanto al garaje ya está recogida por la variable ‘GarageCars’, y que sólo se trata de un 5% de datos faltantes, borraremos las citadas variables ‘Garage<em>X</em>’, además de las ‘Bsmt<em>X</em>’ bajo la misma lógica.</p>
+<p>En cuanto a las variables ‘MasVnrArea’ y ‘MasVnrType’, se puede decir que no son esenciales y que, incluso, tienen una fuerte correlación con ‘YearBuilt’ y ‘OverallQual’. No parece que se vaya a perder mucha información si las eliminamos.</p>
+<p>Para finalizar, se encuentran muy pocos datos faltante (1 o 2) en algunas variables, por lo que solo se borrarán aquellas instancias y a mantener la variable.</p>
+<p>En resumen, borraremos todas las variables con datos desaparecidos, excepto las que tienen 1 o 2 datos faltantes, en este caso sólo borrararemos la observación con el dato faltante.</p>
+<div id="cell-36" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> <span class="bu">list</span>((missing_data[missing_data[<span class="st">'Total'</span>] <span class="op">&gt;</span> <span class="dv">2</span>]).index)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_data <span class="op">=</span> df_data.drop(columns<span class="op">=</span>cols)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cols<span class="op">=</span>[<span class="st">'BsmtFullBath'</span>,<span class="st">'BsmtHalfBath'</span>,<span class="st">'BsmtFinSF1'</span>,<span class="st">'GarageCars'</span>,<span class="st">'Electrical'</span>,<span class="st">'TotalBsmtSF'</span>,<span class="st">'BsmtUnfSF'</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      <span class="st">'BsmtFinSF2'</span>,<span class="st">'GarageArea'</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols:</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    df_data <span class="op">=</span> df_data.drop(df_data.loc[df_data[col].isnull()].index)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>df_data.isnull().<span class="bu">sum</span>().<span class="bu">max</span>() <span class="co"># Para comprobar que no hay más datos desaparecidos.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</section>
+<section id="datos-atípicos" class="level3">
+<h3 class="anchored" data-anchor-id="datos-atípicos">9.4.2 Datos atípicos</h3>
+<p>Los datos atípicos u outliers pueden afectar marcadamente el modelo, además de suponer una fuente de información en sí misma. Su tratamiento es un asunto complejo que requiere más atención; por ahora sólo vamos a hacer un análisis rápido a través de la desviación estándar de la variable ‘SalePrice’ y a realizar un par de diagramas de dispersión.</p>
+<section id="análisis-univariable" class="level4">
+<h4 class="anchored" data-anchor-id="análisis-univariable">Análisis univariable</h4>
+<p>La primera tarea en este caso es establecer un umbral que defina una observación como valor atípico. Para ello vamos a estandarizar los datos, es decir, transformar los valores datos para que tengan una media de 0 y una desviación estándar de 1.</p>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>saleprice_scaled <span class="op">=</span> StandardScaler().fit_transform(df_data[<span class="st">'SalePrice'</span>].values.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>low_range <span class="op">=</span> saleprice_scaled[saleprice_scaled[:,<span class="dv">0</span>].argsort()][:<span class="dv">10</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>high_range <span class="op">=</span> saleprice_scaled[saleprice_scaled[:,<span class="dv">0</span>].argsort()][<span class="op">-</span><span class="dv">10</span>:]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Fuera de la distribución (por debajo):'</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(low_range)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Fuera de la distribución (por arriba):'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(high_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<ul>
+<li>Los valores bajos son similares y <em>relativamente</em> no muy alejados del 0.</li>
+<li>Los valores altos están muy alejados del 0. Los valores superiores a 7 están realmente fuera de rango.</li>
+</ul>
+</section>
+<section id="análisis-bivariable" class="level4">
+<h4 class="anchored" data-anchor-id="análisis-bivariable">Análisis bivariable</h4>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(df_data, x <span class="op">=</span> <span class="st">'GrLivArea'</span>, y <span class="op">=</span> <span class="st">'SalePrice'</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Este diagrama de dispersión muestra un par de cosas interesantes:</p>
+<ul>
+<li>Los tres valores más altos de la variable ‘GrLivArea’ resultan extraños. Se pueden hacer especulaciones, pero podría tratarse de terrenos agrícolas o muy degradados, algo que explicaría su bajo precio. Lo que está claro es que estos dos puntos son atípicos, por lo que procederemos a eliminarlos.</li>
+<li>Las dos observaciones más altas de la variable ‘SalePrice’ se corresponden con las que observamos en el análisis univariable anterior. Son casos especiales, pero parece que siguen la tendencia general, por lo que vamos a mantenerlas.</li>
+</ul>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_data.sort_values(by <span class="op">=</span> <span class="st">'GrLivArea'</span>, ascending <span class="op">=</span> <span class="va">False</span>)[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="op">=</span> df_data.drop(df_data[df_data[<span class="st">'Order'</span>] <span class="op">==</span> <span class="dv">1499</span>].index)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df_data <span class="op">=</span> df_data.drop(df_data[df_data[<span class="st">'Order'</span>] <span class="op">==</span> <span class="dv">2181</span>].index)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df_data <span class="op">=</span> df_data.drop(df_data[df_data[<span class="st">'Order'</span>] <span class="op">==</span> <span class="dv">2182</span>].index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div id="cell-47" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(df_data, x <span class="op">=</span> <span class="st">'GrLivArea'</span>, y <span class="op">=</span> <span class="st">'SalePrice'</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(df_data, x <span class="op">=</span> <span class="st">'TotalBsmtSF'</span>, y <span class="op">=</span> <span class="st">'SalePrice'</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Aunque se pueden observar algunos valores bastante extremos (p.ej. TotalBsmtSF &gt; 3000), parece que conservan la tendencia, por lo que vamos a mantenerlos.</p>
+</section>
+</section>
+</section>
+<section id="comprobación-de-normalidad" class="level1">
+<h1>9.5 Comprobación de normalidad</h1>
+<p>Ya hemos realizado cierta limpieza de datos y estudiado la variable ‘SalePrice’. Ahora vamos a comprobar si ‘SalePrice’ cumple los supuestos estadísticos que nos permiten aplicar las técnicas del análisis multivariable.</p>
+<p>De acuerdo con Hair et al.&nbsp;(2019), hay que comprobar cuatro suposiciones fundamentales:</p>
+<ul>
+<li><p><b>Normalidad</b> - Cuando hablamos de normalidad lo que queremos decir es que los datos deben parecerse a una distribución normal. Es importante porque varias pruebas estadísticas se basan en esta suposición. Sólo voy a comprobar la normalidad de la variable ‘SalePrice’, aunque resulte un tanto limitado ya que no asegura la normalidad multivariable. Además, si resolvemos la normalidad evitamos otros problemas, como la homocedasticidad.</p></li>
+<li><p><b>Homocedasticidad</b> - La homocedasticidad se refiere a la suposición de que las variables dependientes tienen el mismo nivel de varianza en todo el rango de las variables predictoras. La homocedasticidad es deseable porque queremos que el término de error sea el mismo en todos los valores de las variables independientes.</p></li>
+<li><p><b>Linealidad</b>- La forma más común de evaluar la linealidad es examinar los diagramas de dispersión y buscar patrones lineales. Si los patrones no son lineales, valdría la pena explorar las transformaciones de datos. Sin embargo, no vamos a entrar en esto porque la mayoría de los gráficos de dispersión que hemos visto parecen tener relaciones lineales.</p></li>
+<li><p><b>Ausencia de errores correlacionados</b> - Esto ocurre a menudo en series temporales, donde algunos patrones están relacionados en el tiempo. Tampoco voy a tocar este asunto.</p></li>
+</ul>
+<section id="en-búsqueda-de-la-normalidad" class="level3">
+<h3 class="anchored" data-anchor-id="en-búsqueda-de-la-normalidad">9.5.1 En búsqueda de la normalidad</h3>
+<p>El objetivo es estudiar la variable ‘SalePrice’ de forma fácil, comprobando:</p>
+<ul>
+<li><b>Histograma</b> - Curtosis y asimetría.</li>
+<li><b>Gráfica de probabilidad normal</b> - La distribución de los datos debe ajustarse a la diagonal que representa la distribución normal.</li>
+</ul>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[<span class="st">'SalePrice'</span>], fit <span class="op">=</span> norm)<span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.probplot(df_data[<span class="st">'SalePrice'</span>], plot <span class="op">=</span> plt)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>De estos gráficos se desprende que ‘SalePrice’ no conforma una distribución normal. Muestra picos, asimetría positiva y no sigue la línea diagonal; aunque una simple transformación de datos puede resolver el problema.</p>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_data[<span class="st">'SalePrice'</span>] <span class="op">=</span> np.log(df_data[<span class="st">'SalePrice'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[<span class="st">'SalePrice'</span>], fit <span class="op">=</span> norm)<span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.probplot(df_data[<span class="st">'SalePrice'</span>], plot <span class="op">=</span> plt)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Terminado el trabajo con ‘SalePrice’, vamos a seguir con ‘GrLivArea’.</p>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[<span class="st">'GrLivArea'</span>], fit <span class="op">=</span> norm)<span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.probplot(df_data[<span class="st">'GrLivArea'</span>], plot <span class="op">=</span> plt)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>La variable ‘GrLivArea’ muestra asimetría.</p><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df_data[<span class="st">'GrLivArea'</span>] <span class="op">=</span> np.log(df_data[<span class="st">'GrLivArea'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[<span class="st">'GrLivArea'</span>], fit <span class="op">=</span> norm)<span class="op">;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.probplot(df_data[<span class="st">'GrLivArea'</span>], plot <span class="op">=</span> plt)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>A continuación, la variable ‘TotalBsmtSF’.</p><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[<span class="st">'TotalBsmtSF'</span>], fit <span class="op">=</span> norm)<span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.probplot(df_data[<span class="st">'TotalBsmtSF'</span>], plot <span class="op">=</span> plt)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Estos gráficos nos muestran que la variable ‘TotalBsmtSF’:</p>
+<ul>
+<li>Presenta asimetrías.</li>
+<li>Hay un número significativo de observaciones con valor cero (casas sin sótano).</li>
+<li>El valor cero no nos permite hacer transformaciones logarítmicas.</li>
+</ul>
+<p>Para aplicar una transformación logarítmica, crearemos una variable binaria (tener o no tener sótano). Después, aplicaremos la transformación logarítmica a todas las observaciones que no sean cero, ignorando aquellas con valor cero. De esta manera podremos transformar los datos, sin perder el efecto de tener o no sótano.</p>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df_data[<span class="st">'HasBsmt'</span>] <span class="op">=</span> pd.Series(<span class="bu">len</span>(df_data[<span class="st">'TotalBsmtSF'</span>]), index <span class="op">=</span> df_data.index)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df_data[<span class="st">'HasBsmt'</span>] <span class="op">=</span> <span class="dv">0</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df_data.loc[df_data[<span class="st">'TotalBsmtSF'</span>]<span class="op">&gt;</span><span class="dv">0</span>,<span class="st">'HasBsmt'</span>] <span class="op">=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df_data.loc[df_data[<span class="st">'HasBsmt'</span>] <span class="op">==</span> <span class="dv">1</span>,<span class="st">'TotalBsmtSF'</span>] <span class="op">=</span> np.log(df_data[<span class="st">'TotalBsmtSF'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(df_data[df_data[<span class="st">'TotalBsmtSF'</span>] <span class="op">&gt;</span> <span class="dv">0</span>][<span class="st">'TotalBsmtSF'</span>], fit <span class="op">=</span> norm)<span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.probplot(df_data[df_data[<span class="st">'TotalBsmtSF'</span>]<span class="op">&gt;</span><span class="dv">0</span>][<span class="st">'TotalBsmtSF'</span>], plot <span class="op">=</span> plt)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</section>
+<section id="en-búsqueda-de-la-homocedasticidad" class="level3">
+<h3 class="anchored" data-anchor-id="en-búsqueda-de-la-homocedasticidad">9.5.2 En búsqueda de la homocedasticidad</h3>
+<p>El mejor método para probar la homocedasticidad para dos variables métricas es de forma gráfica. Las desviaciones de una dispersión uniforme se muestran mediante formas tales como conos (pequeña dispersión a un lado del gráfico, gran dispersión en el lado opuesto) o diamantes (un gran número de puntos en el centro de la distribución).</p>
+<p>Empecemos por ‘SalePrice’ y ‘GrLivArea’.</p>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(df_data[<span class="st">'GrLivArea'</span>], df_data[<span class="st">'SalePrice'</span>], alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Las anteriores versiones de este gráfico de dispersión (antes de las transformaciones logarítmicas), tenían una forma cónica. Como puede apreciarse, el gráfico actual ya no tiene una forma cónica. Tan solo asegurando la normalidad en algunas variables, hemos resuelto el problema de la homocedasticidad.</p>
+<p>Ahora vamos a comprobar ‘SalePrice’ con ‘TotalBsmtSF’.</p>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(df_data[df_data[<span class="st">'TotalBsmtSF'</span>] <span class="op">&gt;</span> <span class="dv">0</span>][<span class="st">'TotalBsmtSF'</span>], df_data[df_data[<span class="st">'TotalBsmtSF'</span>] <span class="op">&gt;</span> <span class="dv">0</span>][<span class="st">'SalePrice'</span>],</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>            alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<p>Podemos decir que, en general, la variable ‘SalePrice’ muestra niveles equivalentes de varianza en todo el rango de ‘TotalBsmtSF’.</p>
+</section>
+<section id="variables-dummy" class="level3">
+<h3 class="anchored" data-anchor-id="variables-dummy">9.5.3 Variables dummy</h3>
+<p>Finalmente, las variables categóricas, de las que no nos encargamos a lo largo de la sesión, las convertiremos en variables <em>dummy</em>.</p>
+<div id="cell-76" class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="op">=</span> pd.get_dummies(df_data)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>df_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+<!-- 7.9 -->
+
+<section id="practice-exercises" class="level2" data-number="9.6">
+                <h2 data-number="9.6" class="anchored" data-anchor-id="practice-exercises"><span
+                        class="header-section-number">9.6</span> Ejercicios prácticos </h2>
+<ol type="1">
+<li>Cree un nuevo Notebook.</li>
+<li>Guarde el archivo como <strong>Ejercicios_practicos_clase_9.ipynb</strong>.</li>
+<li>Asigne un título <strong>H1</strong> con su nombre.</li>
+</ol>
+<section id="practice-exercise-1" class="level3" data-number="9.6.1">
+                    <h3 data-number="9.6.1" class="anchored" data-anchor-id="practice-exercise-1"><span
+                            class="header-section-number">9.6.1 </span> Ejercicio práctico 1 </h3>
+<p>Busque una base de datos en el <a href="https://archive.ics.uci.edu/"><i>UCI Machine Learning Repository</i></a> y realice análisis exploratorio de los datos.</p>
+
+</section>
+
+        </main> <!-- /main -->
+        <script id="quarto-html-after-body" type="application/javascript">
+            window.document.addEventListener("DOMContentLoaded", function (event) {
+                const toggleBodyColorMode = (bsSheetEl) => {
+                    const mode = bsSheetEl.getAttribute("data-mode");
+                    const bodyEl = window.document.querySelector("body");
+                    if (mode === "dark") {
+                        bodyEl.classList.add("quarto-dark");
+                        bodyEl.classList.remove("quarto-light");
+                    } else {
+                        bodyEl.classList.add("quarto-light");
+                        bodyEl.classList.remove("quarto-dark");
+                    }
+                }
+                const toggleBodyColorPrimary = () => {
+                    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+                    if (bsSheetEl) {
+                        toggleBodyColorMode(bsSheetEl);
+                    }
+                }
+                toggleBodyColorPrimary();
+                const icon = "";
+                const anchorJS = new window.AnchorJS();
+                anchorJS.options = {
+                    placement: 'right',
+                    icon: icon
+                };
+                anchorJS.add('.anchored');
+                const isCodeAnnotation = (el) => {
+                    for (const clz of el.classList) {
+                        if (clz.startsWith('code-annotation-')) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                const clipboard = new window.ClipboardJS('.code-copy-button', {
+                    text: function (trigger) {
+                        const codeEl = trigger.previousElementSibling.cloneNode(true);
+                        for (const childEl of codeEl.children) {
+                            if (isCodeAnnotation(childEl)) {
+                                childEl.remove();
+                            }
+                        }
+                        return codeEl.innerText;
+                    }
+                });
+                clipboard.on('success', function (e) {
+                    // button target
+                    const button = e.trigger;
+                    // don't keep focus
+                    button.blur();
+                    // flash "checked"
+                    button.classList.add('code-copy-button-checked');
+                    var currentTitle = button.getAttribute("title");
+                    button.setAttribute("title", "Copied!");
+                    let tooltip;
+                    if (window.bootstrap) {
+                        button.setAttribute("data-bs-toggle", "tooltip");
+                        button.setAttribute("data-bs-placement", "left");
+                        button.setAttribute("data-bs-title", "Copied!");
+                        tooltip = new bootstrap.Tooltip(button,
+                            {
+                                trigger: "manual",
+                                customClass: "code-copy-button-tooltip",
+                                offset: [0, -8]
+                            });
+                        tooltip.show();
+                    }
+                    setTimeout(function () {
+                        if (tooltip) {
+                            tooltip.hide();
+                            button.removeAttribute("data-bs-title");
+                            button.removeAttribute("data-bs-toggle");
+                            button.removeAttribute("data-bs-placement");
+                        }
+                        button.setAttribute("title", currentTitle);
+                        button.classList.remove('code-copy-button-checked');
+                    }, 1000);
+                    // clear code selection
+                    e.clearSelection();
+                });
+                function tippyHover(el, contentFn) {
+                    const config = {
+                        allowHTML: true,
+                        content: contentFn,
+                        maxWidth: 500,
+                        delay: 100,
+                        arrow: false,
+                        appendTo: function (el) {
+                            return el.parentElement;
+                        },
+                        interactive: true,
+                        interactiveBorder: 10,
+                        theme: 'quarto',
+                        placement: 'bottom-start'
+                    };
+                    window.tippy(el, config);
+                }
+                const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+                for (var i = 0; i < noterefs.length; i++) {
+                    const ref = noterefs[i];
+                    tippyHover(ref, function () {
+                        // use id or data attribute instead here
+                        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+                        try { href = new URL(href).hash; } catch { }
+                        const id = href.replace(/^#\/?/, "");
+                        const note = window.document.getElementById(id);
+                        return note.innerHTML;
+                    });
+                }
+                let selectedAnnoteEl;
+                const selectorForAnnotation = (cell, annotation) => {
+                    let cellAttr = 'data-code-cell="' + cell + '"';
+                    let lineAttr = 'data-code-annotation="' + annotation + '"';
+                    const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+                    return selector;
+                }
+                const selectCodeLines = (annoteEl) => {
+                    const doc = window.document;
+                    const targetCell = annoteEl.getAttribute("data-target-cell");
+                    const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+                    const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                    const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+                    const lineIds = lines.map((line) => {
+                        return targetCell + "-" + line;
+                    })
+                    let top = null;
+                    let height = null;
+                    let parent = null;
+                    if (lineIds.length > 0) {
+                        //compute the position of the single el (top and bottom and make a div)
+                        const el = window.document.getElementById(lineIds[0]);
+                        top = el.offsetTop;
+                        height = el.offsetHeight;
+                        parent = el.parentElement.parentElement;
+                        if (lineIds.length > 1) {
+                            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                            height = bottom - top;
+                        }
+                        if (top !== null && height !== null && parent !== null) {
+                            // cook up a div (if necessary) and position it 
+                            let div = window.document.getElementById("code-annotation-line-highlight");
+                            if (div === null) {
+                                div = window.document.createElement("div");
+                                div.setAttribute("id", "code-annotation-line-highlight");
+                                div.style.position = 'absolute';
+                                parent.appendChild(div);
+                            }
+                            div.style.top = top - 2 + "px";
+                            div.style.height = height + 4 + "px";
+                            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                            if (gutterDiv === null) {
+                                gutterDiv = window.document.createElement("div");
+                                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                                gutterDiv.style.position = 'absolute';
+                                const codeCell = window.document.getElementById(targetCell);
+                                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                                gutter.appendChild(gutterDiv);
+                            }
+                            gutterDiv.style.top = top - 2 + "px";
+                            gutterDiv.style.height = height + 4 + "px";
+                        }
+                        selectedAnnoteEl = annoteEl;
+                    }
+                };
+                const unselectCodeLines = () => {
+                    const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+                    elementsIds.forEach((elId) => {
+                        const div = window.document.getElementById(elId);
+                        if (div) {
+                            div.remove();
+                        }
+                    });
+                    selectedAnnoteEl = undefined;
+                };
+                // Attach click handler to the DT
+                const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+                for (const annoteDlNode of annoteDls) {
+                    annoteDlNode.addEventListener('click', (event) => {
+                        const clickedEl = event.target;
+                        if (clickedEl !== selectedAnnoteEl) {
+                            unselectCodeLines();
+                            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+                            if (activeEl) {
+                                activeEl.classList.remove('code-annotation-active');
+                            }
+                            selectCodeLines(clickedEl);
+                            clickedEl.classList.add('code-annotation-active');
+                        } else {
+                            // Unselect the line
+                            unselectCodeLines();
+                            clickedEl.classList.remove('code-annotation-active');
+                        }
+                    });
+                }
+                const findCites = (el) => {
+                    const parentEl = el.parentElement;
+                    if (parentEl) {
+                        const cites = parentEl.dataset.cites;
+                        if (cites) {
+                            return {
+                                el,
+                                cites: cites.split(' ')
+                            };
+                        } else {
+                            return findCites(el.parentElement)
+                        }
+                    } else {
+                        return undefined;
+                    }
+                };
+                var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+                for (var i = 0; i < bibliorefs.length; i++) {
+                    const ref = bibliorefs[i];
+                    const citeInfo = findCites(ref);
+                    if (citeInfo) {
+                        tippyHover(citeInfo.el, function () {
+                            var popup = window.document.createElement('div');
+                            citeInfo.cites.forEach(function (cite) {
+                                var citeDiv = window.document.createElement('div');
+                                citeDiv.classList.add('hanging-indent');
+                                citeDiv.classList.add('csl-entry');
+                                var biblioDiv = window.document.getElementById('ref-' + cite);
+                                if (biblioDiv) {
+                                    citeDiv.innerHTML = biblioDiv.innerHTML;
+                                }
+                                popup.appendChild(citeDiv);
+                            });
+                            return popup.innerHTML;
+                        });
+                    }
+                }
+            });
+        </script>
+        <nav class="page-navigation">
+            <div class="nav-page nav-page-previous">
+                <a href="./06_Numpy.html" class="pagination-link">
+                    <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span
+                            class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introducción a NumPy
+                                </span></span>
+                </a>
+            </div>
+            <div class="nav-page nav-page-next">
+                <a href="./08_Matplotlib.html" class="pagination-link">
+                    <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span
+                            class="chapter-title">Visualización de datos con Matplotlib y Seaborn</span></span> <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- /content -->
+
+
+
+</body>
+
+</html>
